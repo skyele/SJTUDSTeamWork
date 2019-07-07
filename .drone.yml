@@ -45,13 +45,6 @@ steps:
       - ./kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic result
       - ./kafka-topics.sh --zookeeper zookeeper:2181 --topic rb1000 --describe
     detach: true
-  
-  - name: nginx
-    image: nginx:stable
-    commands: 
-      - mv nginx/nginx.conf /etc/nginx
-      - nginx -g "daemon off;"
-    detach: true
 
   - name: server0
     image: veiasai/java:8
@@ -65,6 +58,19 @@ steps:
     image: busybox
     commands:
       - sleep 10
+
+  - name: nginx
+    image: nginx:stable
+    commands: 
+      - mv nginx/nginx.conf /etc/nginx
+      - nginx -g "daemon off;"
+    detach: true
+
+  # wait for nginx booting
+  - name: barrier_4
+    image: busybox
+    commands:
+      - sleep 5
 
   - name: request0
     image: veiasai/java:8
