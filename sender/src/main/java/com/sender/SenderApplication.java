@@ -30,11 +30,14 @@ public class SenderApplication {
 
 	private static int timeInterval;
 
+	private static String urlPort;
+
 	public static void main(String[] args) throws InterruptedException {
 		SpringApplication.run(SenderApplication.class, args);
 		Item item = new Item(Integer.parseInt(args[1]));
 		User user = new User(Integer.parseInt(args[0]));
 		Order order = new Order(user, item);
+		urlPort = args[3];
 		while(true){
 			Thread.sleep(Integer.parseInt(args[2]));
 			String orderString = order.getJSONOrder();
@@ -45,7 +48,7 @@ public class SenderApplication {
 	public static void requestByPostMethod(String orderString){
 		CloseableHttpClient httpClient = getHttpClient();
 		try {
-			HttpPost post = new HttpPost("http://localhost:2181");          //这里用上本机的某个工程做测试
+			HttpPost post = new HttpPost(urlPort);          //这里用上本机的某个工程做测试
 			//创建参数列表
 			List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
 			list.add(new BasicNameValuePair("order", orderString));
