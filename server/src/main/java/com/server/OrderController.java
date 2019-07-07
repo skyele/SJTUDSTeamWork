@@ -28,7 +28,7 @@ public class OrderController {
 
         // send msg to kafka
 
-        kafkaTemplate.send("order", order.getUser_id(), "developing");
+        kafkaTemplate.send("orders", order.getUser_id(), "developing");
 
         // release lock
 
