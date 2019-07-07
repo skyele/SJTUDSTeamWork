@@ -32,7 +32,7 @@ public class SparkApplication {
 		props.put("max.poll.records", "250");
 		props.put("consumer.fillfreqms", "1000");
 
-		SparkConf _sparkConf = new SparkConf().setMaster("Local[2]");
+		SparkConf _sparkConf = new SparkConf().setMaster("local[2]").setAppName("ds");
 
 		JavaStreamingContext jsc = new JavaStreamingContext(_sparkConf, Durations.seconds(30));
 // Specify number of Receivers you need.
