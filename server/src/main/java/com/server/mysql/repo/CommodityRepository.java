@@ -4,7 +4,7 @@ import com.server.mysql.pojo.Commodity;
 import com.server.mysql.pojo.Feed;
 import org.springframework.data.repository.CrudRepository;
 
-public interface CommodityRepository extends CrudRepository<Feed, Integer> {
+public interface CommodityRepository extends CrudRepository<Commodity, Integer> {
     Commodity findByID(Integer id);
-    void save(Commodity commodity);
+    Commodity save(Commodity commodity);
 }
