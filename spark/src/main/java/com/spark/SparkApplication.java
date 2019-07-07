@@ -53,8 +53,9 @@ public class SparkApplication {
 			public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
 				List<MessageAndMetadata<byte[]>> rddList = rdd.collect();
 				System.out.println(" Number of records in this batch " + rddList.size());
-				for (int i=0;i<rddList.size();i++)
-                    System.out.println(" My content: " + rddList.get(i).getKey());
+				for (int i=0;i<rddList.size();i++) {
+                    System.out.println(" My topic: " + rddList.get(i).getTopic() + " My content: " + rddList.get(i).getKey());
+                }
 			}
 		});
 
