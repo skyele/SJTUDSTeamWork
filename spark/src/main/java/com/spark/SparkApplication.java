@@ -49,29 +49,21 @@ public class SparkApplication {
 				.getPartitionOffset(unionStreams, props);
 
 //Start Application Logic
-        unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
-            @Override
-            public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
-
+		unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
+			@Override
+			public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
                 rdd.foreachPartition(new VoidFunction<Iterator<MessageAndMetadata<byte[]>>>() {
 
                     @Override
                     public void call(Iterator<MessageAndMetadata<byte[]>> mmItr) throws Exception {
                         while(mmItr.hasNext()) {
                             MessageAndMetadata<byte[]> mm = mmItr.next();
-                            byte[] key = mm.getKey();
-                            byte[] value = mm.getPayload();
-                            if(key != null)
-                                System.out.println(" key :" + new String(key));
-                            if(value != null)
-                                System.out.println(" Value :" + new String(value));
-
+                            System.out.println(" My topic:" + mm.getTopic() + " My content:" + new String(mm.getPayload()));
                         }
-
                     }
                 });
-            }
-        });
+			}
+		});
 
 //End Application Logic
 
