@@ -6,9 +6,9 @@ steps:
     image: maven:alpine
     commands:
       - cd sender
-      - mvn install
+      - mvn clean package -Dmaven.test.skip=true  
       - cd ../server
-      - mvn install
+      - mvn clean package -Dmaven.test.skip=true  
     volumes:
       - name: maven
         path: /root/.m2
