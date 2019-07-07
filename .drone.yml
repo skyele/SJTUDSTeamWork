@@ -107,7 +107,7 @@ steps:
     image: veiasai/java:8
     commands:
       - cd spark
-      - java -jar target/spark-0.0.1-SNAPSHOT.jar
+      - java -jar target/spark-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
     detach: true
 
   - name: wait_for_result
