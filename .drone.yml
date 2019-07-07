@@ -1,0 +1,108 @@
+kind: pipeline
+name: Ds
+
+steps:
+  - name: java_build
+    image: maven:alpine
+    commands:
+      - cd sender
+      - mvn install
+      - cd ../server
+      - mvn install
+    volumes:
+      - name: maven
+        path: /root/.m2
+
+  - name: zookeeper
+    image: zookeeper:3.4
+    detach: true
+
+  - name: barrier
+    image: busybox
+    commands:
+      - sleep 5
+
+  - name: kafka
+    image: wurstmeister/kafka:latest
+    environment:
+      JMX_PORT: 9999
+      KAFKA_BROKER_ID: 0
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
+    detach: true
+
+  - name: barrier_2
+    image: busybox
+    commands:
+      - sleep 5
+
+  - name: create_topic
+    image: veiasai/kafka-console:v1
+    commands:
+      - cd /home/bin
+      - ./kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic orders
+      - ./kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic result
+      - ./kafka-topics.sh --zookeeper zookeeper:2181 --topic rb1000 --describe
+    detach: true
+  
+  - name: nginx
+    image: nginx:stable
+    commands: 
+      - mv nginx/nginx.conf /etc/nginx
+      - nginx -g "daemon off;"
+    detach: true
+
+  - name: server0
+    image: veiasai/java:8
+    commands:
+      - cd server
+      - java -jar target/server-0.0.1-SNAPSHOT.jar
+    detach: true
+
+  # wait for server booting
+  - name: barrier_3
+    image: busybox
+    commands:
+      - sleep 10
+
+  - name: request0
+    image: veiasai/java:8
+    commands:
+      - cd sender
+      - user=2
+      - item=10
+      - interval=1000 # ms
+      - servaddr=nginx:8080
+      - java -jar target/sender-0.0.1-SNAPSHOT.jar $user $item $interval $servaddr
+    detach: true
+
+  - name: consumer_0
+    group: consumer
+    image:  jsenon/kafka-consumer:latest
+    environment:
+      MY_KAFKABOOTSTRAP: kafka:9092 
+      MY_TOPIC: orders
+      MY_GROUPID: console-consumer0
+    detach: true
+
+  - name: consumer_1
+    image:  jsenon/kafka-consumer:latest
+    environment:
+      MY_KAFKABOOTSTRAP: kafka:9092 
+      MY_TOPIC: result
+      MY_GROUPID: console-consumer1
+    detach: true
+
+  - name: wait_for_result
+    image: busybox
+    commands:
+      - sleep 60
+
+volumes:
+- name: cache
+  temp: {}
+
+- name: maven
+  host:
+    path: /home/drone/maven-repo

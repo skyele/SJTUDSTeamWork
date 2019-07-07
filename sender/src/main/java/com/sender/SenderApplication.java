@@ -48,7 +48,7 @@ public class SenderApplication {
 	public static void requestByPostMethod(String orderString){
 		CloseableHttpClient httpClient = getHttpClient();
 		try {
-			HttpPost post = new HttpPost(urlPort);          //这里用上本机的某个工程做测试
+			HttpPost post = new HttpPost("http://" + urlPort + "/request");          //这里用上本机的某个工程做测试
 			//创建参数列表
 			List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
 			list.add(new BasicNameValuePair("order", orderString));
