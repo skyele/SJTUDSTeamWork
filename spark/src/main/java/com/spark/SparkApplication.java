@@ -54,7 +54,7 @@ public class SparkApplication {
 				List<MessageAndMetadata<byte[]>> rddList = rdd.collect();
 				System.out.println(" Number of records in this batch " + rddList.size());
 				for (int i=0;i<rddList.size();i++) {
-                    System.out.println(" My topic: " + rddList.get(i).getTopic() + " My content: " + rddList.get(i).getKey());
+                    System.out.println(" My topic: " + rddList.get(i).getTopic() + " My content: " + rddList.get(i).getPayload().toString());
                 }
 			}
 		});
