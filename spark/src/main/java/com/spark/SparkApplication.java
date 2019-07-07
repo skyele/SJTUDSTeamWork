@@ -14,6 +14,7 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
 
@@ -51,6 +52,8 @@ public class SparkApplication {
 			public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
 				List<MessageAndMetadata<byte[]>> rddList = rdd.collect();
 				System.out.println(" Number of records in this batch " + rddList.size());
+				Connection conn = ConnectionPool.getConnection();
+				ConnectionPool.returnConnection(conn);
 			}
 		});
 
