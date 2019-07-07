@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import scala.Tuple2;
 
 import java.sql.Connection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -48,16 +49,29 @@ public class SparkApplication {
 				.getPartitionOffset(unionStreams, props);
 
 //Start Application Logic
-		unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
-			@Override
-			public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
-				List<MessageAndMetadata<byte[]>> rddList = rdd.collect();
-				System.out.println(" Number of records in this batch " + rddList.size());
-				for (int i=0;i<rddList.size();i++) {
-                    System.out.println(" My topic: " + rddList.get(i).getTopic() + " My content: " + new String(rddList.get(i).getPayload()));
-                }
-			}
-		});
+        unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
+            @Override
+            public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
+
+                rdd.foreachPartition(new VoidFunction<Iterator<MessageAndMetadata<byte[]>>>() {
+
+                    @Override
+                    public void call(Iterator<MessageAndMetadata<byte[]>> mmItr) throws Exception {
+                        while(mmItr.hasNext()) {
+                            MessageAndMetadata<byte[]> mm = mmItr.next();
+                            byte[] key = mm.getKey();
+                            byte[] value = mm.getPayload();
+                            if(key != null)
+                                System.out.println(" key :" + new String(key));
+                            if(value != null)
+                                System.out.println(" Value :" + new String(value));
+
+                        }
+
+                    }
+                });
+            }
+        });
 
 //End Application Logic
 
