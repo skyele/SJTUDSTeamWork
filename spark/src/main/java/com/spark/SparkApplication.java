@@ -13,6 +13,7 @@ import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import scala.Tuple2;
 
 import java.sql.Connection;
 import java.util.List;
@@ -51,8 +52,9 @@ public class SparkApplication {
 			@Override
 			public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
 				List<MessageAndMetadata<byte[]>> rddList = rdd.collect();
-                System.out.println(" My content: " + rdd.toString());
 				System.out.println(" Number of records in this batch " + rddList.size());
+				for (int i=0;i<rddList.size();i++)
+                    System.out.println(" My content: " + rddList.get(i));
 			}
 		});
 
