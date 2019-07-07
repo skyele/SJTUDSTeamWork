@@ -1,11 +1,10 @@
 package com.server.mysql.pojo;
 
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Feed {
@@ -14,4 +13,16 @@ public class Feed {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer ID;
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    public Feed(Integer id) {
+        ID = id;
+    }
 }
