@@ -11,6 +11,8 @@ steps:
       - mvn clean package -Dmaven.test.skip=true
       - cd ../spark
       - mvn clean package -Dmaven.test.skip=true
+      - cd ../exchangeRate
+      - mvn clean package -Dmaven.test.skip=true 
 
     volumes:
       - name: maven
@@ -49,6 +51,18 @@ steps:
       - ./kafka-topics.sh --zookeeper zookeeper:2181 --topic rb1000 --describe
     detach: true
 
+  - name: exchangeRate
+    image: veiasai/java:8
+    commands:
+      - cd server
+      - java -jar target/exchangeRate-1.0-SNAPSHOT.jar
+    detach: true 
+
+  - name: barrier_3
+    image: busybox
+    commands:
+      - sleep 10
+
   - name: server0
     image: veiasai/java:8
     commands:
@@ -57,7 +71,7 @@ steps:
     detach: true
 
   # wait for server booting
-  - name: barrier_3
+  - name: barrier_4
     image: busybox
     commands:
       - sleep 10
@@ -70,7 +84,7 @@ steps:
     detach: true
 
   # wait for nginx booting
-  - name: barrier_4
+  - name: barrier_5
     image: busybox
     commands:
       - sleep 5
