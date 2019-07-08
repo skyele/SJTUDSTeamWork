@@ -2,6 +2,9 @@ package com.spark;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.spark.mysql.pojo.Commodity;
+import com.spark.mysql.pojo.Result;
+import com.spark.mysql.repo.CommodityRepository;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
 import consumer.kafka.ReceiverLauncher;
@@ -13,6 +16,7 @@ import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -23,6 +27,9 @@ import java.util.Properties;
 
 @SpringBootApplication
 public class SparkApplication {
+
+	@Autowired
+	private static CommodityRepository commodityRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SparkApplication.class, args);
@@ -61,7 +68,19 @@ public class SparkApplication {
                             MessageAndMetadata<byte[]> mm = mmItr.next();
                             System.out.println(" My topic:" + mm.getTopic() + " My content:" + new String(mm.getPayload()));
 							JSONObject json = JSON.parseObject(new String(mm.getPayload()));
-							System.out.println("");
+							Integer id = json.getInteger("id");
+							Integer userid = Integer.parseInt(new String(mm.getKey()));
+							String initiator = json.getString("initiator");
+							Boolean success = json.getBoolean("success");
+							List<Item> items = JSON.parseArray(json.getJSONArray("items").toString(),Item.class);
+							Double paid = 0.0;
+							if (success){
+								for (int i = 0;i<items.size();i++) {
+									Commodity tmp = commodityRepository.findByID(items.get(i).getId());
+									paid += items.get(i).getNumber() * tmp.getPrice();
+								}
+							}
+							System.out.println("id:" + id + "userid:" + userid + "initiator:" + initiator + "success:" + success + "paid:" + paid);
                         }
                     }
                 });
