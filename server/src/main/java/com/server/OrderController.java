@@ -1,6 +1,8 @@
 package com.server;
 
+import com.google.gson.Gson;
 import com.server.mysql.pojo.Commodity;
+import com.server.mysql.pojo.KafkaMessage;
 import com.server.mysql.repo.CommodityRepository;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -77,8 +79,16 @@ public class OrderController {
             tmp.setInventory(commodities.get(i).getInventory()-items.get(i).getNumber());
             commodityRepository.save(tmp);
         }
+
+        List<Item> itemes = new LinkedList<>();
+        Item item = new Item(3, 10);
+        ((LinkedList<Item>) itemes).push(item);
+
+        KafkaMessage kafkaMessage = new KafkaMessage(1, "RMB", itemes, 3.8, true);
+        Gson gson = new Gson();
+
         // send msg to kafka
-        kafkaTemplate.send("orders", order.getUser_id(), "developing");
+        kafkaTemplate.send("orders", order.getUser_id(), gson.toJson(kafkaMessage));
 
         // release lock
         cleanAllStates(items.size(), clients, mutexes);

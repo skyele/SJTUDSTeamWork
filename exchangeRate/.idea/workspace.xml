@@ -2,25 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/exchangeRate.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/server/Controller/ExchangeRateController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/server/Zk.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/server/mysql/pojo/ExchangeRate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/server/mysql/repo/ExchangeRateRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/ServerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/ZKWatchAPI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/mysql/Currency.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/mysql/repo/CommodityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/mysql/repo/CommodityRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/mysql/pojo/KafkaMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/OrderController.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -258,7 +243,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562517686042" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562586539878" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -295,15 +280,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1562512741700</updated>
-      <workItem from="1562512744704" duration="4930000" />
+      <workItem from="1562512744704" duration="5475000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4930000" />
+    <option name="totallyTimeSpent" value="5475000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="633" y="0" width="653" height="687" extended-state="0" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Designer" />
@@ -311,7 +296,7 @@
       <window_info id="Capture Tool" />
       <window_info id="UI Designer" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.45882353" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22069523" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Spring" />
       <window_info anchor="bottom" id="Terminal" />
