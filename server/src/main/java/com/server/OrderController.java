@@ -47,7 +47,7 @@ public class OrderController {
     @PostMapping(value = "/request")
     public String receiveOrder(Order order) throws Exception {
         // acquire lock
-        System.out.println("the server get order is: " + order.toString());
+        System.out.println("the server get order userid: " + order.getUser_id()+ " initiator: "+order.getInitiator());
         List<Item> items = order.getItems();
         List<CuratorFramework> clients = new LinkedList<>();
         List<InterProcessMutex> mutexes = new LinkedList<>();
