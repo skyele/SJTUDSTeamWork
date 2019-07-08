@@ -1,5 +1,7 @@
 package com.spark;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
 import consumer.kafka.ReceiverLauncher;
@@ -13,7 +15,6 @@ import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import scala.Tuple2;
 
 import java.sql.Connection;
 import java.util.Iterator;
@@ -59,6 +60,8 @@ public class SparkApplication {
                         while(mmItr.hasNext()) {
                             MessageAndMetadata<byte[]> mm = mmItr.next();
                             System.out.println(" My topic:" + mm.getTopic() + " My content:" + new String(mm.getPayload()));
+							JSONObject json = JSON.parseObject(new String(mm.getPayload()));
+							System.out.println("");
                         }
                     }
                 });
