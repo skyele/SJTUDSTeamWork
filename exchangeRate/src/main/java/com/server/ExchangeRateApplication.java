@@ -1,6 +1,8 @@
 package com.server;
 
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -29,17 +31,17 @@ public class ExchangeRateApplication {
         return zk;
     }
 
-    public static void main(String[] args) throws InterruptedException, KeeperException {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(ExchangeRateApplication.class, args);
         initRate();
         changeRate();
     }
 
-    public static void initRate() throws KeeperException, InterruptedException {
-        zk.setData(PATH+"RMB", String.valueOf(3.0));
-        zk.setData(PATH+"USD", String.valueOf(12.0));
-        zk.setData(PATH+"JPY", String.valueOf(0.3));
-        zk.setData(PATH+"EUR", String.valueOf(9.0));
+    public static void initRate() throws Exception {
+        zk.createNode(PATH+"RMB", String.valueOf(3.0));
+        zk.createNode(PATH+"USD", String.valueOf(12.0));
+        zk.createNode(PATH+"JPY", String.valueOf(0.3));
+        zk.createNode(PATH+"EUR", String.valueOf(9.0));
     }
 
     public static void changeRate() throws InterruptedException {
