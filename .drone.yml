@@ -54,7 +54,7 @@ steps:
   - name: exchangeRate
     image: veiasai/java:8
     commands:
-      - cd server
+      - cd exchangeRate
       - java -jar target/exchangeRate-1.0-SNAPSHOT.jar
     detach: true 
 
