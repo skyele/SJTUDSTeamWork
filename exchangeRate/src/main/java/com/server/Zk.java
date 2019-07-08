@@ -26,6 +26,7 @@ public class Zk implements Watcher {
 
     @Override
     public void process(WatchedEvent event) {
+        System.out.println("there is a event in process() and State: " + event.getState() +" and Type: "+ event.getType() +" and Path: "+ event.getPath());
         if (event.getState() == Event.KeeperState.SyncConnected) {
             System.out.println("Watch received event");
             countDownLatch.countDown();
