@@ -16,6 +16,8 @@ public class ExchangeRateApplication {
     private static Integer index = 0;
     static String PATH = "/ExchangeRate/";
 
+    private static Zk zk = zkHandler();
+
     @Bean
     public static final Zk zkHandler(){
         Zk zk = new Zk();
@@ -34,10 +36,10 @@ public class ExchangeRateApplication {
     }
 
     public static void initRate() throws KeeperException, InterruptedException {
-        zkHandler().setData(PATH+"RMB", String.valueOf(3.0));
-        zkHandler().setData(PATH+"USD", String.valueOf(12.0));
-        zkHandler().setData(PATH+"JPY", String.valueOf(0.3));
-        zkHandler().setData(PATH+"EUR", String.valueOf(9.0));
+        zk.setData(PATH+"RMB", String.valueOf(3.0));
+        zk.setData(PATH+"USD", String.valueOf(12.0));
+        zk.setData(PATH+"JPY", String.valueOf(0.3));
+        zk.setData(PATH+"EUR", String.valueOf(9.0));
     }
 
     public static void changeRate() throws InterruptedException {
@@ -50,7 +52,7 @@ public class ExchangeRateApplication {
                         String currency = getCurrency(index++);
                         Double rate = 0.0;
                         try {
-                            rate = Double.parseDouble(new String(zkHandler().getData(PATH + currency, false)));
+                            rate = Double.parseDouble(new String(zk.getData(PATH + currency, false)));
                         } catch (KeeperException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
@@ -62,7 +64,7 @@ public class ExchangeRateApplication {
                         }
                         try {
                             //setData - Watch 注册watch
-                            zkHandler().setData(PATH+currency, rate.toString());
+                            zk.setData(PATH+currency, rate.toString());
                         } catch (KeeperException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
