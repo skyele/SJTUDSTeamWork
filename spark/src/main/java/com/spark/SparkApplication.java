@@ -76,7 +76,7 @@ public class SparkApplication {
 							Double paid = 0.0;
 							if (success){
 								for (int i = 0;i<items.size();i++) {
-									Commodity tmp = commodityRepository.findByID(items.get(i).getId());
+									Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
 									paid += items.get(i).getNumber() * tmp.getPrice();
 								}
 							}

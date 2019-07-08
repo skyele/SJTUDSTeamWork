@@ -4,6 +4,6 @@ import com.spark.mysql.pojo.Commodity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CommodityRepository extends CrudRepository<Commodity, Integer> {
-    Commodity findByID(Integer id);
+    Commodity findById(int id);
     Commodity save(Commodity commodity);
 }
