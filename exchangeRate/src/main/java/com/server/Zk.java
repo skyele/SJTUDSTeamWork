@@ -37,6 +37,7 @@ public class Zk implements Watcher {
          * @throws Exception
          */
     public void connectZookeeper(String host) throws Exception {
+        System.out.println("in connectZookeeper");
         zookeeper = new ZooKeeper(host, SESSION_TIME_OUT, this);
         countDownLatch.await();
         System.out.println("zookeeper connection success");
