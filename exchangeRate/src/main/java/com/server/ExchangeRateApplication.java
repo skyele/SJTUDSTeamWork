@@ -18,7 +18,7 @@ public class ExchangeRateApplication {
     private static Integer index = 0;
     static String PATH = "/ExchangeRate/";
 
-    private static Zk zk;
+    private static Zk zk = zkHandler();
 
     @Bean
     public static final Zk zkHandler(){
