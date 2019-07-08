@@ -49,6 +49,7 @@ public class Zk implements Watcher {
          * @throws Exception
          */
     public String createNode(String path,String data) throws Exception{
+        System.out.println("path: "+path+" data: "+data+" ids: " + ZooDefs.Ids.OPEN_ACL_UNSAFE+" createMode "+CreateMode.PERSISTENT);
         return this.zookeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
     }
 
