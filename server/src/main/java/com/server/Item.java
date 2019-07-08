@@ -1,6 +1,9 @@
 package com.server;
 
-public class Item {
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+public class Item implements Comparable<Item>{
     private Integer id;
     private Integer number;
 
@@ -23,5 +26,10 @@ public class Item {
     public Item(Integer id, Integer number) {
         this.id = id;
         this.number = number;
+    }
+
+    @Override
+    public int compareTo(Item o) {
+        return this.getId().compareTo(o.getId());
     }
 }
