@@ -12,6 +12,14 @@ public class Result {
     private Boolean success;
     private Double paid;
 
+    public Result(Integer id, Integer userid, String initiator, Boolean success, Double paid) {
+        this.id = id;
+        this.userid = userid;
+        this.initiator = initiator;
+        this.success = success;
+        this.paid = paid;
+    }
+
     public Integer getId() {
         return id;
     }

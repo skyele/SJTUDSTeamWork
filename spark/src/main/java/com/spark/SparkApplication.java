@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.spark.mysql.pojo.Commodity;
 import com.spark.mysql.pojo.Result;
 import com.spark.mysql.repo.CommodityRepository;
+import com.spark.mysql.repo.ResultRepository;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
 import consumer.kafka.ReceiverLauncher;
@@ -30,6 +31,7 @@ public class SparkApplication {
 
 	@Autowired
 	private static CommodityRepository commodityRepository;
+	private static ResultRepository resultRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SparkApplication.class, args);
@@ -81,6 +83,8 @@ public class SparkApplication {
 								}
 							}
 							System.out.println("id:" + id + "userid:" + userid + "initiator:" + initiator + "success:" + success + "paid:" + paid);
+							Result res = new Result(id, userid, initiator, success, paid);
+							resultRepository.save(res);
                         }
                     }
                 });
