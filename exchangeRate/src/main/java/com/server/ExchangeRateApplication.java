@@ -18,7 +18,7 @@ public class ExchangeRateApplication {
     private static Integer index = 0;
     static String PATH = "/ExchangeRate/";
 
-    private static Zk zk = zkHandler();
+    private static Zk zk;
 
     @Bean
     public static final Zk zkHandler(){
@@ -33,6 +33,7 @@ public class ExchangeRateApplication {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ExchangeRateApplication.class, args);
+        zk = zkHandler();
         initRate();
         changeRate();
     }
