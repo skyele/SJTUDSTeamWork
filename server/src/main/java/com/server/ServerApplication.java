@@ -16,6 +16,10 @@ public class ServerApplication {
 		Zk zk = new Zk();
 		try{
 			zk.connectZookeeper("zookeeper:2181");
+			//注册 watch
+			for(int i = 0; i < NUMBER; i++){
+				zk.getData(PATH + getCurrency(i), true);
+			}
 		}catch (Exception e) {
 
 		}
@@ -27,7 +31,7 @@ public class ServerApplication {
 		//注册watch
 		for(int i = 0; i < NUMBER; i++){
 			String currency = getCurrency(i);
-			zkHandler().getData(PATH+currency);
+			zkHandler().getData(PATH+currency, true);
 		}
 	}
 
