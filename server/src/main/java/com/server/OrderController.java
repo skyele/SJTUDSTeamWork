@@ -27,6 +27,11 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class OrderController {
 
+    public static Double RMB;
+    public static Double USD;
+    public static Double JPY;
+    public static Double EUR;
+
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
@@ -60,7 +65,7 @@ public class OrderController {
             if(mutex.acquire(10, TimeUnit.SECONDS)){
                 ((LinkedList<CuratorFramework>) clients).push(client);
                 ((LinkedList<InterProcessMutex>) mutexes).push(mutex);
-                Commodity tmp = commodityRepository.findByID(items.get(i).getId());
+                Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
                 ((LinkedList<Commodity>) commodities).push(tmp);
                 if(tmp.getInventory() < items.get(i).getNumber())//库存不足
                     break;
@@ -80,11 +85,8 @@ public class OrderController {
             commodityRepository.save(tmp);
         }
 
-        List<Item> itemes = new LinkedList<>();
-        Item item = new Item(3, 10);
-        ((LinkedList<Item>) itemes).push(item);
 
-        KafkaMessage kafkaMessage = new KafkaMessage(1, "RMB", itemes, 3.8, true);
+        KafkaMessage kafkaMessage = new KafkaMessage(1, order.getInitiator(), items, 3.8, true);
         Gson gson = new Gson();
 
         // send msg to kafka

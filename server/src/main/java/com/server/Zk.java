@@ -3,12 +3,15 @@ package com.server;
 
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class Zk implements Watcher {
+
+    private static String PATH = "/ExchangeRate/";
+
     private ZooKeeper zookeeper;
 
     /**
@@ -25,6 +28,25 @@ public class Zk implements Watcher {
         if (event.getState() == Event.KeeperState.SyncConnected) {
             System.out.println("Watch received event");
             countDownLatch.countDown();
+        }
+        if(event.getType() == Event.EventType.NodeDataChanged || event.getType() == Event.EventType.NodeCreated){
+            //到zookeeper getdata拿数据
+            Double rate = null;
+            try {
+                rate = Double.parseDouble(new String(zookeeper.getData(event.getPath(), false, null)));
+            } catch (KeeperException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(event.getPath().contains("RMB"))
+                OrderController.RMB = rate;
+            else if(event.getPath().contains("USD"))
+                OrderController.USD = rate;
+            else if(event.getPath().contains("JPY"))
+                OrderController.JPY = rate;
+            else if(event.getPath().contains("EUR"))
+                OrderController.EUR = rate;
         }
     }
 
@@ -67,8 +89,8 @@ public class Zk implements Watcher {
      * @throws KeeperException
      * @throws InterruptedException
      */
-     public String getData(String path) throws KeeperException, InterruptedException{
-         byte[] data = zookeeper.getData(path, false, null);
+     public String getData(String path, Boolean watch) throws KeeperException, InterruptedException{
+         byte[] data = zookeeper.getData(path, watch, null);
         if (data == null) {
             return "";
         }
