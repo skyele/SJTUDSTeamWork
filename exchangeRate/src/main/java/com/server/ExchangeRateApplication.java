@@ -24,7 +24,7 @@ public class ExchangeRateApplication {
     public static final Zk zkHandler(){
         Zk zk = new Zk();
         try{
-            zk.connectZookeeper("http://zookeeper:2181");
+            zk.connectZookeeper("zookeeper:2181");
         }catch (Exception e) {
 
         }
