@@ -55,7 +55,7 @@ steps:
     image: veiasai/java:8
     commands:
       - cd exchangeRate
-      - java -jar target/exchangeRate-1.0-SNAPSHOT.jar
+      - java -jar target/exchangeRate-1.0-SNAPSHOT.jar  --spring.profiles.active=dev
     detach: true 
 
   - name: barrier_3
