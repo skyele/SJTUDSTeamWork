@@ -33,7 +33,6 @@ public class ExchangeRateApplication {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ExchangeRateApplication.class, args);
-        zk = zkHandler();
         initRate();
         changeRate();
     }
