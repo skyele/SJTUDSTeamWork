@@ -18,7 +18,7 @@ public class Zk implements Watcher {
     /**
           * 超时时间
           */
-    private static final int SESSION_TIME_OUT = 2000;
+    private static final int SESSION_TIME_OUT = 6000;
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
     public Zk() {
@@ -29,7 +29,7 @@ public class Zk implements Watcher {
         System.out.println("there is a event in process() and State: " + event.getState() +" and Type: "+ event.getType() +" and Path: "+ event.getPath());
         if (event.getState() == Event.KeeperState.SyncConnected) {
             System.out.println("Watch received event");
-//            countDownLatch.countDown();
+            countDownLatch.countDown();
         }
     }
 
@@ -40,7 +40,7 @@ public class Zk implements Watcher {
     public void connectZookeeper(String host) throws Exception {
         System.out.println("in connectZookeeper");
         zookeeper = new ZooKeeper(host, SESSION_TIME_OUT, this);
-//        countDownLatch.await();
+        countDownLatch.await();
         System.out.println("zookeeper connection success");
     }
 
