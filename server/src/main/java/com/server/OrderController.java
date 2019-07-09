@@ -52,9 +52,7 @@ public class OrderController {
 //        public String receiveOrder(HttpServletRequest request, @RequestBody String data) throws Exception {
     //        @RequestParam(value = "order", required = false) String orderString,
     public String receiveOrder(@RequestParam(value = "order", required = false) Order orderString, @RequestBody String data) throws Exception {
-        System.out.println("body: " + data);//以{}包含的字符
         Order order = new Gson().fromJson(data, Order.class);
-
         System.out.println("the orderstring "+order.toString());
         // acquire lock
 //        Order order = null;
@@ -68,7 +66,7 @@ public class OrderController {
         for(i = 0; i < items.size(); i++){
             //https://stackoverflow.com/questions/30134447/what-does-an-apache-curator-connection-string-look-like
             //上面是connectString的意义
-            String connectString = "http://zookeeper:2181";
+            String connectString = "zookeeper:2181";
             String lockPath = "/distributed-lock/" + items.get(i).getId();
             RetryPolicy retry = new ExponentialBackoffRetry(1000, 3);
             CuratorFramework client = CuratorFrameworkFactory.newClient(connectString, 60000, 15000, retry);
