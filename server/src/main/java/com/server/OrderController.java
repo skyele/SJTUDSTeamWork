@@ -92,7 +92,6 @@ public class OrderController {
             cleanAllStates(i, clients, mutexes);
             return "Invalid";
         }
-        cleanAllStates(items.size(), clients, mutexes);
 //         modify mysql
         for(i = 0; i < items.size(); i++){
             Commodity tmp = commodities.get(i);
@@ -100,7 +99,7 @@ public class OrderController {
             items.get(i).setPrice(tmp.getPrice());
             commodityRepository.save(tmp);
         }
-
+        cleanAllStates(items.size(), clients, mutexes);
         //get exchange rate
         KafkaMessage kafkaMessage = new KafkaMessage(order.getInitiator(), new Gson().toJson(items), getRate(order.getInitiator()), true);
 
