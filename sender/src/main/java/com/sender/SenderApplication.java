@@ -61,7 +61,17 @@ public class SenderApplication {
 		System.out.println("in requestByPostMethod");
 		String url = "http://" + urlPort + "/request";
 		System.out.println("the url: " + url);
-		String encoderJson = URLEncoder.encode(new Gson().toJson(object), String.valueOf(StandardCharsets.UTF_8));
+//		String encoderJson = URLEncoder.encode(new Gson().toJson(object), String.valueOf(StandardCharsets.UTF_8));
+
+		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+		for (Map.Entry<String, Order> entry : object.entrySet()) {
+			formparams.add(new BasicNameValuePair(entry.getKey(), new Gson().toJson(entry.getValue())));
+		}
+		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, StandardCharsets.UTF_8);
+//		HttpPost httppost = new HttpPost(url);
+//		httppost.setEntity(entity);
+
+
 
 //		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, StandardCharsets.UTF_8);
 
@@ -69,11 +79,11 @@ public class SenderApplication {
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
 
-		StringEntity se = new StringEntity(encoderJson);
-		se.setContentType("text/json");
-		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-		httpPost.setEntity(se);
-//		httpPost.setEntity(entity);
+//		StringEntity se = new StringEntity(encoderJson);
+//		se.setContentType("text/json");
+//		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//		httpPost.setEntity(se);
+		httpPost.setEntity(entity);
 		client.execute(httpPost);
 	}
 
