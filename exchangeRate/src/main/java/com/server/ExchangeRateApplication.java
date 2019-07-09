@@ -55,6 +55,7 @@ public class ExchangeRateApplication {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ExchangeRateApplication.class, args);
         MAXITEMID = Integer.parseInt(args[0]);
+        initZkNode();
         initCommodity();
         initRate();
         //exchange rate
@@ -173,6 +174,10 @@ public class ExchangeRateApplication {
             }
             Thread.sleep(1000*30);
         }
+    }
+
+    public static void initZkNode() throws Exception {
+        zk.createNode("/distributed-lock", "");
     }
 
     public static String getCurrency(int i){
