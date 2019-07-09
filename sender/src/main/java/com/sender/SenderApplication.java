@@ -65,7 +65,7 @@ public class SenderApplication {
 			StringEntity s = new StringEntity(orderString);
 			s.setContentEncoding("UTF-8");
 			s.setContentType("application/json");//发送json数据需要设置contentType
-			//             post.setEntity(s);
+			post.setEntity(s);
 			HttpResponse res = client.execute(post);
 			if(res.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 				String result = EntityUtils.toString(res.getEntity());// 返回json格式：
