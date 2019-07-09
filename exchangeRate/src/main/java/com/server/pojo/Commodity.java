@@ -53,4 +53,16 @@ public class Commodity {
     public void setInventory(Integer inventory) {
         this.inventory = inventory;
     }
+
+    public Commodity(){
+
+    }
+
+    public Commodity(Integer id, String name, Double price, String currency, Integer inventory){
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.currency = currency;
+        this.inventory = inventory;
+    }
 }

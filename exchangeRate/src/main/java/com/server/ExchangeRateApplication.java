@@ -42,6 +42,7 @@ public class ExchangeRateApplication {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ExchangeRateApplication.class, args);
+        initCommodity();
         initRate();
         //exchange rate
         new Thread(){
@@ -72,6 +73,17 @@ public class ExchangeRateApplication {
         zk.createNode(PATH+"/USD", String.valueOf(12.0));
         zk.createNode(PATH+"/JPY", String.valueOf(0.3));
         zk.createNode(PATH+"/EUR", String.valueOf(9.0));
+    }
+
+    public static void initCommodity() throws Exception{
+        Commodity commodity1 = new Commodity(1, "CommodityA", 66.0, "USD", 123);
+        Commodity commodity2 = new Commodity(2, "CommodityB", 89.0, "RMB", 789);
+        Commodity commodity3 = new Commodity(3, "CommodityC", 99.0, "JPY", 666);
+        Commodity commodity4 = new Commodity(4, "CommodityD", 45.5, "EUR", 333);
+        commodityRepository.save(commodity1);
+        commodityRepository.save(commodity2);
+        commodityRepository.save(commodity3);
+        commodityRepository.save(commodity4);
     }
 
     public static void changeRate() throws InterruptedException {
