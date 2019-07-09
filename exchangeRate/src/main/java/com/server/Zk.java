@@ -76,7 +76,6 @@ public class Zk implements Watcher {
          * @throws InterruptedException
          */
     public String getData(String path, Boolean watch) throws KeeperException, InterruptedException{
-        System.out.println("the watch is " + watch);
         byte[] data = zookeeper.getData(path, watch, null);
         if (data == null) {
             return "";

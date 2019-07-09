@@ -43,6 +43,8 @@ public class OrderController {
 
     @Autowired
     private CommodityRepository commodityRepository;
+
+    @Autowired
     private DistributedLock distributedLock;
 
     private final String lockPath = "/distributed-lock";
@@ -64,60 +66,55 @@ public class OrderController {
         System.out.println("the items size: " + items.size());
         int i;
         Collections.sort(items);
-        //uncomment!!!!!!!!!!!!!!!!!!!
-//        for(i = 0; i < items.size(); i++){
-//            //https://stackoverflow.com/questions/30134447/what-does-an-apache-curator-connection-string-look-like
-//            //上面是connectString的意义
-//            String connectString = "zookeeper:2181";
-//            String lockPath = "/distributed-lock/" + items.get(i).getId();
-//            RetryPolicy retry = new ExponentialBackoffRetry(1000, 3);
-//            CuratorFramework client = CuratorFrameworkFactory.newClient(connectString, 60000, 15000, retry);
-//            client.start();
-//            InterProcessMutex mutex= new InterProcessMutex(client, lockPath);
-//            if(mutex.acquire(10, TimeUnit.SECONDS)){
-//                ((LinkedList<CuratorFramework>) clients).push(client);
-//                ((LinkedList<InterProcessMutex>) mutexes).push(mutex);
-//                Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
-//                System.out.println("the tmp is " + tmp);
-//                ((LinkedList<Commodity>) commodities).push(tmp);
-//                if(tmp.getInventory() < items.get(i).getNumber())//库存不足
-//                    break;
-//            }else//可能死锁，放弃这次订单
-//                break;
-//        }
-//
-//        if (i != items.size()){
-//            cleanAllStates(i, clients, mutexes);
-//            return "Invalid";
-//        }
-//
-        // modify mysql
-//        for(i = 0; i < items.size(); i++){
-//            Commodity tmp = commodities.get(i);
-//            tmp.setInventory(commodities.get(i).getInventory()-items.get(i).getNumber());
-//            items.get(i).setPrice(tmp.getPrice());
-//            commodityRepository.save(tmp);
-//        }
-
+        for(i = 0; i < items.size(); i++){
+            //https://stackoverflow.com/questions/30134447/what-does-an-apache-curator-connection-string-look-like
+            //上面是connectString的意义
+            String connectString = "zookeeper:2181";
+            String lockPath = "/distributed-lock/" + items.get(i).getId();
+            RetryPolicy retry = new ExponentialBackoffRetry(1000, 3);
+            CuratorFramework client = CuratorFrameworkFactory.newClient(connectString, 60000, 15000, retry);
+            client.start();
+            InterProcessMutex mutex= new InterProcessMutex(client, lockPath);
+            if(mutex.acquire(10, TimeUnit.SECONDS)){
+                ((LinkedList<CuratorFramework>) clients).push(client);
+                ((LinkedList<InterProcessMutex>) mutexes).push(mutex);
+                System.out.println("the id is : " + items.get(i).getId().intValue());
+                Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
+                System.out.println("the tmp is " + tmp);
+                ((LinkedList<Commodity>) commodities).push(tmp);
+                if(tmp.getInventory() < items.get(i).getNumber())//库存不足
+                    break;
+            }else//可能死锁，放弃这次订单
+                break;
+        }
+        // release lock
+        if (i != items.size()){
+            cleanAllStates(i, clients, mutexes);
+            return "Invalid";
+        }
+//         modify mysql
+        for(i = 0; i < items.size(); i++){
+            Commodity tmp = commodities.get(i);
+            tmp.setInventory(commodities.get(i).getInventory()-items.get(i).getNumber());
+            items.get(i).setPrice(tmp.getPrice());
+            commodityRepository.save(tmp);
+        }
+        cleanAllStates(items.size(), clients, mutexes);
         //get exchange rate
-//        KafkaMessage kafkaMessage = new KafkaMessage(order.getInitiator(), items, getRate(order.getInitiator()), true);
+        KafkaMessage kafkaMessage = new KafkaMessage(order.getInitiator(), new Gson().toJson(items), getRate(order.getInitiator()), true);
 
-        KafkaMessage kafkaMessage = new KafkaMessage(1, order.getInitiator(), new Gson().toJson(items), 3.8, true);
+//        KafkaMessage kafkaMessage = new KafkaMessage(1, order.getInitiator(), new Gson().toJson(items), 3.8, true);
         Gson gson = new Gson();
 
         // send msg to kafka
         kafkaTemplate.send("orders", order.getUser_id().toString(), gson.toJson(kafkaMessage));
-
-        // release lock
-        //uncomment!!!!!!!!!!!!!!!!!!!1
-//        cleanAllStates(items.size(), clients, mutexes);
         return "Hi";
     }
 
     void cleanAllStates(int number, List<CuratorFramework> clients, List<InterProcessMutex> mutexes) throws Exception {
         for(int i = 0; i < number; i++){
             mutexes.get(i).release();
-            distributedLock.close(clients.get(i));
+            clients.get(i).close();
         }
     }
 

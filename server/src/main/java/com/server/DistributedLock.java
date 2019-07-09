@@ -10,11 +10,13 @@ import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreMutex;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.utils.CloseableUtils;
 import org.junit.Assert;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class DistributedLock {
     // ZooKeeper 锁节点路径, 分布式锁的相关操作都是在这个节点上进行
     private final String lockPath = "/distributed-lock";
