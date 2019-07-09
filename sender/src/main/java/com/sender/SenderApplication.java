@@ -1,9 +1,9 @@
 package com.sender;
 
-import org.apache.commons.httpclient.HttpStatus;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -29,7 +29,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.httpclient.methods.PostMethod;
 
 import static org.apache.http.protocol.HTTP.USER_AGENT;
 
