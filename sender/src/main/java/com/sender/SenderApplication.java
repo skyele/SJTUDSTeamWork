@@ -14,13 +14,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 @SpringBootApplication
 public class SenderApplication {
@@ -33,7 +38,7 @@ public class SenderApplication {
 
 	private static String urlPort;
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		SpringApplication.run(SenderApplication.class, args);
 		Item item = new Item(Integer.parseInt(args[1]));
 		User user = new User(Integer.parseInt(args[0]));
@@ -46,35 +51,42 @@ public class SenderApplication {
 		}
 	}
 
-	public static void requestByPostMethod(String orderString){
-		try{
-			URL realUrl = new URL("http://" + urlPort + "/request");
-			//打开和URL之间的连接
-			URLConnection conn =  realUrl.openConnection();
-			//设置通用的请求属性
-			conn.setRequestProperty("accept", "*/*");
-			conn.setRequestProperty("connection", "Keep-Alive");
-//			conn.setRequestProperty("user-agent",
-//					"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-			//发送POST请求必须设置如下两行
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
-			//获取URLConnection对象对应的输出流
-			PrintWriter out = new PrintWriter(conn.getOutputStream());
-			//发送请求参数
-			out.print(orderString);
-			//flush输出流的缓冲
-			out.flush();
-			// 定义 BufferedReader输入流来读取URL的响应
-			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-			String line;
-			while ((line = in.readLine()) != null) {
-				System.out.println(line);
-			}
-		} catch (Exception e) {
-			System.out.println("发送POST请求出现异常" + e);
-			e.printStackTrace();
+	public static void requestByPostMethod(String orderString) throws IOException {
+		String url = "http://" + urlPort + "/request";
+		URL obj = new URL(url);
+		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+
+		//添加请求头
+		con.setRequestMethod("POST");
+		con.setRequestProperty("User-Agent", USER_AGENT);
+		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+		String urlParameters = orderString;
+
+		//发送Post请求
+		con.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		wr.writeBytes(urlParameters);
+		wr.flush();
+		wr.close();
+
+		int responseCode = con.getResponseCode();
+		System.out.println("\nSending 'POST' request to URL : " + url);
+		System.out.println("Post parameters : " + urlParameters);
+		System.out.println("Response Code : " + responseCode);
+
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
 		}
+		in.close();
+
+		//打印结果
+		System.out.println(response.toString());
 	}
 
 	private static CloseableHttpClient getHttpClient(){
