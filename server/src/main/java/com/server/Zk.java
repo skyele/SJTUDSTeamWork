@@ -35,6 +35,7 @@ public class Zk implements Watcher {
             Double rate = null;
             try {
                 rate = Double.parseDouble(new String(zookeeper.getData(event.getPath(), false, null)));
+                zookeeper.getData(event.getPath(), true, null);
             } catch (KeeperException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
