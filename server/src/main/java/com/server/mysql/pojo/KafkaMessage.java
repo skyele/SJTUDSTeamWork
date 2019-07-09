@@ -11,11 +11,11 @@ public class KafkaMessage {
     @Id
     private Integer id;
     private String initiator;
-    private List<Item> items;
+    private String items;
     private Double exchangeRate;
     private Boolean success;
 
-    public KafkaMessage(Integer id, String initiator, List<Item> items, Double exchangeRate, Boolean success) {
+    public KafkaMessage(Integer id, String initiator, String items, Double exchangeRate, Boolean success) {
         this.id = id;
         this.initiator = initiator;
         this.items = items;
@@ -23,11 +23,15 @@ public class KafkaMessage {
         this.success = success;
     }
 
-    public KafkaMessage(String initiator, List<Item> items, Double exchangeRate, Boolean success) {
+    public KafkaMessage(String initiator, String items, Double exchangeRate, Boolean success) {
         this.initiator = initiator;
         this.items = items;
         this.exchangeRate = exchangeRate;
         this.success = success;
+    }
+
+    public KafkaMessage(){
+
     }
 
     public Integer getId() {
@@ -46,11 +50,11 @@ public class KafkaMessage {
         this.initiator = initiator;
     }
 
-    public List<Item> getItems() {
+    public String getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(String items) {
         this.items = items;
     }
 

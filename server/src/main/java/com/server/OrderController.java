@@ -101,7 +101,7 @@ public class OrderController {
         //get exchange rate
 //        KafkaMessage kafkaMessage = new KafkaMessage(order.getInitiator(), items, getRate(order.getInitiator()), true);
 
-        KafkaMessage kafkaMessage = new KafkaMessage(1, order.getInitiator(), items, 3.8, true);
+        KafkaMessage kafkaMessage = new KafkaMessage(1, order.getInitiator(), new Gson().toJson(items), 3.8, true);
         Gson gson = new Gson();
 
         // send msg to kafka

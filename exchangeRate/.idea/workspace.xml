@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/mysql/repo/KafkaMessageRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/mysql/pojo/KafkaMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/mysql/pojo/KafkaMessage.java" afterDir="false" />
     </list>
@@ -251,7 +249,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562666173034" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562667900871" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
