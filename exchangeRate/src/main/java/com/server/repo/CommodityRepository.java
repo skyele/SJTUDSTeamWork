@@ -9,6 +9,5 @@ import java.util.Optional;
 public interface CommodityRepository extends CrudRepository<Commodity, Integer> {
     Commodity findById(int i);
     Commodity save(Commodity commodity);
-    Commodity insert(Commodity commodity);
     List<Commodity> findAll();
 }
