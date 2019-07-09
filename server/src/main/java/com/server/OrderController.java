@@ -1,6 +1,7 @@
 package com.server;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.server.mysql.pojo.Commodity;
 import com.server.mysql.pojo.KafkaMessage;
 import com.server.mysql.repo.CommodityRepository;
@@ -56,7 +57,9 @@ public class OrderController {
                 System.out.println(parameterName + "===" + request.getParameter(parameterName));
                 //System.out.println(parameterNames.nextElement()+"=="+request.getParameter(parameterNames.nextElement()));
             }
+            JsonElement jsonObject = new Gson().toJsonTree(data);
             System.out.println(data);//以{}包含的字符
+            System.out.println(jsonObject.toString());
             Order order = null;
             BufferedReader reader = request.getReader();
             char[] buf = new char[512];
