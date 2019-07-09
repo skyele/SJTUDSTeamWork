@@ -32,7 +32,7 @@ public class ExchangeRateApplication {
     public void setCommodityRepository(CommodityRepository commodityRepository) {
         ExchangeRateApplication.commodityRepository = commodityRepository;
     }
-    
+
     @Bean
     public static final Zk zkHandler(){
         Zk zk = new Zk();
