@@ -31,7 +31,7 @@ steps:
   - name: barrier
     image: busybox
     commands:
-      - sleep 20
+      - sleep 30
 
   - name: kafka
     image: wurstmeister/kafka:latest
