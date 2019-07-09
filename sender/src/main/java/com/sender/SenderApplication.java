@@ -57,6 +57,7 @@ public class SenderApplication {
 	}
 
 	public static void requestByPostMethod(String orderString) throws IOException {
+		System.out.println("in requestByPostMethod");
 		String url = "http://" + urlPort + "/request";
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(url);
