@@ -53,7 +53,9 @@ public class OrderController {
 
     @PostMapping(value = "/request")
 //    public String receiveOrder(String orderString) throws Exception {
-        public String receiveOrder(@RequestParam(value = "order", required = false) Order order, HttpServletRequest request) throws Exception {
+        public String receiveOrder(@RequestParam(value = "order", required = false) String orderString, HttpServletRequest request) throws Exception {
+            System.out.println("the order is " + orderString);
+            Order order = null;
             BufferedReader reader = request.getReader();
             char[] buf = new char[512];
             int len = 0;
