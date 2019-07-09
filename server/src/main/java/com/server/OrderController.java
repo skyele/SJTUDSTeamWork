@@ -77,6 +77,7 @@ public class OrderController {
                 ((LinkedList<CuratorFramework>) clients).push(client);
                 ((LinkedList<InterProcessMutex>) mutexes).push(mutex);
                 Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
+                System.out.println("the tmp is " + tmp);
                 ((LinkedList<Commodity>) commodities).push(tmp);
                 if(tmp.getInventory() < items.get(i).getNumber())//库存不足
                     break;
