@@ -84,7 +84,7 @@ public class SparkApplication {
 							}*/
 							System.out.println("id:" + id + "userid:" + userid + "initiator:" + initiator + "success:" + success + "paid:" + paid);
 							Result res = new Result(id, userid, initiator, success, paid);
-							resultRepository.save(res);
+							//resultRepository.save(res);
                         }
                     }
                 });
