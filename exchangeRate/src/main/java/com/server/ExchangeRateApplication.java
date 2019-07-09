@@ -177,7 +177,9 @@ public class ExchangeRateApplication {
     }
 
     public static void initZkNode() throws Exception {
-        zk.createNode("/distributed-lock", "");
+        zk.createNode("/distributed-lock", null);
+        for(int i = 1; i <= MAXITEMID; i++)
+            zk.createNode("/distributed-lock/"+i, null);
     }
 
     public static String getCurrency(int i){
