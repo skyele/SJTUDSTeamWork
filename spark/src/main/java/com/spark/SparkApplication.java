@@ -69,7 +69,7 @@ public class SparkApplication {
                         while(mmItr.hasNext()) {
                             MessageAndMetadata<byte[]> mm = mmItr.next();
                             System.out.println(" My topic:" + mm.getTopic() + " My content:" + new String(mm.getPayload()));
-							JSONObject json = JSON.parseObject(new String(mm.getPayload()));
+							/*JSONObject json = JSON.parseObject(new String(mm.getPayload()));
 							Integer id = json.getInteger("id");
 							Integer userid = Integer.parseInt(new String(mm.getKey()));
 							String initiator = json.getString("initiator");
@@ -84,7 +84,7 @@ public class SparkApplication {
 							}
 							System.out.println("id:" + id + "userid:" + userid + "initiator:" + initiator + "success:" + success + "paid:" + paid);
 							Result res = new Result(id, userid, initiator, success, paid);
-							resultRepository.save(res);
+							resultRepository.save(res);*/
                         }
                     }
                 });
