@@ -69,22 +69,22 @@ public class SparkApplication {
                         while(mmItr.hasNext()) {
                             MessageAndMetadata<byte[]> mm = mmItr.next();
                             System.out.println(" My topic:" + mm.getTopic() + " My content:" + new String(mm.getPayload()));
-							/*JSONObject json = JSON.parseObject(new String(mm.getPayload()));
+							JSONObject json = JSON.parseObject(new String(mm.getPayload()));
 							Integer id = json.getInteger("id");
 							Integer userid = Integer.parseInt(new String(mm.getKey()));
 							String initiator = json.getString("initiator");
 							Boolean success = json.getBoolean("success");
-							List<Item> items = JSON.parseArray(json.getJSONArray("items").toString(),Item.class);
+							//List<Item> items = JSON.parseArray(json.getJSONArray("items").toString(),Item.class);
 							Double paid = 0.0;
-							if (success){
+							/*if (success){
 								for (int i = 0;i<items.size();i++) {
 									Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
 									paid += items.get(i).getNumber() * tmp.getPrice();
 								}
-							}
+							}*/
 							System.out.println("id:" + id + "userid:" + userid + "initiator:" + initiator + "success:" + success + "paid:" + paid);
 							Result res = new Result(id, userid, initiator, success, paid);
-							resultRepository.save(res);*/
+							resultRepository.save(res);
                         }
                     }
                 });
