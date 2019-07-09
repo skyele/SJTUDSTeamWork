@@ -77,7 +77,7 @@ public class SenderApplication {
 
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(url);
-		httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+		httpPost.addHeader(HTTP.CONTENT_TYPE, "text/plain");
 
 //		StringEntity se = new StringEntity(encoderJson);
 //		se.setContentType("text/json");
