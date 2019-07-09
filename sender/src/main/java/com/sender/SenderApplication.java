@@ -49,6 +49,7 @@ public class SenderApplication {
 		CloseableHttpClient httpClient = getHttpClient();
 		try {
 			HttpPost post = new HttpPost("http://" + urlPort + "/request");          //这里用上本机的某个工程做测试
+			System.out.println("the sender url: " + "http://" + urlPort + "/request" );
 			System.out.println("the orderString " + orderString);
 			//创建参数列表
 			List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
