@@ -104,11 +104,13 @@ public class ExchangeRateApplication {
 
     public static void changeRate() throws InterruptedException {
         while (true){
+            System.out.println("in changeRate in while");
             CountDownLatch countDownLatch = new CountDownLatch(NUMBER);
             //多线程
             for(int i = 0; i < NUMBER; i++){
                 new Thread() {
                     public void run() {
+                        System.out.println("change rate for " + index);
                         String currency = getCurrency(index++);
                         Double rate = 0.0;
                         try {
