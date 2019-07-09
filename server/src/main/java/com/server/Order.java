@@ -1,8 +1,9 @@
 package com.server;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
     private Long time;
     private List<Item> items;
     private String initiator;

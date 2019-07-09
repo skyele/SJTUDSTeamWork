@@ -2,9 +2,10 @@ package com.sender;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Order {
+public class Order implements Serializable {
     private Initiator initiator;
     private Item item;
     private User user;
