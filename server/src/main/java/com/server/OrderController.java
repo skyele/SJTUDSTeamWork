@@ -52,11 +52,8 @@ public class OrderController {
 //        public String receiveOrder(HttpServletRequest request, @RequestBody String data) throws Exception {
     //        @RequestParam(value = "order", required = false) String orderString,
     public String receiveOrder(@RequestParam(value = "order", required = false) Order orderString, @RequestBody String data) throws Exception {
-        System.out.println("the order is " + null);
-        JsonElement jsonObject = new Gson().toJsonTree(data);
         System.out.println("body: " + data);//以{}包含的字符
-        System.out.println("json object: " + jsonObject.toString());
-        Order order = new Gson().fromJson(jsonObject, Order.class);
+        Order order = new Gson().fromJson(data, Order.class);
 
         System.out.println("the orderstring "+order.toString());
         // acquire lock
