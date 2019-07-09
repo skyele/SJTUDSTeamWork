@@ -18,13 +18,13 @@ public class ExchangeRateApplication {
     private static Integer index = 0;
     static String PATH = "/ExchangeRate/";
 
-    private static Zk zk;
+    private static Zk zk = zkHandler();
 
     @Bean
     public static final Zk zkHandler(){
         Zk zk = new Zk();
         try{
-            zk.connectZookeeper("http://zookeeper:2181");
+            zk.connectZookeeper("zookeeper:2181");
         }catch (Exception e) {
 
         }
@@ -33,7 +33,6 @@ public class ExchangeRateApplication {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ExchangeRateApplication.class, args);
-        zk = zkHandler();
         initRate();
         changeRate();
     }
