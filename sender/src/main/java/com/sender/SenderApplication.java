@@ -14,8 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,45 +47,36 @@ public class SenderApplication {
 	}
 
 	public static void requestByPostMethod(String orderString){
-		CloseableHttpClient httpClient = getHttpClient();
-		try {
-			HttpPost post = new HttpPost("http://" + urlPort + "/request");          //这里用上本机的某个工程做测试
-			System.out.println("the sender url: " + "http://" + urlPort + "/request" );
-			System.out.println("the orderString " + orderString);
-			//创建参数列表
-			List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
-			list.add(new BasicNameValuePair("order", orderString));
-			//url格式编码
-			UrlEncodedFormEntity uefEntity = new UrlEncodedFormEntity(list,"UTF-8");
-			post.setEntity(uefEntity);
-			System.out.println("POST 请求...." + post.getURI());
-			//执行请求
-			CloseableHttpResponse httpResponse = httpClient.execute(post);
-			try{
-				HttpEntity entity = httpResponse.getEntity();
-				if (null != entity){
-					System.out.println("-------------------------------------------------------");
-					System.out.println(EntityUtils.toString(uefEntity));
-					System.out.println("-------------------------------------------------------");
-				}
-			} finally{
-				httpResponse.close();
+		try{
+			URL realUrl = new URL("http://" + urlPort + "/request");
+			//打开和URL之间的连接
+			URLConnection conn =  realUrl.openConnection();
+			//设置通用的请求属性
+			conn.setRequestProperty("accept", "*/*");
+			conn.setRequestProperty("connection", "Keep-Alive");
+//			conn.setRequestProperty("user-agent",
+//					"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+			//发送POST请求必须设置如下两行
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			//获取URLConnection对象对应的输出流
+			PrintWriter out = new PrintWriter(conn.getOutputStream());
+			//发送请求参数
+			out.print(orderString);
+			//flush输出流的缓冲
+			out.flush();
+			// 定义 BufferedReader输入流来读取URL的响应
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+			String line;
+			while ((line = in.readLine()) != null) {
+				System.out.println(line);
 			}
-
-		} catch( UnsupportedEncodingException e){
+		} catch (Exception e) {
+			System.out.println("发送POST请求出现异常" + e);
 			e.printStackTrace();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		finally{
-			try{
-				closeHttpClient(httpClient);
-			} catch(Exception e){
-				e.printStackTrace();
-			}
 		}
 	}
+
 	private static CloseableHttpClient getHttpClient(){
 		return HttpClients.createDefault();
 	}
