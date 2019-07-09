@@ -1,5 +1,6 @@
 package com.sender;
 
+import com.google.gson.Gson;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -24,6 +25,7 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,31 +50,30 @@ public class SenderApplication {
 		urlPort = args[3];
 		while(true){
 			Thread.sleep(Integer.parseInt(args[2]));
-			String orderString = order.getJSONOrder();
-			requestByPostMethod(orderString);
+//			String orderString = order.getJSONOrder();
+			Map<String, Order> object = new HashMap<>();
+			object.put("order", order);
+			requestByPostMethod(object);
 		}
 	}
 
-	public static void requestByPostMethod(String orderString) throws IOException {
+	public static void requestByPostMethod(Map<String, Order> object) throws IOException {
 		System.out.println("in requestByPostMethod");
 		String url = "http://" + urlPort + "/request";
-//		String url = urlPort + "/request";
 		System.out.println("the url: " + url);
-		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-		formparams.add(new BasicNameValuePair("order", orderString));
-//		String encoderJson = URLEncoder.encode(orderString, String.valueOf(StandardCharsets.UTF_8));
+		String encoderJson = URLEncoder.encode(new Gson().toJson(object), String.valueOf(StandardCharsets.UTF_8));
 
-		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, StandardCharsets.UTF_8);
+//		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, StandardCharsets.UTF_8);
 
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
 
-//		StringEntity se = new StringEntity(encoderJson);
-//		se.setContentType("text/json");
-//		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-//		httpPost.setEntity(se);
-		httpPost.setEntity(entity);
+		StringEntity se = new StringEntity(encoderJson);
+		se.setContentType("text/json");
+		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+		httpPost.setEntity(se);
+//		httpPost.setEntity(entity);
 		client.execute(httpPost);
 	}
 
