@@ -51,24 +51,24 @@ public class SenderApplication {
 		while(true){
 			Thread.sleep(Integer.parseInt(args[2]));
 //			String orderString = order.getJSONOrder();
-			Map<String, Order> object = new HashMap<>();
-			object.put("order", order);
-			requestByPostMethod(object);
+//			Map<String, Order> object = new HashMap<>();
+//			object.put("order", order);
+			requestByPostMethod(order);
 		}
 	}
 
-	public static void requestByPostMethod(Map<String, Order> object) throws IOException {
+	public static void requestByPostMethod(Order object) throws IOException {
 		System.out.println("in requestByPostMethod");
 		String url = "http://" + urlPort + "/request";
 		System.out.println("the url: " + url);
-		String encoderJson = URLEncoder.encode(new Gson().toJson(object), String.valueOf(StandardCharsets.UTF_8));
-		System.out.println("json object: " + encoderJson);
+//		String encoderJson = URLEncoder.encode(new Gson().toJson(object), String.valueOf(StandardCharsets.UTF_8));
+		System.out.println("json object: " + new Gson().toJson(object));
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setHeader("Content-Type", "application/json;charset=UTF-8");//表示客户端发送给服务器端的数据格式
 		httpPost.setHeader("Accept", "application/json");                    //表示服务端接口要返回给客户端的数据格式，
 
-		StringEntity se = new StringEntity(encoderJson);
+		StringEntity se = new StringEntity(new Gson().toJson(object));
 //		se.setContentType("text/json");
 //		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
 		httpPost.setEntity(se);
