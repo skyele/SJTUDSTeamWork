@@ -64,38 +64,38 @@ public class OrderController {
         System.out.println("the items size: " + items.size());
         int i;
         Collections.sort(items);
-        for(i = 0; i < items.size(); i++){
-            //https://stackoverflow.com/questions/30134447/what-does-an-apache-curator-connection-string-look-like
-            //上面是connectString的意义
-            String connectString = "zookeeper:2181";
-            String lockPath = "/distributed-lock/" + items.get(i).getId();
-            RetryPolicy retry = new ExponentialBackoffRetry(1000, 3);
-            CuratorFramework client = CuratorFrameworkFactory.newClient(connectString, 60000, 15000, retry);
-            client.start();
-            InterProcessMutex mutex= new InterProcessMutex(client, lockPath);
-            if(mutex.acquire(10, TimeUnit.SECONDS)){
-                ((LinkedList<CuratorFramework>) clients).push(client);
-                ((LinkedList<InterProcessMutex>) mutexes).push(mutex);
-                Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
-                System.out.println("the tmp is " + tmp);
-                ((LinkedList<Commodity>) commodities).push(tmp);
-                if(tmp.getInventory() < items.get(i).getNumber())//库存不足
-                    break;
-            }else//可能死锁，放弃这次订单
-                break;
-        }
-
-        if (i != items.size()){
-            cleanAllStates(i, clients, mutexes);
-            return "Invalid";
-        }
-
-        // modify mysql
-        for(i = 0; i < items.size(); i++){
-            Commodity tmp = commodities.get(i);
-            tmp.setInventory(commodities.get(i).getInventory()-items.get(i).getNumber());
-            commodityRepository.save(tmp);
-        }
+//        for(i = 0; i < items.size(); i++){
+//            //https://stackoverflow.com/questions/30134447/what-does-an-apache-curator-connection-string-look-like
+//            //上面是connectString的意义
+//            String connectString = "zookeeper:2181";
+//            String lockPath = "/distributed-lock/" + items.get(i).getId();
+//            RetryPolicy retry = new ExponentialBackoffRetry(1000, 3);
+//            CuratorFramework client = CuratorFrameworkFactory.newClient(connectString, 60000, 15000, retry);
+//            client.start();
+//            InterProcessMutex mutex= new InterProcessMutex(client, lockPath);
+//            if(mutex.acquire(10, TimeUnit.SECONDS)){
+//                ((LinkedList<CuratorFramework>) clients).push(client);
+//                ((LinkedList<InterProcessMutex>) mutexes).push(mutex);
+//                Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
+//                System.out.println("the tmp is " + tmp);
+//                ((LinkedList<Commodity>) commodities).push(tmp);
+//                if(tmp.getInventory() < items.get(i).getNumber())//库存不足
+//                    break;
+//            }else//可能死锁，放弃这次订单
+//                break;
+//        }
+//
+//        if (i != items.size()){
+//            cleanAllStates(i, clients, mutexes);
+//            return "Invalid";
+//        }
+//
+//        // modify mysql
+//        for(i = 0; i < items.size(); i++){
+//            Commodity tmp = commodities.get(i);
+//            tmp.setInventory(commodities.get(i).getInventory()-items.get(i).getNumber());
+//            commodityRepository.save(tmp);
+//        }
 
 
         KafkaMessage kafkaMessage = new KafkaMessage(1, order.getInitiator(), items, 3.8, true);
@@ -105,7 +105,7 @@ public class OrderController {
         kafkaTemplate.send("orders", order.getUser_id(), gson.toJson(kafkaMessage));
 
         // release lock
-        cleanAllStates(items.size(), clients, mutexes);
+//        cleanAllStates(items.size(), clients, mutexes);
         return "Hi";
     }
 
