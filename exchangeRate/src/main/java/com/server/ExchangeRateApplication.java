@@ -55,7 +55,7 @@ public class ExchangeRateApplication {
                         String currency = getCurrency(index++);
                         Double rate = 0.0;
                         try {
-                            rate = Double.parseDouble(new String(zk.getData(PATH + currency, false)));
+                            rate = Double.parseDouble(new String(zk.getData(PATH + "/" + currency, false)));
                         } catch (KeeperException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
@@ -67,7 +67,7 @@ public class ExchangeRateApplication {
                         }
                         try {
                             //setData - Watch 注册watch
-                            zk.setData(PATH+currency, rate.toString());
+                            zk.setData(PATH + "/" + currency, rate.toString());
                         } catch (KeeperException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
