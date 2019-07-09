@@ -1,35 +1,23 @@
 package com.sender;
 
 import com.google.gson.Gson;
-import org.apache.http.*;
+import com.sender.Generator.InitiatorGenerate;
+import com.sender.Generator.ItemGenerate;
+import com.sender.Generator.OrderGenerate;
+import com.sender.Generator.UserGenerate;
+import com.sender.pojo.Item;
+import com.sender.pojo.Order;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.apache.http.protocol.HTTP.USER_AGENT;
+import java.util.*;
 
 @SpringBootApplication
 public class SenderApplication {
@@ -44,15 +32,20 @@ public class SenderApplication {
 
 	public static void main(String[] args) throws InterruptedException, IOException {
 		SpringApplication.run(SenderApplication.class, args);
-		Item item = new Item(Integer.parseInt(args[1]));
-		User user = new User(Integer.parseInt(args[0]));
-		Order order = new Order(user, item);
 		urlPort = args[3];
 		while(true){
 			Thread.sleep(Integer.parseInt(args[2]));
-//			String orderString = order.getJSONOrder();
-//			Map<String, Order> object = new HashMap<>();
-//			object.put("order", order);
+			ItemGenerate itemGenerate = new ItemGenerate(Integer.parseInt(args[1]));
+			UserGenerate userGenerate = new UserGenerate(Integer.parseInt(args[0]));
+			Order order = new Order();
+			order.setInitiator(new InitiatorGenerate().getCurrency());
+			order.setTime(new Date().getTime());
+			order.setUser_id(userGenerate.getUser_id());
+			int loop = new Random().nextInt(4)+1;
+			for(int j = 0; j < loop; j++){
+				Item item = new Item(itemGenerate.getItem_id(), itemGenerate.getNumber());
+				order.getItems().add(item);
+			}
 			requestByPostMethod(order);
 		}
 	}

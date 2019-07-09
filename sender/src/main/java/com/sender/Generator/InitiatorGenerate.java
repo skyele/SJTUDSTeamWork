@@ -1,8 +1,8 @@
-package com.sender;
+package com.sender.Generator;
 
 import java.util.Random;
 
-public class Initiator {
+public class InitiatorGenerate {
     public String getCurrency(){
         Random r = new Random();
         int i = r.nextInt(4);

@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../sender/src/main/java/com/sender/pojo/Item.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sender/src/main/java/com/sender/pojo/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sender/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/../sender/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sender/src/main/java/com/sender/Initiator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sender/src/main/java/com/sender/Generator/InitiatorGenerate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sender/src/main/java/com/sender/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sender/src/main/java/com/sender/Generator/ItemGenerate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sender/src/main/java/com/sender/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sender/src/main/java/com/sender/Generator/OrderGenerate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sender/src/main/java/com/sender/SenderApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sender/src/main/java/com/sender/SenderApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sender/src/main/java/com/sender/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sender/src/main/java/com/sender/Generator/UserGenerate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Order.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -115,7 +124,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="949" />
+    <option name="x" value="-11" />
     <option name="width" value="980" />
     <option name="height" value="1031" />
   </component>

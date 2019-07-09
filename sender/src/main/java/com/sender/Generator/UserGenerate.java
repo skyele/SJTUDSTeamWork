@@ -1,10 +1,10 @@
-package com.sender;
+package com.sender.Generator;
 
 import java.util.Random;
 
-public class User {
+public class UserGenerate {
     private int idRange;
-    public User(int range){
+    public UserGenerate(int range){
         idRange = range;
     }
 

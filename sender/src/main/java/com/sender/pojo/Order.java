@@ -1,7 +1,8 @@
-package com.server;
+package com.sender.pojo;
 
 import java.io.Serializable;
 import java.util.List;
+
 
 public class Order implements Serializable {
     private Long time;
@@ -39,12 +40,5 @@ public class Order implements Serializable {
 
     public void setUser_id(Integer user_id) {
         this.user_id = user_id;
-    }
-
-    public Order(Long time, List<Item> items, String initiator, Integer user_id) {
-        this.time = time;
-        this.items = items;
-        this.user_id = user_id;
-        this.initiator = initiator;
     }
 }

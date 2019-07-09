@@ -1,21 +1,21 @@
-package com.sender;
+package com.sender.Generator;
 
 import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.*;
 
-public class Order implements Serializable {
-    private Initiator initiator;
-    private Item item;
-    private User user;
+public class OrderGenerate implements Serializable {
+    private InitiatorGenerate initiator;
+    private ItemGenerate item;
+    private UserGenerate user;
     private int itemNumberRange = 4;
     Random r;
 
-    public Order(User user, Item item){
-        initiator = new Initiator();
+    public OrderGenerate(UserGenerate userGenerate, ItemGenerate item){
+        initiator = new InitiatorGenerate();
         this.item = item;
-        this.user = user;
+        this.user = userGenerate;
         r = new Random();
     }
 
