@@ -51,6 +51,10 @@
             <artifactId>httpmime</artifactId>
             <version>4.3.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

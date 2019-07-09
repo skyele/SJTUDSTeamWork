@@ -1,11 +1,16 @@
 package com.sender;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -24,6 +29,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.httpclient.methods.PostMethod;
 
 import static org.apache.http.protocol.HTTP.USER_AGENT;
 
@@ -53,40 +59,21 @@ public class SenderApplication {
 
 	public static void requestByPostMethod(String orderString) throws IOException {
 		String url = "http://" + urlPort + "/request";
-		URL obj = new URL(url);
-		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-
-		//添加请求头
-		con.setRequestMethod("POST");
-		con.setRequestProperty("User-Agent", USER_AGENT);
-		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
-		String urlParameters = orderString;
-
-		//发送Post请求
-		con.setDoOutput(true);
-		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-		wr.writeBytes(urlParameters);
-		wr.flush();
-		wr.close();
-
-		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'POST' request to URL : " + url);
-		System.out.println("Post parameters : " + urlParameters);
-		System.out.println("Response Code : " + responseCode);
-
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpPost post = new HttpPost(url);
+		try {
+			StringEntity s = new StringEntity(orderString);
+			s.setContentEncoding("UTF-8");
+			s.setContentType("application/json");//发送json数据需要设置contentType
+			//             post.setEntity(s);
+			HttpResponse res = client.execute(post);
+			if(res.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+				String result = EntityUtils.toString(res.getEntity());// 返回json格式：
+				System.out.println("return: " + result);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		in.close();
-
-		//打印结果
-		System.out.println(response.toString());
 	}
 
 	private static CloseableHttpClient getHttpClient(){
