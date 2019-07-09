@@ -110,7 +110,7 @@ public class ExchangeRateApplication {
             //countDownLatch wait
             countDownLatch.await();
             index = 0;
-            Thread.sleep(TEST);
+            Thread.sleep(REAL);
         }
     }
 
