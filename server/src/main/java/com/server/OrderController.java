@@ -91,10 +91,11 @@ public class OrderController {
 //            return "Invalid";
 //        }
 //
-//        // modify mysql
+        // modify mysql
 //        for(i = 0; i < items.size(); i++){
 //            Commodity tmp = commodities.get(i);
 //            tmp.setInventory(commodities.get(i).getInventory()-items.get(i).getNumber());
+//            items.get(i).setPrice(tmp.getPrice());
 //            commodityRepository.save(tmp);
 //        }
 
