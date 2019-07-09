@@ -59,7 +59,8 @@ public class SenderApplication {
 
 	public static void requestByPostMethod(String orderString) throws IOException {
 		System.out.println("in requestByPostMethod");
-		String url = "http://" + urlPort + "/request";
+//		String url = "http://" + urlPort + "/request";
+		String url = urlPort + "/request";
 		System.out.println("the url: " + url);
 		String encoderJson = URLEncoder.encode(orderString, String.valueOf(StandardCharsets.UTF_8));
 
