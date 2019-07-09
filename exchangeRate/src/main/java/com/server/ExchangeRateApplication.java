@@ -16,7 +16,7 @@ import java.util.concurrent.CountDownLatch;
 public class ExchangeRateApplication {
     private static Integer NUMBER = 4;
     private static Integer index = 0;
-    static String PATH = "/ExchangeRate/";
+    static String PATH = "/ExchangeRate";
 
     private static Zk zk = zkHandler();
 
@@ -39,10 +39,10 @@ public class ExchangeRateApplication {
 
     public static void initRate() throws Exception {
         zk.createNode(PATH, String.valueOf(0.0));
-        zk.createNode(PATH+"RMB", String.valueOf(3.0));
-        zk.createNode(PATH+"USD", String.valueOf(12.0));
-        zk.createNode(PATH+"JPY", String.valueOf(0.3));
-        zk.createNode(PATH+"EUR", String.valueOf(9.0));
+        zk.createNode(PATH+"/RMB", String.valueOf(3.0));
+        zk.createNode(PATH+"/USD", String.valueOf(12.0));
+        zk.createNode(PATH+"/JPY", String.valueOf(0.3));
+        zk.createNode(PATH+"/EUR", String.valueOf(9.0));
     }
 
     public static void changeRate() throws InterruptedException {
