@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.server.mysql.pojo.Commodity;
 import com.server.mysql.pojo.KafkaMessage;
 import com.server.mysql.repo.CommodityRepository;
+import jdk.nashorn.internal.ir.RuntimeNode;
+import org.apache.catalina.connector.Request;
+import org.apache.catalina.connector.Response;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -14,6 +17,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Time;
@@ -45,8 +49,10 @@ public class OrderController {
     private final String lockPath = "/distributed-lock";
 
     @PostMapping(value = "/request")
-    public String receiveOrder(String orderString) throws Exception {
-        System.out.println("the orderstring "+orderString);
+//    public String receiveOrder(String orderString) throws Exception {
+        public String receiveOrder(Request request , Response response) throws Exception {
+//        System.out.println("the orderstring "+orderString);
+        System.out.println("the request is " + request);
         // acquire lock
         Order order = null;
         System.out.println("the server get order userid: " + order.getUser_id()+ " initiator: "+order.getInitiator());
