@@ -31,6 +31,7 @@ public class Zk implements Watcher {
         }
         if(event.getType() == Event.EventType.NodeDataChanged || event.getType() == Event.EventType.NodeCreated){
             //到zookeeper getdata拿数据
+            System.out.println("data has changed!!!\n");
             Double rate = null;
             try {
                 rate = Double.parseDouble(new String(zookeeper.getData(event.getPath(), false, null)));
@@ -39,6 +40,7 @@ public class Zk implements Watcher {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("the path is " + event.getPath() +" new rate: " + rate);
             if(event.getPath().contains("RMB"))
                 OrderController.RMB = rate;
             else if(event.getPath().contains("USD"))
