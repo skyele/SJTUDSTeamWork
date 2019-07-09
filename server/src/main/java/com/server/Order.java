@@ -47,4 +47,7 @@ public class Order implements Serializable {
         this.user_id = user_id;
         this.initiator = initiator;
     }
+
+    public Order() {
+    }
 }
