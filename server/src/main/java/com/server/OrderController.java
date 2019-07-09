@@ -105,7 +105,7 @@ public class OrderController {
         Gson gson = new Gson();
 
         // send msg to kafka
-        kafkaTemplate.send("orders", order.getUser_id(), gson.toJson(kafkaMessage));
+        kafkaTemplate.send("orders", order.getUser_id().toString(), gson.toJson(kafkaMessage));
 
         // release lock
         //uncomment!!!!!!!!!!!!!!!!!!!1
