@@ -15,6 +15,7 @@ import org.apache.curator.framework.recipes.locks.InterProcessLock;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.framework.recipes.locks.InterProcessReadWriteLock;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -48,37 +49,16 @@ public class OrderController {
 
     @PostMapping(value = "/request")
 //    public String receiveOrder(String orderString) throws Exception {
-        public String receiveOrder(HttpServletRequest request, @RequestBody String data) throws Exception {
-//        @RequestParam(value = "order", required = false) String orderString,
-            System.out.println("the order is " + null);
-            Enumeration<String> parameterNames = request.getParameterNames();
-            while (parameterNames.hasMoreElements()) {//传递json数据的时候request是没有表单参数的
-                String parameterName = parameterNames.nextElement();
-                System.out.println(parameterName + "===" + request.getParameter(parameterName));
-                //System.out.println(parameterNames.nextElement()+"=="+request.getParameter(parameterNames.nextElement()));
-            }
-            JsonElement jsonObject = new Gson().toJsonTree(data);
-            System.out.println("body: " + data);//以{}包含的字符
-            System.out.println("json object: " + jsonObject.toString());
-            Order order = null;
-            BufferedReader reader = request.getReader();
-            char[] buf = new char[512];
-            int len = 0;
-            StringBuffer contentBuffer = new StringBuffer();
-            while ((len = reader.read(buf)) != -1) {
-                contentBuffer.append(buf, 0, len);
-            }
+//        public String receiveOrder(HttpServletRequest request, @RequestBody String data) throws Exception {
+    //        @RequestParam(value = "order", required = false) String orderString,
+    public String receiveOrder(@RequestParam(value = "order", required = false) Order orderString, @RequestBody String data) throws Exception {
+        System.out.println("the order is " + null);
+        JsonElement jsonObject = new Gson().toJsonTree(data);
+        System.out.println("body: " + data);//以{}包含的字符
+        System.out.println("json object: " + jsonObject.toString());
+        Order order = new Gson().fromJson(jsonObject, Order.class);
 
-            String content = contentBuffer.toString();
-
-            if(content == null){
-                System.out.println("is null!!!");
-                content = "";
-            }else {
-                System.out.println("the content: "  + content);
-            }
-
-        System.out.println("the orderstring "+order);
+        System.out.println("the orderstring "+order.toString());
         // acquire lock
 //        Order order = null;
         System.out.println("the server get order userid: " + order.getUser_id()+ " initiator: "+order.getInitiator());
