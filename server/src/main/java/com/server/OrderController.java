@@ -86,11 +86,11 @@ public class OrderController {
                 break;
         }
         // release lock
-        cleanAllStates(items.size(), clients, mutexes);
         if (i != items.size()){
+            cleanAllStates(i, clients, mutexes);
             return "Invalid";
         }
-
+        cleanAllStates(items.size(), clients, mutexes);
 //         modify mysql
         for(i = 0; i < items.size(); i++){
             Commodity tmp = commodities.get(i);
