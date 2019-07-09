@@ -18,7 +18,7 @@ public class Zk implements Watcher {
     /**
           * 超时时间
           */
-    private static final int SESSION_TIME_OUT = 2000;
+    private static final int SESSION_TIME_OUT = 6000;
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
     public Zk() {
@@ -26,6 +26,7 @@ public class Zk implements Watcher {
 
     @Override
     public void process(WatchedEvent event) {
+        System.out.println("there is a event in process() and State: " + event.getState() +" and Type: "+ event.getType() +" and Path: "+ event.getPath());
         if (event.getState() == Event.KeeperState.SyncConnected) {
             System.out.println("Watch received event");
             countDownLatch.countDown();
@@ -37,6 +38,7 @@ public class Zk implements Watcher {
          * @throws Exception
          */
     public void connectZookeeper(String host) throws Exception {
+        System.out.println("in connectZookeeper");
         zookeeper = new ZooKeeper(host, SESSION_TIME_OUT, this);
         countDownLatch.await();
         System.out.println("zookeeper connection success");
@@ -49,6 +51,8 @@ public class Zk implements Watcher {
          * @throws Exception
          */
     public String createNode(String path,String data) throws Exception{
+        System.out.println("the zookeeper " + zookeeper);
+        System.out.println("path: "+path+" data: "+data+" ids: " + ZooDefs.Ids.OPEN_ACL_UNSAFE+" createMode "+CreateMode.PERSISTENT);
         return this.zookeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
     }
 

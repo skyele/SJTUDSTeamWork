@@ -1,25 +1,23 @@
 package com.sender;
 
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import com.google.gson.Gson;
+import com.sender.Generator.InitiatorGenerate;
+import com.sender.Generator.ItemGenerate;
+import com.sender.Generator.OrderGenerate;
+import com.sender.Generator.UserGenerate;
+import com.sender.pojo.Item;
+import com.sender.pojo.Order;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.omg.CORBA.NameValuePair;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 @SpringBootApplication
 public class SenderApplication {
@@ -32,57 +30,45 @@ public class SenderApplication {
 
 	private static String urlPort;
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		SpringApplication.run(SenderApplication.class, args);
-		Item item = new Item(Integer.parseInt(args[1]));
-		User user = new User(Integer.parseInt(args[0]));
-		Order order = new Order(user, item);
 		urlPort = args[3];
 		while(true){
 			Thread.sleep(Integer.parseInt(args[2]));
-			String orderString = order.getJSONOrder();
-			requestByPostMethod(orderString);
+			ItemGenerate itemGenerate = new ItemGenerate(Integer.parseInt(args[1]));
+			UserGenerate userGenerate = new UserGenerate(Integer.parseInt(args[0]));
+			Order order = new Order();
+			order.setInitiator(new InitiatorGenerate().getCurrency());
+			order.setTime(new Date().getTime());
+			order.setUser_id(userGenerate.getUser_id());
+			int loop = new Random().nextInt(4)+1;
+			for(int j = 0; j < loop; j++){
+				Item item = new Item(itemGenerate.getItem_id(), itemGenerate.getNumber());
+				order.getItems().add(item);
+			}
+			requestByPostMethod(order);
 		}
 	}
 
-	public static void requestByPostMethod(String orderString){
-		CloseableHttpClient httpClient = getHttpClient();
-		try {
-			HttpPost post = new HttpPost("http://" + urlPort + "/request");          //这里用上本机的某个工程做测试
-			//创建参数列表
-			List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
-			list.add(new BasicNameValuePair("order", orderString));
-			//url格式编码
-			UrlEncodedFormEntity uefEntity = new UrlEncodedFormEntity(list,"UTF-8");
-			post.setEntity(uefEntity);
-			System.out.println("POST 请求...." + post.getURI());
-			//执行请求
-			CloseableHttpResponse httpResponse = httpClient.execute(post);
-			try{
-				HttpEntity entity = httpResponse.getEntity();
-				if (null != entity){
-					System.out.println("-------------------------------------------------------");
-					System.out.println(EntityUtils.toString(uefEntity));
-					System.out.println("-------------------------------------------------------");
-				}
-			} finally{
-				httpResponse.close();
-			}
+	public static void requestByPostMethod(Order object) throws IOException {
+		System.out.println("in requestByPostMethod");
+		String url = "http://" + urlPort + "/request";
+		System.out.println("the url: " + url);
+//		String encoderJson = URLEncoder.encode(new Gson().toJson(object), String.valueOf(StandardCharsets.UTF_8));
+		System.out.println("json object: " + new Gson().toJson(object));
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setHeader("Content-Type", "application/json;charset=UTF-8");//表示客户端发送给服务器端的数据格式
+		httpPost.setHeader("Accept", "application/json");                    //表示服务端接口要返回给客户端的数据格式，
 
-		} catch( UnsupportedEncodingException e){
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		finally{
-			try{
-				closeHttpClient(httpClient);
-			} catch(Exception e){
-				e.printStackTrace();
-			}
-		}
+		StringEntity se = new StringEntity(new Gson().toJson(object));
+//		se.setContentType("text/json");
+//		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+		httpPost.setEntity(se);
+//		httpPost.setEntity(entity);
+		client.execute(httpPost);
 	}
+
 	private static CloseableHttpClient getHttpClient(){
 		return HttpClients.createDefault();
 	}

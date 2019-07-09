@@ -11,6 +11,8 @@ public class ServerApplication {
 	private static Integer NUMBER = 4;
 	private static String PATH = "/ExchangeRate/";
 
+	private static Zk zk = zkHandler();
+
 	@Bean
 	public static final Zk zkHandler(){
 		Zk zk = new Zk();
@@ -31,7 +33,7 @@ public class ServerApplication {
 		//注册watch
 		for(int i = 0; i < NUMBER; i++){
 			String currency = getCurrency(i);
-			zkHandler().getData(PATH+currency, true);
+			zk.getData(PATH+currency, true);
 		}
 	}
 

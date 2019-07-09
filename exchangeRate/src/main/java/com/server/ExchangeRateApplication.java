@@ -1,12 +1,18 @@
 package com.server;
 
+import com.server.pojo.Commodity;
+import com.server.repo.CommodityRepository;
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 
@@ -14,34 +20,60 @@ import java.util.concurrent.CountDownLatch;
 public class ExchangeRateApplication {
     private static Integer NUMBER = 4;
     private static Integer index = 0;
-    static String PATH = "/ExchangeRate/";
+    static String PATH = "/ExchangeRate";
+
+    private static Zk zk = zkHandler();
+
+    @Autowired
+    private static CommodityRepository commodityRepository;
 
     @Bean
     public static final Zk zkHandler(){
         Zk zk = new Zk();
         try{
-            zk.connectZookeeper("http://zookeeper:2181");
+            zk.connectZookeeper("zookeeper:2181");
         }catch (Exception e) {
 
         }
         return zk;
     }
 
-    public static void main(String[] args) throws InterruptedException, KeeperException {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(ExchangeRateApplication.class, args);
         initRate();
-        changeRate();
+        //exchange rate
+        new Thread(){
+            public void run() {
+                try {
+                    changeRate();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+        //add inventory
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    addInventory();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
-    public static void initRate() throws KeeperException, InterruptedException {
-        zkHandler().setData(PATH+"RMB", String.valueOf(3.0));
-        zkHandler().setData(PATH+"USD", String.valueOf(12.0));
-        zkHandler().setData(PATH+"JPY", String.valueOf(0.3));
-        zkHandler().setData(PATH+"EUR", String.valueOf(9.0));
+    public static void initRate() throws Exception {
+        zk.createNode(PATH, String.valueOf(0.0));
+        zk.createNode(PATH+"/RMB", String.valueOf(3.0));
+        zk.createNode(PATH+"/USD", String.valueOf(12.0));
+        zk.createNode(PATH+"/JPY", String.valueOf(0.3));
+        zk.createNode(PATH+"/EUR", String.valueOf(9.0));
     }
 
     public static void changeRate() throws InterruptedException {
-        while(true){
+        while (true){
             CountDownLatch countDownLatch = new CountDownLatch(NUMBER);
             //多线程
             for(int i = 0; i < NUMBER; i++){
@@ -50,7 +82,7 @@ public class ExchangeRateApplication {
                         String currency = getCurrency(index++);
                         Double rate = 0.0;
                         try {
-                            rate = Double.parseDouble(new String(zkHandler().getData(PATH + currency, false)));
+                            rate = Double.parseDouble(new String(zk.getData(PATH + "/" + currency, false)));
                         } catch (KeeperException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
@@ -62,7 +94,7 @@ public class ExchangeRateApplication {
                         }
                         try {
                             //setData - Watch 注册watch
-                            zkHandler().setData(PATH+currency, rate.toString());
+                            zk.setData(PATH + "/" + currency, rate.toString());
                         } catch (KeeperException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
@@ -75,6 +107,16 @@ public class ExchangeRateApplication {
             //countDownLatch wait
             countDownLatch.await();
             Thread.sleep(1000*60);
+        }
+    }
+
+    public static void addInventory() throws InterruptedException {
+        while (true){
+            List<Commodity> commodities = commodityRepository.findAll();
+            for(Commodity commodity : commodities){
+                commodity.setInventory(commodity.getInventory() +  (int)(Math.random()) * 100);
+            }
+            Thread.sleep(1000*30);
         }
     }
 
