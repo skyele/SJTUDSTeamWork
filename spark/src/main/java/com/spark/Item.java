@@ -3,6 +3,7 @@ package com.spark;
 public class Item implements Comparable<Item>{
     private Integer id;
     private Integer number;
+    private Double price;
 
     public Integer getId() {
         return id;
@@ -23,6 +24,14 @@ public class Item implements Comparable<Item>{
     public Item(Integer id, Integer number) {
         this.id = id;
         this.number = number;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     @Override
