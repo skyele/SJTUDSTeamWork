@@ -98,6 +98,8 @@ public class OrderController {
 //            commodityRepository.save(tmp);
 //        }
 
+        //get exchange rate
+//        KafkaMessage kafkaMessage = new KafkaMessage(order.getInitiator(), items, getRate(order.getInitiator()), true);
 
         KafkaMessage kafkaMessage = new KafkaMessage(1, order.getInitiator(), items, 3.8, true);
         Gson gson = new Gson();
@@ -116,5 +118,18 @@ public class OrderController {
             mutexes.get(i).release();
             distributedLock.close(clients.get(i));
         }
+    }
+
+    Double getRate(String currency){
+        if(currency.equals("RMB"))
+            return this.RMB;
+        else if(currency.equals("USD"))
+            return this.USD;
+        else if(currency.equals("JPY"))
+            return this.JPY;
+        else if(currency.equals("EUR"))
+            return this.EUR;
+        else
+            return 0.0;
     }
 }

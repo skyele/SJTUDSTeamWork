@@ -2,9 +2,13 @@ package com.server.mysql.pojo;
 
 import com.server.Item;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.List;
 
+@Entity
 public class KafkaMessage {
+    @Id
     private Integer id;
     private String initiator;
     private List<Item> items;
@@ -13,6 +17,13 @@ public class KafkaMessage {
 
     public KafkaMessage(Integer id, String initiator, List<Item> items, Double exchangeRate, Boolean success) {
         this.id = id;
+        this.initiator = initiator;
+        this.items = items;
+        this.exchangeRate = exchangeRate;
+        this.success = success;
+    }
+
+    public KafkaMessage(String initiator, List<Item> items, Double exchangeRate, Boolean success) {
         this.initiator = initiator;
         this.items = items;
         this.exchangeRate = exchangeRate;
