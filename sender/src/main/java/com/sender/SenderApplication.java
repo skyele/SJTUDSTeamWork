@@ -11,8 +11,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.omg.CORBA.NameValuePair;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,10 +24,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,21 +60,17 @@ public class SenderApplication {
 	public static void requestByPostMethod(String orderString) throws IOException {
 		System.out.println("in requestByPostMethod");
 		String url = "http://" + urlPort + "/request";
-		DefaultHttpClient client = new DefaultHttpClient();
-		HttpPost post = new HttpPost(url);
-		try {
-			StringEntity s = new StringEntity(orderString);
-			s.setContentEncoding("UTF-8");
-			s.setContentType("application/json");//发送json数据需要设置contentType
-			post.setEntity(s);
-			HttpResponse res = client.execute(post);
-			if(res.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
-				String result = EntityUtils.toString(res.getEntity());// 返回json格式：
-				System.out.println("return: " + result);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		String encoderJson = URLEncoder.encode(orderString, String.valueOf(StandardCharsets.UTF_8));
+
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+
+		StringEntity se = new StringEntity(encoderJson);
+		se.setContentType("text/json");
+		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+		httpPost.setEntity(se);
+		client.execute(httpPost);
 	}
 
 	private static CloseableHttpClient getHttpClient(){
