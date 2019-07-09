@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -19,6 +20,7 @@ import java.util.concurrent.CountDownLatch;
 @SpringBootApplication
 public class ExchangeRateApplication {
     private static Integer NUMBER = 4;
+    private static Integer MAXITEMID;
     private static Integer index = 0;
     private static Integer TEST = 1000*3;
     private static Integer REAL = 1000*60;
@@ -46,6 +48,7 @@ public class ExchangeRateApplication {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ExchangeRateApplication.class, args);
+        MAXITEMID = Integer.parseInt(args[0]);
         initCommodity();
         initRate();
         //exchange rate
@@ -80,15 +83,14 @@ public class ExchangeRateApplication {
     }
 
     public static void initCommodity() throws Exception{
-        Commodity commodity1 = new Commodity(1, "CommodityA", 66.0, "USD", 123);
-        Commodity commodity2 = new Commodity(2, "CommodityB", 89.0, "RMB", 789);
-        Commodity commodity3 = new Commodity(3, "CommodityC", 99.0, "JPY", 666);
-        Commodity commodity4 = new Commodity(4, "CommodityD", 45.5, "EUR", 333);
-        System.out.println("the commodityrepo " + commodityRepository);
-        commodityRepository.save(commodity1);
-        commodityRepository.save(commodity2);
-        commodityRepository.save(commodity3);
-        commodityRepository.save(commodity4);
+        String[] currencyList = {"USD","RMB","JPY","EUR"};
+        Double[] priceList = {66.0,89.0,99.0,45.5};
+        Integer[] inventoryList = {123,789,666,333};
+
+        for(int i = 1; i <= MAXITEMID; i++){
+            Commodity commodity = new Commodity(i, "Commodity"+i, priceList[i%4]*(0.5+Math.random()), currencyList[i%4], (int) (inventoryList[i%4]*(0.5+Math.random())));
+            commodityRepository.save(commodity);
+        }
     }
 
     public static void changeRate() throws InterruptedException {
