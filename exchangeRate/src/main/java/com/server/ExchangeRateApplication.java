@@ -26,9 +26,13 @@ public class ExchangeRateApplication {
 
     private static Zk zk = zkHandler();
 
-    @Autowired
     private static CommodityRepository commodityRepository;
 
+    @Autowired
+    public void setCommodityRepository(CommodityRepository commodityRepository) {
+        ExchangeRateApplication.commodityRepository = commodityRepository;
+    }
+    
     @Bean
     public static final Zk zkHandler(){
         Zk zk = new Zk();
