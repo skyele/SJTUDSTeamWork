@@ -154,6 +154,7 @@ public class ExchangeRateApplication {
                     InterProcessMutex mutex = new InterProcessMutex(client, lockPath);
                     if (mutex.acquire(5, TimeUnit.SECONDS)) {
                         commodity.setInventory(commodity.getInventory() + (int) (Math.random()) * 100);
+                        System.out.println("new inventory: " + commodity.getInventory());
                         lockSucc = true;
                     }
                     //放锁
