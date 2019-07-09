@@ -61,6 +61,7 @@ public class OrderController {
         List<CuratorFramework> clients = new LinkedList<>();
         List<InterProcessMutex> mutexes = new LinkedList<>();
         List<Commodity> commodities = new LinkedList<>();
+        System.out.println("the items size: " + items.size());
         int i;
         Collections.sort(items);
         for(i = 0; i < items.size(); i++){
