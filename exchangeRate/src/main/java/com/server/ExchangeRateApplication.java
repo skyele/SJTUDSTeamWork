@@ -58,6 +58,7 @@ public class ExchangeRateApplication {
         initZkNode();
         initCommodity();
         initRate();
+        System.out.println("thread1 run!");
         //exchange rate
         new Thread(){
             public void run() {
@@ -68,6 +69,7 @@ public class ExchangeRateApplication {
                 }
             }
         }.start();
+        System.out.println("thread2 run!");
         //add inventory
         new Thread(){
             @Override
