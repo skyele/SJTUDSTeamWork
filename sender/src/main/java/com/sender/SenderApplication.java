@@ -3,7 +3,6 @@ package com.sender;
 import com.google.gson.Gson;
 import com.sender.Generator.InitiatorGenerate;
 import com.sender.Generator.ItemGenerate;
-import com.sender.Generator.OrderGenerate;
 import com.sender.Generator.UserGenerate;
 import com.sender.pojo.Item;
 import com.sender.pojo.Order;
@@ -51,10 +50,8 @@ public class SenderApplication {
 	}
 
 	public static void requestByPostMethod(Order object) throws IOException {
-		System.out.println("in requestByPostMethod");
 		String url = "http://" + urlPort + "/request";
 		System.out.println("the url: " + url);
-//		String encoderJson = URLEncoder.encode(new Gson().toJson(object), String.valueOf(StandardCharsets.UTF_8));
 		System.out.println("json object: " + new Gson().toJson(object));
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(url);
@@ -62,10 +59,7 @@ public class SenderApplication {
 		httpPost.setHeader("Accept", "application/json");                    //表示服务端接口要返回给客户端的数据格式，
 
 		StringEntity se = new StringEntity(new Gson().toJson(object));
-//		se.setContentType("text/json");
-//		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
 		httpPost.setEntity(se);
-//		httpPost.setEntity(entity);
 		client.execute(httpPost);
 	}
 

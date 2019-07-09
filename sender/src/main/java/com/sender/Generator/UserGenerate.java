@@ -9,7 +9,6 @@ public class UserGenerate {
     }
 
     public int getUser_id(){
-        System.out.println(idRange);
         Random r = new Random();
         return r.nextInt(idRange)+1;
     }
