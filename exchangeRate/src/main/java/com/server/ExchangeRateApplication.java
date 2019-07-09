@@ -80,10 +80,14 @@ public class ExchangeRateApplication {
         Commodity commodity2 = new Commodity(2, "CommodityB", 89.0, "RMB", 789);
         Commodity commodity3 = new Commodity(3, "CommodityC", 99.0, "JPY", 666);
         Commodity commodity4 = new Commodity(4, "CommodityD", 45.5, "EUR", 333);
-        commodityRepository.save(commodity1);
-        commodityRepository.save(commodity2);
-        commodityRepository.save(commodity3);
-        commodityRepository.save(commodity4);
+//        commodityRepository.save(commodity1);
+//        commodityRepository.save(commodity2);
+//        commodityRepository.save(commodity3);
+//        commodityRepository.save(commodity4);
+        commodityRepository.insert(commodity1);
+        commodityRepository.insert(commodity2);
+        commodityRepository.insert(commodity3);
+        commodityRepository.insert(commodity4);
     }
 
     public static void changeRate() throws InterruptedException {
