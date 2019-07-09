@@ -58,8 +58,8 @@ public class OrderController {
                 //System.out.println(parameterNames.nextElement()+"=="+request.getParameter(parameterNames.nextElement()));
             }
             JsonElement jsonObject = new Gson().toJsonTree(data);
-            System.out.println(data);//以{}包含的字符
-            System.out.println(jsonObject.toString());
+            System.out.println("body: " + data);//以{}包含的字符
+            System.out.println("json object: " + jsonObject.toString());
             Order order = null;
             BufferedReader reader = request.getReader();
             char[] buf = new char[512];
