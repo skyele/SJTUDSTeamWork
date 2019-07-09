@@ -22,10 +22,16 @@ steps:
     image: zookeeper:3.4
     detach: true
 
+  - name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    detach: true
+
   - name: barrier
     image: busybox
     commands:
-      - sleep 5
+      - sleep 20
 
   - name: kafka
     image: wurstmeister/kafka:latest
@@ -35,6 +41,12 @@ steps:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
+    detach: true
+
+  - name: init-mysql
+    image: mysql:5.7
+    commands:
+      - echo "create database ds;" | mysql -u root -h mysql -p123456
     detach: true
 
   - name: barrier_2
@@ -55,7 +67,7 @@ steps:
     image: veiasai/java:8
     commands:
       - cd exchangeRate
-      - java -jar target/exchangeRate-1.0-SNAPSHOT.jar  --spring.profiles.active=dev
+      - java -jar target/exchangeRate-1.0-SNAPSHOT.jar 
     detach: true 
 
   - name: barrier_3
@@ -67,7 +79,7 @@ steps:
     image: veiasai/java:8
     commands:
       - cd server
-      - java -jar target/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+      - java -jar target/server-0.0.1-SNAPSHOT.jar
     detach: true
 
   # wait for server booting
@@ -121,7 +133,7 @@ steps:
     image: veiasai/java:8
     commands:
       - cd spark
-      - java -jar target/spark-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+      - java -jar target/spark-0.0.1-SNAPSHOT.jar
     detach: true
 
   - name: wait_for_result
