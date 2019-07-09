@@ -136,7 +136,7 @@ public class ExchangeRateApplication {
             //countDownLatch wait
             countDownLatch.await();
             index = 0;
-            Thread.sleep(REAL);
+            Thread.sleep(TEST);
         }
     }
 
@@ -172,7 +172,7 @@ public class ExchangeRateApplication {
                     }
                 }
             }
-            Thread.sleep(1000*30);
+            Thread.sleep(TEST);
         }
     }
 
