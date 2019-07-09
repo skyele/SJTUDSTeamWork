@@ -1,9 +1,6 @@
 package com.sender;
 
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
+import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,7 +14,6 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.omg.CORBA.NameValuePair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -62,16 +58,21 @@ public class SenderApplication {
 		String url = "http://" + urlPort + "/request";
 //		String url = urlPort + "/request";
 		System.out.println("the url: " + url);
-		String encoderJson = URLEncoder.encode(orderString, String.valueOf(StandardCharsets.UTF_8));
+		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+		formparams.add(new BasicNameValuePair("order", orderString));
+//		String encoderJson = URLEncoder.encode(orderString, String.valueOf(StandardCharsets.UTF_8));
+
+		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, StandardCharsets.UTF_8);
 
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
 
-		StringEntity se = new StringEntity(encoderJson);
-		se.setContentType("text/json");
-		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-		httpPost.setEntity(se);
+//		StringEntity se = new StringEntity(encoderJson);
+//		se.setContentType("text/json");
+//		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//		httpPost.setEntity(se);
+		httpPost.setEntity(entity);
 		client.execute(httpPost);
 	}
 

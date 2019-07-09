@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Time;
@@ -50,11 +51,11 @@ public class OrderController {
 
     @PostMapping(value = "/request")
 //    public String receiveOrder(String orderString) throws Exception {
-        public String receiveOrder(Request request , Response response) throws Exception {
-//        System.out.println("the orderstring "+orderString);
-        System.out.println("the request is " + request);
+        public String receiveOrder(@RequestParam(value = "order", required = true) Order order) throws Exception {
+
+        System.out.println("the orderstring "+order);
         // acquire lock
-        Order order = null;
+//        Order order = null;
         System.out.println("the server get order userid: " + order.getUser_id()+ " initiator: "+order.getInitiator());
         List<Item> items = order.getItems();
         List<CuratorFramework> clients = new LinkedList<>();
