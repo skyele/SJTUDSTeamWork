@@ -75,7 +75,8 @@ public class SenderApplication {
 
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(url);
-		httpPost.addHeader(HTTP.CONTENT_TYPE, "text/json");
+		httpPost.setHeader("Content-Type", "application/json;charset=UTF-8");//表示客户端发送给服务器端的数据格式
+		httpPost.setHeader("Accept", "application/json");                    //表示服务端接口要返回给客户端的数据格式，
 
 		StringEntity se = new StringEntity(encoderJson);
 		se.setContentType("text/json");

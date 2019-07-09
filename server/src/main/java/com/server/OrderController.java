@@ -16,18 +16,12 @@ import org.apache.curator.framework.recipes.locks.InterProcessReadWriteLock;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.sql.Time;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -53,8 +47,16 @@ public class OrderController {
 
     @PostMapping(value = "/request")
 //    public String receiveOrder(String orderString) throws Exception {
-        public String receiveOrder(@RequestParam(value = "order", required = false) String orderString, HttpServletRequest request) throws Exception {
-            System.out.println("the order is " + orderString);
+        public String receiveOrder(HttpServletRequest request, @RequestBody String data) throws Exception {
+//        @RequestParam(value = "order", required = false) String orderString,
+            System.out.println("the order is " + null);
+            Enumeration<String> parameterNames = request.getParameterNames();
+            while (parameterNames.hasMoreElements()) {//传递json数据的时候request是没有表单参数的
+                String parameterName = parameterNames.nextElement();
+                System.out.println(parameterName + "===" + request.getParameter(parameterName));
+                //System.out.println(parameterNames.nextElement()+"=="+request.getParameter(parameterNames.nextElement()));
+            }
+            System.out.println(data);//以{}包含的字符
             Order order = null;
             BufferedReader reader = request.getReader();
             char[] buf = new char[512];
