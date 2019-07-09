@@ -1,6 +1,7 @@
 package com.sender.pojo;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -27,6 +28,8 @@ public class Order implements Serializable {
     }
 
     public List<Item> getItems() {
+        if(items == null)
+            items = new LinkedList<>();
         return items;
     }
 
