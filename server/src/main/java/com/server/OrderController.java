@@ -115,7 +115,7 @@ public class OrderController {
     void cleanAllStates(int number, List<CuratorFramework> clients, List<InterProcessMutex> mutexes) throws Exception {
         for(int i = 0; i < number; i++){
             mutexes.get(i).release();
-            distributedLock.close(clients.get(i));
+            clients.get(i).close();
         }
     }
 
