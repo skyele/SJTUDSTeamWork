@@ -20,6 +20,8 @@ import java.util.concurrent.CountDownLatch;
 public class ExchangeRateApplication {
     private static Integer NUMBER = 4;
     private static Integer index = 0;
+    private static Integer TEST = 1000*3;
+    private static Integer REAL = 1000*60;
     static String PATH = "/ExchangeRate";
 
     private static Zk zk = zkHandler();
@@ -94,6 +96,7 @@ public class ExchangeRateApplication {
                         }
                         try {
                             //setData - Watch 注册watch
+                            System.out.println("currency: " + currency + " new rate: " + rate);
                             zk.setData(PATH + "/" + currency, rate.toString());
                         } catch (KeeperException e) {
                             e.printStackTrace();
@@ -107,7 +110,7 @@ public class ExchangeRateApplication {
             //countDownLatch wait
             countDownLatch.await();
             index = 0;
-            Thread.sleep(1000*60);
+            Thread.sleep(TEST);
         }
     }
 

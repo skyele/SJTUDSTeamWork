@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/server/Zk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/server/Zk.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -41,8 +40,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="108" column="22" selection-start-line="108" selection-start-column="22" selection-end-line="108" selection-end-column="22" />
+            <state relative-caret-position="426">
+              <caret line="112" column="29" selection-start-line="112" selection-start-column="29" selection-end-line="112" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1255#1490#0" expanded="true" />
@@ -249,7 +248,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562671361694" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562671584578" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -289,12 +288,12 @@
       <updated>1562512741700</updated>
       <workItem from="1562512744704" duration="8654000" />
       <workItem from="1562593275993" duration="6250000" />
-      <workItem from="1562636730597" duration="3626000" />
+      <workItem from="1562636730597" duration="3849000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18530000" />
+    <option name="totallyTimeSpent" value="18753000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -433,8 +432,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="108" column="22" selection-start-line="108" selection-start-column="22" selection-end-line="108" selection-end-column="22" />
+        <state relative-caret-position="426">
+          <caret line="112" column="29" selection-start-line="112" selection-start-column="29" selection-end-line="112" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1255#1490#0" expanded="true" />
