@@ -67,7 +67,8 @@ steps:
     image: veiasai/java:8
     commands:
       - cd exchangeRate
-      - java -jar target/exchangeRate-1.0-SNAPSHOT.jar 
+      - item=10
+      - java -jar target/exchangeRate-1.0-SNAPSHOT.jar $item
     detach: true 
 
   - name: barrier_3
