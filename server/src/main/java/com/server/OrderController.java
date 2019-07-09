@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.sql.Time;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -51,7 +53,23 @@ public class OrderController {
 
     @PostMapping(value = "/request")
 //    public String receiveOrder(String orderString) throws Exception {
-        public String receiveOrder(@RequestParam(value = "order", required = true) Order order) throws Exception {
+        public String receiveOrder(@RequestParam(value = "order", required = false) Order order, HttpServletRequest request) throws Exception {
+            BufferedReader reader = request.getReader();
+            char[] buf = new char[512];
+            int len = 0;
+            StringBuffer contentBuffer = new StringBuffer();
+            while ((len = reader.read(buf)) != -1) {
+                contentBuffer.append(buf, 0, len);
+            }
+
+            String content = contentBuffer.toString();
+
+            if(content == null){
+                System.out.println("is null!!!");
+                content = "";
+            }else {
+                System.out.println("the content: "  + content);
+            }
 
         System.out.println("the orderstring "+order);
         // acquire lock
