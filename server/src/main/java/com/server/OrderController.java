@@ -45,8 +45,10 @@ public class OrderController {
     private final String lockPath = "/distributed-lock";
 
     @PostMapping(value = "/request")
-    public String receiveOrder(Order order) throws Exception {
+    public String receiveOrder(String orderString) throws Exception {
+        System.out.println("the orderstring "+orderString);
         // acquire lock
+        Order order = null;
         System.out.println("the server get order userid: " + order.getUser_id()+ " initiator: "+order.getInitiator());
         List<Item> items = order.getItems();
         List<CuratorFramework> clients = new LinkedList<>();
