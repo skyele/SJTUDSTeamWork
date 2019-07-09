@@ -38,6 +38,7 @@ public class ExchangeRateApplication {
     }
 
     public static void initRate() throws Exception {
+        zk.createNode(PATH, String.valueOf(0.0));
         zk.createNode(PATH+"RMB", String.valueOf(3.0));
         zk.createNode(PATH+"USD", String.valueOf(12.0));
         zk.createNode(PATH+"JPY", String.valueOf(0.3));
