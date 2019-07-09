@@ -43,6 +43,8 @@ public class OrderController {
 
     @Autowired
     private CommodityRepository commodityRepository;
+
+    @Autowired
     private DistributedLock distributedLock;
 
     private final String lockPath = "/distributed-lock";

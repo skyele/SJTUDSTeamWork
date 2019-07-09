@@ -2,6 +2,11 @@ package com.server;
 
 import com.server.pojo.Commodity;
 import com.server.repo.CommodityRepository;
+import org.apache.curator.RetryPolicy;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
+import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
@@ -15,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 
 @SpringBootApplication
@@ -67,7 +73,7 @@ public class ExchangeRateApplication {
             public void run() {
                 try {
                     addInventory();
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -133,11 +139,29 @@ public class ExchangeRateApplication {
         }
     }
 
-    public static void addInventory() throws InterruptedException {
+    public static void addInventory() throws Exception {
+        String connectString = "zookeeper:2181";
         while (true){
             List<Commodity> commodities = commodityRepository.findAll();
             for(Commodity commodity : commodities){
-                commodity.setInventory(commodity.getInventory() +  (int)(Math.random()) * 100);
+                boolean lockSucc = false;
+                while(!lockSucc) {
+                    //加锁
+                    String lockPath = "/distributed-lock/" + commodity.getId();
+                    RetryPolicy retry = new ExponentialBackoffRetry(1000, 3);
+                    CuratorFramework client = CuratorFrameworkFactory.newClient(connectString, 60000, 15000, retry);
+                    client.start();
+                    InterProcessMutex mutex = new InterProcessMutex(client, lockPath);
+                    if (mutex.acquire(5, TimeUnit.SECONDS)) {
+                        commodity.setInventory(commodity.getInventory() + (int) (Math.random()) * 100);
+                        lockSucc = true;
+                    }
+                    //放锁
+                    if(lockSucc){
+                        mutex.release();
+                        client.close();
+                    }
+                }
             }
             Thread.sleep(1000*30);
         }
