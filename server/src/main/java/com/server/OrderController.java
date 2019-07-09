@@ -77,6 +77,7 @@ public class OrderController {
             if(mutex.acquire(10, TimeUnit.SECONDS)){
                 ((LinkedList<CuratorFramework>) clients).push(client);
                 ((LinkedList<InterProcessMutex>) mutexes).push(mutex);
+                System.out.println("the id is : " + items.get(i).getId().intValue());
                 Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
                 System.out.println("the tmp is " + tmp);
                 ((LinkedList<Commodity>) commodities).push(tmp);
