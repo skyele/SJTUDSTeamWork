@@ -64,6 +64,7 @@ public class OrderController {
         System.out.println("the items size: " + items.size());
         int i;
         Collections.sort(items);
+        //uncomment!!!!!!!!!!!!!!!!!!!
 //        for(i = 0; i < items.size(); i++){
 //            //https://stackoverflow.com/questions/30134447/what-does-an-apache-curator-connection-string-look-like
 //            //上面是connectString的意义
@@ -105,6 +106,7 @@ public class OrderController {
         kafkaTemplate.send("orders", order.getUser_id(), gson.toJson(kafkaMessage));
 
         // release lock
+        //uncomment!!!!!!!!!!!!!!!!!!!1
 //        cleanAllStates(items.size(), clients, mutexes);
         return "Hi";
     }
