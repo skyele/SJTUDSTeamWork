@@ -85,9 +85,9 @@ public class OrderController {
             }else//可能死锁，放弃这次订单
                 break;
         }
-
+        // release lock
+        cleanAllStates(items.size(), clients, mutexes);
         if (i != items.size()){
-            cleanAllStates(i, clients, mutexes);
             return "Invalid";
         }
 
@@ -107,9 +107,6 @@ public class OrderController {
 
         // send msg to kafka
         kafkaTemplate.send("orders", order.getUser_id().toString(), gson.toJson(kafkaMessage));
-
-        // release lock
-        cleanAllStates(items.size(), clients, mutexes);
         return "Hi";
     }
 
