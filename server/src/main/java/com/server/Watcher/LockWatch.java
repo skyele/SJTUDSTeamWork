@@ -65,6 +65,7 @@ public class LockWatch implements Watcher {
     }
 
     public String createNode(String path,String data, CreateMode createMode) throws Exception{
+        System.out.println("the path: "+path+" data: "+data+" CreateMode: "+createMode);
         return this.zooKeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, createMode);
     }
 
