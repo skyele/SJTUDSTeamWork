@@ -2,9 +2,7 @@ package com.spark;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.spark.mysql.pojo.Commodity;
 import com.spark.mysql.pojo.Result;
-import com.spark.mysql.repo.CommodityRepository;
 import com.spark.mysql.repo.ResultRepository;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
@@ -29,7 +27,6 @@ import java.util.Properties;
 public class SparkApplication {
 
 	@Autowired
-	private static CommodityRepository commodityRepository;
 	private static ResultRepository resultRepository;
 
 	public static void main(String[] args) {
@@ -80,8 +77,8 @@ public class SparkApplication {
 									paid += items.get(i).getNumber() * items.get(i).getPrice();
 								}
 							}
-							System.out.println("id:" + id + ", userid:" + userid + ", initiator:" + initiator + ", success:" + success + ", paid:" + paid);
 							Result res = new Result(id, userid, initiator, success, paid);
+							System.out.println("id:" + res.getId() + ", userid:" + res.getUserid() + ", initiator:" + res.getInitiator() + ", success:" + res.getSuccess() + ", paid:" + res.getPaid());
 							resultRepository.save(res);
                         }
                     }
