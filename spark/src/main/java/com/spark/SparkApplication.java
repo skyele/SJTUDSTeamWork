@@ -96,7 +96,7 @@ public class SparkApplication {
 							//resultController.saveResult(res);
 
 							Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
-							conn.createStatement().executeUpdate("insert into result(id, userid, initiator, success, paid) values('" + id + "','" + userid + "','" + initiator + "','" + success + "','" + paid + "')");
+							conn.createStatement().executeUpdate("insert into result(id, userid, initiator, success, paid) values(" + id + "," + userid + ",'" + initiator + "','" + success + "'," + paid + ")");
 							System.out.println("My id:" + conn.createStatement().executeQuery("select id from result where id=11").getInt("id"));
 							conn.close();
                         }
