@@ -17,6 +17,9 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -80,6 +83,11 @@ public class SparkApplication {
 							}
 							Result res = new Result(id, userid, initiator, success, paid);
 							//resultController.saveResult(res);
+
+							Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
+							String sql = "insert into result(id, userid, initiator, success, paid) values('" + id + "','" + userid + "','" + initiator + "','" + success + "','" + paid + "')";
+							Statement stmt = conn.createStatement();
+							stmt.executeUpdate(sql);
                         }
                     }
                 });
