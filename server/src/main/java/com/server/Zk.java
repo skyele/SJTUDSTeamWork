@@ -1,6 +1,7 @@
 package com.server;
 
 
+import org.apache.kafka.common.protocol.types.Field;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class Zk implements Watcher {
 
-    private static String PATH = "/ExchangeRate/";
+//    private static String PATH = "/ExchangeRate/";
 
     private ZooKeeper zookeeper;
 
@@ -20,37 +21,18 @@ public class Zk implements Watcher {
     private static final int SESSION_TIME_OUT = 2000;
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
-    public Zk() {
+    private CountDownLatch lockCountDownLatch;
+
+    public Zk(){
+    }
+
+    public Zk(String host) throws Exception {
+        connectZookeeper(host);
     }
 
     @Override
     public void process(WatchedEvent event) {
-        if (event.getState() == Event.KeeperState.SyncConnected) {
-            System.out.println("Watch received event");
-            countDownLatch.countDown();
-        }
-        if(event.getType() == Event.EventType.NodeDataChanged || event.getType() == Event.EventType.NodeCreated){
-            //到zookeeper getdata拿数据
-            System.out.println("data has changed!!!\n");
-            Double rate = null;
-            try {
-                rate = Double.parseDouble(new String(zookeeper.getData(event.getPath(), false, null)));
-                zookeeper.getData(event.getPath(), true, null);
-            } catch (KeeperException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("the path is " + event.getPath() +" new rate: " + rate);
-            if(event.getPath().contains("RMB"))
-                OrderController.RMB = rate;
-            else if(event.getPath().contains("USD"))
-                OrderController.USD = rate;
-            else if(event.getPath().contains("JPY"))
-                OrderController.JPY = rate;
-            else if(event.getPath().contains("EUR"))
-                OrderController.EUR = rate;
-        }
+
     }
 
     /**连接zookeeper
@@ -69,8 +51,8 @@ public class Zk implements Watcher {
      * @param data
      * @throws Exception
      */
-    public String createNode(String path,String data) throws Exception{
-        return this.zookeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+    public String createNode(String path,String data, CreateMode createMode) throws Exception{
+        return this.zookeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, createMode);
     }
 
      /**
@@ -158,4 +140,25 @@ public class Zk implements Watcher {
             zookeeper.close();
         }
     }
+
+    public void acquireLock(String lockPath) throws Exception {
+        while (true){
+            String sequential_id = createNode(lockPath, "lock", CreateMode.EPHEMERAL_SEQUENTIAL);
+            List<String> childs = getChildren(lockPath);
+            for(int i = 0; i < childs.size(); i++){
+                if(i == 0){
+                    if(childs.get(0).equals(sequential_id))
+                        return;
+                }else{
+                    if(this.zookeeper.exists(childs.get(i), true) != null){
+                        lockCountDownLatch = new CountDownLatch(1);
+                        break;
+                    }
+                    else if(childs.get(i).equals(sequential_id))
+                        return;
+                }
+            }
+        }
+    }
+
 }

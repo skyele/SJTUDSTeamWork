@@ -1,5 +1,6 @@
 package com.server;
 
+import com.server.Watcher.RateWatch;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
 import org.springframework.boot.SpringApplication;
@@ -11,29 +12,25 @@ public class ServerApplication {
 	private static Integer NUMBER = 4;
 	private static String PATH = "/ExchangeRate/";
 
-	private static Zk zk = zkHandler();
-
-	@Bean
-	public static final Zk zkHandler(){
-		Zk zk = new Zk();
-		try{
-			zk.connectZookeeper("zookeeper:2181");
-			//注册 watch
-			for(int i = 0; i < NUMBER; i++){
-				zk.getData(PATH + getCurrency(i), true);
-			}
-		}catch (Exception e) {
-
-		}
-		return zk;
-	}
+//	public static Zk rateZk = zkHandler();
+//
+//	@Bean
+//	public static final Zk zkHandler() {
+//		Zk zk = new Zk();
+//		try {
+//			zk.connectZookeeper("zookeeper:2181");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new Zk();
+//	}
 
 	public static void main(String[] args) throws KeeperException, InterruptedException {
 		SpringApplication.run(ServerApplication.class, args);
 		//注册watch
 		for(int i = 0; i < NUMBER; i++){
 			String currency = getCurrency(i);
-			zk.getData(PATH+currency, true);
+			RateWatch rateWatch = new RateWatch(PATH+currency);
 		}
 	}
 

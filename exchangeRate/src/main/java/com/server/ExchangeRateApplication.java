@@ -1,5 +1,6 @@
 package com.server;
 
+import com.server.Watch.LockWatch;
 import com.server.pojo.Commodity;
 import com.server.repo.CommodityRepository;
 import org.apache.curator.RetryPolicy;
@@ -145,7 +146,6 @@ public class ExchangeRateApplication {
     }
 
     public static void addInventory() throws Exception {
-        String connectString = "zookeeper:2181";
         while (true){
             List<Commodity> commodities = commodityRepository.findAll();
             for(Commodity commodity : commodities){
@@ -153,16 +153,10 @@ public class ExchangeRateApplication {
                 while(!lockSucc) {
                     //加锁
                     String lockPath = "/distributed-lock/" + commodity.getId();
-                    RetryPolicy retry = new ExponentialBackoffRetry(1000, 3);
-                    System.out.println("create client");
-                    CuratorFramework client = CuratorFrameworkFactory.newClient(connectString, 60000, 15000, retry);
-                    System.out.println("client start");
-                    client.start();
-                    System.out.println("get mutex");
-                    InterProcessMutex mutex = new InterProcessMutex(client, lockPath);
+                    LockWatch lockWatch = new LockWatch();
                     System.out.println("attempt to acquire mutex");
-                    if (mutex.acquire(5, TimeUnit.SECONDS)) {
-                        System.out.println("acquire mutex successfully!");
+                    if (lockWatch.acquire(lockPath,5, TimeUnit.SECONDS)) {
+                        System.out.println("acquire lock successfully!");
                         commodity.setInventory(commodity.getInventory() + (int) (Math.random()) * 100);
                         System.out.println("new inventory: " + commodity.getInventory());
                         lockSucc = true;
@@ -170,9 +164,7 @@ public class ExchangeRateApplication {
                     //放锁
                     if(lockSucc){
                         System.out.println("release lock");
-                        mutex.release();
-                        System.out.println("close client");
-                        client.close();
+                        lockWatch.release();
                     }
                 }
             }
