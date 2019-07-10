@@ -1,12 +1,11 @@
 package com.spark;
 
-import com.alibaba.fastjson.JSON;
 import com.spark.mysql.pojo.Result;
 import com.spark.mysql.repo.ResultRepository;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
 public class ResultController {
     @Autowired
     private ResultRepository resultRepository;
