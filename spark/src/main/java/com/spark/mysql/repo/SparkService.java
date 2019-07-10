@@ -63,6 +63,7 @@ public class SparkService {
 
                     @Override
                     public void call(Iterator<MessageAndMetadata<byte[]>> mmItr) throws Exception {
+                        System.err.println("走到这里了");
                         while(mmItr.hasNext()) {
                             MessageAndMetadata<byte[]> mm = mmItr.next();
                             System.out.println(" My topic:" + mm.getTopic() + " My content:" + new String(mm.getPayload()));
