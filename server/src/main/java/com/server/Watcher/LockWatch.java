@@ -1,4 +1,4 @@
-package com.server.Watcher;
+package com.server.Watch;
 
 import org.apache.kafka.common.protocol.types.Field;
 import org.apache.zookeeper.*;
@@ -38,10 +38,13 @@ public class LockWatch implements Watcher {
 
     public boolean acquire(String lockPath, int timeout, TimeUnit timeUnit) throws Exception {
         LOCKPATH = lockPath;
+        System.out.println("want to acquire " + lockPath);
+        String sequential_id = createNode(lockPath, "lock", CreateMode.EPHEMERAL_SEQUENTIAL);
+        System.out.println("the sqe_id: " + sequential_id);
         while (true){
-            String sequential_id = createNode(lockPath, "lock", CreateMode.EPHEMERAL_SEQUENTIAL);
             List<String> childs = getChildren(lockPath);
             for(int i = 0; i < childs.size(); i++){
+                System.out.println("the childs["+i+"]: " + childs.get(i));
                 if(i == 0){
                     if(childs.get(0).equals(sequential_id))
                         return true;
@@ -65,7 +68,6 @@ public class LockWatch implements Watcher {
     }
 
     public String createNode(String path,String data, CreateMode createMode) throws Exception{
-        System.out.println("the path: "+path+" data: "+data+" CreateMode: "+createMode);
         return this.zooKeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, createMode);
     }
 
