@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/RateWatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/ServerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Zk.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Zk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/RateWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/RateWatch.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -47,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2329">
-              <caret line="175" column="10" selection-start-line="175" selection-start-column="8" selection-end-line="175" selection-end-column="10" />
+            <state relative-caret-position="372">
+              <caret line="72" column="43" lean-forward="true" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1985#2220#0" expanded="true" />
@@ -62,11 +57,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="17" column="13" lean-forward="true" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+            <state>
+              <caret column="25" selection-start-column="25" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -114,7 +112,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Zk.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="342">
@@ -178,13 +176,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/server/Zk.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/server/repo/CommodityRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/server/pojo/Commodity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-11" />
+    <option name="x" value="949" />
     <option name="width" value="980" />
     <option name="height" value="1031" />
   </component>
@@ -264,7 +262,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562740011840" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562740588994" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -305,12 +303,12 @@
       <updated>1562512741700</updated>
       <workItem from="1562512744704" duration="8654000" />
       <workItem from="1562593275993" duration="6250000" />
-      <workItem from="1562636730597" duration="15706000" />
+      <workItem from="1562636730597" duration="16291000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30610000" />
+    <option name="totallyTimeSpent" value="31195000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -436,17 +434,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Zk.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="17" column="13" lean-forward="true" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        <state relative-caret-position="342">
+          <caret line="18" column="16" lean-forward="true" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2329">
-          <caret line="175" column="10" selection-start-line="175" selection-start-column="8" selection-end-line="175" selection-end-column="10" />
+        <state relative-caret-position="372">
+          <caret line="72" column="43" lean-forward="true" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1985#2220#0" expanded="true" />
@@ -459,10 +460,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Zk.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="18" column="16" lean-forward="true" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+        <state>
+          <caret column="25" selection-start-column="25" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

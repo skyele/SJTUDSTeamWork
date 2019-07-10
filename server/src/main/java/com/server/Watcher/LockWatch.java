@@ -12,19 +12,24 @@ public class LockWatch implements Watcher {
     private ZooKeeper zooKeeper;
     private static final int SESSION_TIME_OUT = 2000;
     private CountDownLatch lockCountDownLatch;
+    private CountDownLatch connectedSemaphore = new CountDownLatch(1);
     private String LOCKPATH;
 
     public LockWatch(){
         //new zookeeper
         try {
             zooKeeper = new ZooKeeper("zookeeper:2181", SESSION_TIME_OUT, this);
-        } catch (IOException e) {
+            connectedSemaphore.await();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void process(WatchedEvent watchedEvent) {
+        if ( Event.KeeperState.SyncConnected == watchedEvent.getState() ) {
+            connectedSemaphore.countDown();
+        }
         if(watchedEvent.getType() == Event.EventType.NodeDeleted){
             System.out.println("the node deleted!");
             lockCountDownLatch.countDown();
