@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.server.mysql.pojo.Commodity;
 import com.server.mysql.pojo.KafkaMessage;
 import com.server.mysql.repo.CommodityRepository;
+import com.server.mysql.repo.KafkaMessageRepository;
 import jdk.nashorn.internal.ir.RuntimeNode;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
@@ -43,6 +44,9 @@ public class OrderController {
 
     @Autowired
     private CommodityRepository commodityRepository;
+
+    @Autowired
+    private KafkaMessageRepository kafkaMessageRepository;
 
     @Autowired
     private DistributedLock distributedLock;
@@ -102,6 +106,9 @@ public class OrderController {
         cleanAllStates(items.size(), clients, mutexes);
         //get exchange rate
         KafkaMessage kafkaMessage = new KafkaMessage(order.getInitiator(), new Gson().toJson(items), getRate(order.getInitiator()), true);
+        kafkaMessage = kafkaMessageRepository.save(kafkaMessage);
+
+        System.out.println("kafka msg id: " + kafkaMessage.getId());
 
 //        KafkaMessage kafkaMessage = new KafkaMessage(1, order.getInitiator(), new Gson().toJson(items), 3.8, true);
         Gson gson = new Gson();

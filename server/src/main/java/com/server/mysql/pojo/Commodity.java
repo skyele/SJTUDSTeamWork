@@ -1,8 +1,6 @@
 package com.server.mysql.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 public class Commodity {
