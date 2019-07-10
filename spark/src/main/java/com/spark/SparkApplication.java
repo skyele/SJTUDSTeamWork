@@ -45,6 +45,17 @@ public class SparkApplication {
 
 		SparkConf _sparkConf = new SparkConf().setMaster("local[2]").setAppName("ds");
 
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
+			String sql = "create table result(id int, userid int, initiator varchar(255), success varchar(255), paid double)";
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		}
+		catch (Exception e)
+		{
+			System.out.println("create table wrong");
+		}
+
 		JavaStreamingContext jsc = new JavaStreamingContext(_sparkConf, Durations.seconds(30));
 // Specify number of Receivers you need.
 		int numberOfReceivers = 3;
