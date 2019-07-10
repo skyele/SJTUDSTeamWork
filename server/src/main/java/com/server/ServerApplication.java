@@ -12,19 +12,6 @@ public class ServerApplication {
 	private static Integer NUMBER = 4;
 	private static String PATH = "/ExchangeRate/";
 
-//	public static Zk rateZk = zkHandler();
-//
-//	@Bean
-//	public static final Zk zkHandler() {
-//		Zk zk = new Zk();
-//		try {
-//			zk.connectZookeeper("zookeeper:2181");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return new Zk();
-//	}
-
 	public static void main(String[] args) throws KeeperException, InterruptedException {
 		SpringApplication.run(ServerApplication.class, args);
 		//注册watch

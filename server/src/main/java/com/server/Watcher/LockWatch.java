@@ -83,4 +83,20 @@ public class LockWatch implements Watcher {
     public void deleteNode(String path) throws InterruptedException, KeeperException{
         this.zooKeeper.delete(path, -1);
     }
+
+    public void closeConnection() throws InterruptedException{
+        if (zooKeeper != null) {
+            System.out.println("closeConnection!");
+            zooKeeper.close();
+            zooKeeper = null;
+        }
+    }
+
+    protected void finalize() throws InterruptedException {
+        if (zooKeeper != null){
+            System.out.println("in finalize close Connection!");
+            zooKeeper.close();
+            zooKeeper = null;
+        }
+    }
 }

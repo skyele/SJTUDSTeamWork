@@ -165,6 +165,10 @@ public class ExchangeRateApplication {
                     if(lockSucc){
                         System.out.println("release lock");
                         lockWatch.release();
+                        lockWatch.closeConnection();
+                    }
+                    if(!lockSucc){
+                        lockWatch.closeConnection();
                     }
                 }
             }
