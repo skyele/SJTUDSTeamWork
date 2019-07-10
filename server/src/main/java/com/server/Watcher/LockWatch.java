@@ -1,5 +1,6 @@
 package com.server.Watcher;
 
+
 import org.apache.zookeeper.*;
 
 import java.io.IOException;
@@ -38,9 +39,10 @@ public class LockWatch implements Watcher {
     public boolean acquire(String lockPath, int timeout, TimeUnit timeUnit) throws Exception {
         LOCKPATH = lockPath;
         System.out.println("want to acquire " + lockPath);
-        String sequential_id = createNode(lockPath, "lock", CreateMode.EPHEMERAL_SEQUENTIAL);
+        String sequential_id = createNode(lockPath + "/lock", "lock", CreateMode.EPHEMERAL_SEQUENTIAL);
         System.out.println("the sqe_id: " + sequential_id);
         while (true){
+            System.out.println("in while in acquire!");
             List<String> childs = getChildren(lockPath);
             System.out.println("we get childs! the size: " + childs.size());
             for(int i = 0; i < childs.size(); i++){
@@ -63,6 +65,7 @@ public class LockWatch implements Watcher {
                         return true;
                 }
             }
+            Thread.sleep(2000);
         }
     }
 
