@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/DistributedLock.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/DistributedLock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/ServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/RateWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/RateWatch.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -262,7 +264,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562744419718" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562744885018" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -303,12 +305,12 @@
       <updated>1562512741700</updated>
       <workItem from="1562512744704" duration="8654000" />
       <workItem from="1562593275993" duration="6250000" />
-      <workItem from="1562636730597" duration="20117000" />
+      <workItem from="1562636730597" duration="20256000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35021000" />
+    <option name="totallyTimeSpent" value="35160000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />

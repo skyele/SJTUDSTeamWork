@@ -15,7 +15,7 @@ public class RateWatch implements Watcher {
     private static final int SESSION_TIME_OUT = 2000;
     private CountDownLatch connectedSemaphore = new CountDownLatch(1);
 
-    public RateWatch(){
+    public RateWatch(String path){
         //new zookeeper
         try {
             zooKeeper = new ZooKeeper("zookeeper:2181", SESSION_TIME_OUT, this);
@@ -25,14 +25,14 @@ public class RateWatch implements Watcher {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        //注册 watch
-//        try {
-//            zooKeeper.getData(path, true, null);
-//        } catch (KeeperException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        //注册 watch
+        try {
+            zooKeeper.getData(path, true, null);
+        } catch (KeeperException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

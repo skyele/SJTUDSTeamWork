@@ -6,13 +6,7 @@ import com.server.mysql.pojo.Commodity;
 import com.server.mysql.pojo.KafkaMessage;
 import com.server.mysql.repo.CommodityRepository;
 import com.server.mysql.repo.KafkaMessageRepository;
-import org.apache.curator.RetryPolicy;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.framework.recipes.locks.InterProcessMutex;
-import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,9 +61,11 @@ public class OrderController {
         }
         // release lock
         if (i != items.size()){
+            System.out.println("release lock!");
             cleanAllStates(i, lockWatches);
             return "Invalid";
         }
+        System.out.println("success all Lock!");
 //         modify mysql
         for(i = 0; i < items.size(); i++){
             Commodity tmp = commodities.get(i);
