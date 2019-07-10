@@ -21,12 +21,69 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 @SpringBootApplication
 public class SparkApplication {
 
-	private static ResultRepository resultRepository;
+	@Autowired
+	private static ResultRepository resultRepository = new ResultRepository() {
+		@Override
+		public Result save(Result result) {
+			return null;
+		}
+
+		@Override
+		public <S extends Result> Iterable<S> saveAll(Iterable<S> iterable) {
+			return null;
+		}
+
+		@Override
+		public Optional<Result> findById(Integer integer) {
+			return Optional.empty();
+		}
+
+		@Override
+		public boolean existsById(Integer integer) {
+			return false;
+		}
+
+		@Override
+		public Iterable<Result> findAll() {
+			return null;
+		}
+
+		@Override
+		public Iterable<Result> findAllById(Iterable<Integer> iterable) {
+			return null;
+		}
+
+		@Override
+		public long count() {
+			return 0;
+		}
+
+		@Override
+		public void deleteById(Integer integer) {
+
+		}
+
+		@Override
+		public void delete(Result result) {
+
+		}
+
+		@Override
+		public void deleteAll(Iterable<? extends Result> iterable) {
+
+		}
+
+		@Override
+		public void deleteAll() {
+
+		}
+	};
 
 	public static void main(String[] args) {
 		SpringApplication.run(SparkApplication.class, args);
