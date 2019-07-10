@@ -48,8 +48,8 @@ public class SparkApplication {
 		try {
 			Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
 			String sql = "create table result(id int, userid int, initiator varchar(255), success varchar(255), paid double)";
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
+			conn.createStatement().executeUpdate(sql);
+			conn.close();
 		}
 		catch (Exception e)
 		{
@@ -97,8 +97,9 @@ public class SparkApplication {
 
 							Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
 							String sql = "insert into result(id, userid, initiator, success, paid) values('" + id + "','" + userid + "','" + initiator + "','" + success + "','" + paid + "')";
-							Statement stmt = conn.createStatement();
-							stmt.executeUpdate(sql);
+							conn.createStatement().executeUpdate(sql);
+							System.out.println(conn.createStatement().execute("select id from result"));
+							conn.close();
                         }
                     }
                 });
