@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResultRepository extends CrudRepository<Result, Integer> {
+    Result findById(int id);
     Result save(Result result);
 }

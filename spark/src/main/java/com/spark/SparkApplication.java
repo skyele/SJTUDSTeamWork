@@ -2,11 +2,16 @@ package com.spark;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import com.spark.mysql.pojo.Result;
 import com.spark.mysql.repo.ResultRepository;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
 import consumer.kafka.ReceiverLauncher;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.VoidFunction;
@@ -18,74 +23,16 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 
 @SpringBootApplication
 public class SparkApplication {
 
 	@Autowired
-	private static ResultRepository resultRepository = new ResultRepository() {
-		@Override
-		public Result save(Result result) {
-			return null;
-		}
-
-		@Override
-		public <S extends Result> Iterable<S> saveAll(Iterable<S> iterable) {
-			return null;
-		}
-
-		@Override
-		public Optional<Result> findById(Integer integer) {
-			return Optional.empty();
-		}
-
-		@Override
-		public boolean existsById(Integer integer) {
-			return false;
-		}
-
-		@Override
-		public Iterable<Result> findAll() {
-			return null;
-		}
-
-		@Override
-		public Iterable<Result> findAllById(Iterable<Integer> iterable) {
-			return null;
-		}
-
-		@Override
-		public long count() {
-			return 0;
-		}
-
-		@Override
-		public void deleteById(Integer integer) {
-
-		}
-
-		@Override
-		public void delete(Result result) {
-
-		}
-
-		@Override
-		public void deleteAll(Iterable<? extends Result> iterable) {
-
-		}
-
-		@Override
-		public void deleteAll() {
-
-		}
-	};
+	private ResultRepository resultRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SparkApplication.class, args);
@@ -134,12 +81,23 @@ public class SparkApplication {
 								for (int i = 0;i<items.size();i++) {
 									paid += items.get(i).getNumber() * items.get(i).getPrice();
 								}
-
 							}
+							JSONObject send = new JSONObject();
+							send.put("id",id);
+							send.put("userid",userid);
+							send.put("initiator",initiator);
+							send.put("success",success);
+							send.put("paid",paid);
 							Result res = new Result(id, userid, initiator, success, paid);
-							System.out.println("id:" + res.getId() + ", userid:" + res.getUserid() + ", initiator:" + res.getInitiator() + ", success:" + res.getSuccess() + ", paid:" + res.getPaid());
-							resultRepository.save(res);
-							System.out.println(resultRepository.findById(1).get().getId());
+							String url = "http://localhost:8080/result";
+							HttpClient client = HttpClientBuilder.create().build();
+							HttpPost httpPost = new HttpPost(url);
+							httpPost.setHeader("Content-Type", "application/json;charset=UTF-8");//表示客户端发送给服务器端的数据格式
+							httpPost.setHeader("Accept", "application/json");                    //表示服务端接口要返回给客户端的数据格式，
+
+							StringEntity se = new StringEntity(new Gson().toJson(res));
+							httpPost.setEntity(se);
+							client.execute(httpPost);
                         }
                     }
                 });
