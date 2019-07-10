@@ -38,6 +38,7 @@ public class LockWatch implements Watcher {
 
     public boolean acquire(String lockPath, int timeout, TimeUnit timeUnit) throws Exception {
         LOCKPATH = lockPath;
+        System.out.println("want to acquire " + lockPath);
         while (true){
             String sequential_id = createNode(lockPath, "lock", CreateMode.EPHEMERAL_SEQUENTIAL);
             System.out.println("the sqe_id: " + sequential_id);
