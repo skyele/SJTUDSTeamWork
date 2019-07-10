@@ -21,9 +21,10 @@ public class Item implements Comparable<Item>{
         this.number = number;
     }
 
-    public Item(Integer id, Integer number) {
+    public Item(Integer id, Integer number, Double price) {
         this.id = id;
         this.number = number;
+        this.price = price;
     }
 
     public Double getPrice() {

@@ -39,7 +39,7 @@ public class SparkApplication {
 		props.put("zookeeper.hosts", "zookeeper");
 		props.put("zookeeper.port", "2181");
 		props.put("kafka.topic", "orders");
-		props.put("kafka.consumer.id", "spark");
+		props.put("kafka.consumer", "spark");
 		props.put("bootstrap.servers", "kafka:9092");
 // Optional Properties
 		props.put("max.poll.records", "250");
