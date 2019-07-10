@@ -26,7 +26,6 @@ import java.util.Properties;
 @SpringBootApplication
 public class SparkApplication {
 
-	@Autowired
 	private static ResultRepository resultRepository;
 
 	public static void main(String[] args) {
