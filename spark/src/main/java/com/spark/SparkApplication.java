@@ -35,10 +35,11 @@ import java.util.Properties;
 public class SparkApplication {
 
 	public static void main(String[] args) {
-		SpringApplication springApplication = new SpringApplication(SparkApplication.class);
+		/*SpringApplication springApplication = new SpringApplication(SparkApplication.class);
 		springApplication.addListeners(new ApplicationStartup());
-		springApplication.run(args);
-		/*propsProperties props = new Properties();
+		springApplication.run(args);*/
+		SpringApplication.run(SparkApplication.class, args);
+		Properties props = new Properties();
 		props.put("zookeeper.hosts", "zookeeper");
 		props.put("zookeeper.port", "2181");
 		props.put("kafka.topic", "orders");
@@ -85,7 +86,7 @@ public class SparkApplication {
 								}
 							}
 							Result res = new Result(id, userid, initiator, success, paid);
-							ResultController.saveResult(res);
+							//ResultController.saveResult(res);
                         }
                     }
                 });
@@ -104,7 +105,7 @@ public class SparkApplication {
 			jsc.ssc().sc().cancelAllJobs();
 			jsc.stop(true, false);
 			System.exit(-1);
-		}*/
+		}
 	}
 
 }
