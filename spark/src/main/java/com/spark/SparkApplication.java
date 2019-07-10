@@ -16,6 +16,7 @@ import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -118,6 +119,7 @@ public class SparkApplication {
                                 System.out.println("My id:" + rs.getInt("id"));
                             }
                             conn.close();
+
                             System.out.println("success is:" + success.toString());
 
                             // 将 Total transaction 保存到Zookeeper里面
@@ -154,4 +156,13 @@ public class SparkApplication {
     }
 
 
+    @PostMapping(value = "/totalAmount")
+    public String getTotalAmount() {
+        try {
+            return zk.getData("/TotalTransactionAmount", false);
+        } catch (Exception e) {
+            return "server error!";
+        }
+
+    }
 }

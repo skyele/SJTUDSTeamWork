@@ -4,7 +4,6 @@ import com.spark.mysql.pojo.Result;
 import com.spark.mysql.repo.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 @Service
 public class ResultController {
@@ -16,4 +15,6 @@ public class ResultController {
         resultRepository.save(res);
         System.out.println(resultRepository.findById(1).getId());
     }
+
+
 }
