@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.spark.mysql.pojo.Result;
+import com.spark.mysql.repo.ApplicationStartup;
 import com.spark.mysql.repo.ResultRepository;
+import com.spark.mysql.repo.SparkService;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
 import consumer.kafka.ReceiverLauncher;
@@ -32,12 +34,11 @@ import java.util.Properties;
 @SpringBootApplication
 public class SparkApplication {
 
-	@Autowired
-	public static ResultController resultController;
-
 	public static void main(String[] args) {
-		SpringApplication.run(SparkApplication.class, args);
-		Properties props = new Properties();
+		SpringApplication springApplication = new SpringApplication(SparkApplication.class);
+		springApplication.addListeners(new ApplicationStartup());
+		springApplication.run(args);
+		/*propsProperties props = new Properties();
 		props.put("zookeeper.hosts", "zookeeper");
 		props.put("zookeeper.port", "2181");
 		props.put("kafka.topic", "orders");
@@ -84,7 +85,7 @@ public class SparkApplication {
 								}
 							}
 							Result res = new Result(id, userid, initiator, success, paid);
-							resultController.saveResult(res);
+							ResultController.saveResult(res);
                         }
                     }
                 });
@@ -103,7 +104,7 @@ public class SparkApplication {
 			jsc.ssc().sc().cancelAllJobs();
 			jsc.stop(true, false);
 			System.exit(-1);
-		}
+		}*/
 	}
 
 }
