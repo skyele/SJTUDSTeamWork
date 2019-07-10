@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/RateWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/RateWatch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -39,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="72" column="43" lean-forward="true" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
+            <state relative-caret-position="258">
+              <caret line="156" column="80" selection-start-line="156" selection-start-column="80" selection-end-line="156" selection-end-column="80" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1985#2220#0" expanded="true" />
@@ -57,10 +55,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="-114">
               <caret column="25" selection-start-column="25" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -176,8 +174,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/server/Zk.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/server/repo/CommodityRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/server/pojo/Commodity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java" />
       </list>
     </option>
   </component>
@@ -262,7 +260,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562740588994" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562740919287" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -303,12 +301,12 @@
       <updated>1562512741700</updated>
       <workItem from="1562512744704" duration="8654000" />
       <workItem from="1562593275993" duration="6250000" />
-      <workItem from="1562636730597" duration="16291000" />
+      <workItem from="1562636730597" duration="16621000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31195000" />
+    <option name="totallyTimeSpent" value="31525000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -444,10 +442,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-114">
+          <caret column="25" selection-start-column="25" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="72" column="43" lean-forward="true" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
+        <state relative-caret-position="258">
+          <caret line="156" column="80" selection-start-line="156" selection-start-column="80" selection-end-line="156" selection-end-column="80" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1985#2220#0" expanded="true" />
@@ -456,16 +464,6 @@
             <element signature="e#2520#2521#0" expanded="true" />
             <element signature="e#3619#4949#0" expanded="true" />
             <element signature="e#4948#4949#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="25" selection-start-column="25" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

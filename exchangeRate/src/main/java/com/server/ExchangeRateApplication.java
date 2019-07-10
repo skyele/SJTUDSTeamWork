@@ -154,7 +154,7 @@ public class ExchangeRateApplication {
                     //加锁
                     String lockPath = "/distributed-lock/" + commodity.getId();
                     LockWatch lockWatch = new LockWatch();
-                    System.out.println("attempt to acquire mutex");
+                    System.out.println("attempt to acquire lock at: " + lockPath);
                     if (lockWatch.acquire(lockPath,5, TimeUnit.SECONDS)) {
                         System.out.println("acquire lock successfully!");
                         commodity.setInventory(commodity.getInventory() + (int) (Math.random()) * 100);
