@@ -3,7 +3,6 @@ package com.spark;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.spark.mysql.pojo.Result;
-import com.spark.mysql.repo.ResultRepository;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
 import consumer.kafka.ReceiverLauncher;
@@ -18,72 +17,24 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 
 @SpringBootApplication
 public class SparkApplication {
 
+	@Repository
+	public interface ResultRepository extends CrudRepository<Result, Integer> {
+		Result findById(int i);
+		Result save(Result result);
+	}
+
 	@Autowired
-	private static ResultRepository resultRepository = new ResultRepository() {
-		@Override
-		public Result save(Result result) {
-			return null;
-		}
-
-		@Override
-		public <S extends Result> Iterable<S> saveAll(Iterable<S> iterable) {
-			return null;
-		}
-
-		@Override
-		public Optional<Result> findById(Integer integer) {
-			return Optional.empty();
-		}
-
-		@Override
-		public boolean existsById(Integer integer) {
-			return false;
-		}
-
-		@Override
-		public Iterable<Result> findAll() {
-			return null;
-		}
-
-		@Override
-		public Iterable<Result> findAllById(Iterable<Integer> iterable) {
-			return null;
-		}
-
-		@Override
-		public long count() {
-			return 0;
-		}
-
-		@Override
-		public void deleteById(Integer integer) {
-
-		}
-
-		@Override
-		public void delete(Result result) {
-
-		}
-
-		@Override
-		public void deleteAll(Iterable<? extends Result> iterable) {
-
-		}
-
-		@Override
-		public void deleteAll() {
-
-		}
-	};
+	private static ResultRepository resultRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SparkApplication.class, args);
@@ -132,10 +83,12 @@ public class SparkApplication {
 								for (int i = 0;i<items.size();i++) {
 									paid += items.get(i).getNumber() * items.get(i).getPrice();
 								}
+
 							}
 							Result res = new Result(id, userid, initiator, success, paid);
 							System.out.println("id:" + res.getId() + ", userid:" + res.getUserid() + ", initiator:" + res.getInitiator() + ", success:" + res.getSuccess() + ", paid:" + res.getPaid());
 							resultRepository.save(res);
+							System.out.println(resultRepository.findById(1).getId());
                         }
                     }
                 });
