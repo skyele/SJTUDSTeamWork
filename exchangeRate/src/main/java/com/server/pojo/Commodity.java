@@ -1,13 +1,12 @@
 package com.server.pojo;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 public class Commodity {
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     private String name;
     private Double price;

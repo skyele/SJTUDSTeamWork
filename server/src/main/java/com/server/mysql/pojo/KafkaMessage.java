@@ -3,12 +3,15 @@ package com.server.mysql.pojo;
 import com.server.Item;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
 
 @Entity
 public class KafkaMessage {
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     private String initiator;
     private String items;
