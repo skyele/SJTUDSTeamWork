@@ -35,10 +35,11 @@ import java.util.Properties;
 public class SparkApplication {
 
 	public static void main(String[] args) {
-		/*SpringApplication springApplication = new SpringApplication(SparkApplication.class);
+		SpringApplication springApplication = new SpringApplication(SparkApplication.class);
 		springApplication.addListeners(new ApplicationStartup());
-		springApplication.run(args);*/
-		SpringApplication.run(SparkApplication.class, args);
+		springApplication.run(args);
+	}
+		/*SpringApplication.run(SparkApplication.class, args);
 		Properties props = new Properties();
 		props.put("zookeeper.hosts", "zookeeper");
 		props.put("zookeeper.port", "2181");
@@ -109,5 +110,5 @@ public class SparkApplication {
 			System.exit(-1);
 		}
 	}
-
+*/
 }

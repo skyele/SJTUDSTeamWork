@@ -21,12 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
 @Service
-public class SparkService {
+public class SparkService implements Serializable {
 
     @Autowired
     private ResultController resultController;
