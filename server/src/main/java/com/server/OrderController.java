@@ -53,6 +53,7 @@ public class OrderController {
         for(i = 0; i < items.size(); i++){
             String lockPath = LOCKPATH + "/" + items.get(i).getId();
             LockWatch lockWatch = new LockWatch();
+            System.out.println("the lockPath in controller: " + lockPath);
             if(lockWatch.acquire(lockPath, 5000, TimeUnit.MILLISECONDS)){
                 System.out.println("the id is : " + items.get(i).getId().intValue());
                 Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
