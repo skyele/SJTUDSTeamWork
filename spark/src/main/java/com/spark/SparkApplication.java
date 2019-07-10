@@ -64,6 +64,8 @@ public class SparkApplication {
 
 //Start Application Logic
 		unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
+			@Autowired
+			private ResultController resultController;
 			@Override
 			public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
                 rdd.foreachPartition(new VoidFunction<Iterator<MessageAndMetadata<byte[]>>>() {
@@ -86,7 +88,7 @@ public class SparkApplication {
 								}
 							}
 							Result res = new Result(id, userid, initiator, success, paid);
-							//ResultController.saveResult(res);
+							resultController.saveResult(res);
                         }
                     }
                 });
