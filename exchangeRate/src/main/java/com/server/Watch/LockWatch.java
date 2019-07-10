@@ -36,9 +36,9 @@ public class LockWatch implements Watcher {
     }
 
     public boolean acquire(String lockPath, int timeout, TimeUnit timeUnit) throws Exception {
-        LOCKPATH = lockPath;
         System.out.println("want to acquire " + lockPath);
         String sequential_id = createNode(lockPath + "/lock", "lock", CreateMode.EPHEMERAL_SEQUENTIAL);
+        LOCKPATH = sequential_id;
         System.out.println("the sqe_id: " + sequential_id);
         while (true){
             System.out.println("in while in acquire!");
@@ -47,7 +47,7 @@ public class LockWatch implements Watcher {
             for(int i = 0; i < childs.size(); i++){
                 System.out.println("the childs["+i+"]: " + childs.get(i));
                 if(i == 0){
-                    if(childs.get(0).equals(sequential_id))
+                    if(sequential_id.contains(childs.get(0)))
                         return true;
                 }else{
                     if(this.zooKeeper.exists(childs.get(i), true) != null){
@@ -55,12 +55,12 @@ public class LockWatch implements Watcher {
                         //超时放锁
                         if(!lockCountDownLatch.await(timeout, timeUnit)){
                             System.out.println("sry timeout!");
-                            deleteNode(lockPath);
+                            deleteNode(LOCKPATH);
                             return false;
                         }
                         break;
                     }
-                    else if(childs.get(i).equals(sequential_id))
+                    else if(sequential_id.contains(childs.get(i)))
                         return true;
                 }
             }
