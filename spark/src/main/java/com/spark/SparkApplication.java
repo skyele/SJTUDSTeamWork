@@ -2,18 +2,10 @@ package com.spark;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.Gson;
 import com.spark.mysql.pojo.Result;
-import com.spark.mysql.repo.ApplicationStartup;
-import com.spark.mysql.repo.ResultRepository;
-import com.spark.mysql.repo.SparkService;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
 import consumer.kafka.ReceiverLauncher;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.VoidFunction;
@@ -23,9 +15,7 @@ import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import java.util.Iterator;
 import java.util.List;

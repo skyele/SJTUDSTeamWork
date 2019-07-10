@@ -1,6 +1,5 @@
 package com.spark;
 
-import com.spark.mysql.repo.SparkService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
