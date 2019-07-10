@@ -80,9 +80,9 @@ public class SparkApplication {
 									paid += items.get(i).getNumber() * items.get(i).getPrice();
 								}
 							}
-							System.out.println("id:" + id + "userid:" + userid + "initiator:" + initiator + "success:" + success + "paid:" + paid);
+							System.out.println("id:" + id + ", userid:" + userid + ", initiator:" + initiator + ", success:" + success + ", paid:" + paid);
 							Result res = new Result(id, userid, initiator, success, paid);
-							//resultRepository.save(res);
+							resultRepository.save(res);
                         }
                     }
                 });
