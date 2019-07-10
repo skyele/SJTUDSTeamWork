@@ -23,6 +23,7 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.Properties;
 public class SparkApplication {
 
 	@Autowired
-	private ResultRepository resultRepository;
+	public static ResultController resultController;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SparkApplication.class, args);
@@ -83,7 +84,6 @@ public class SparkApplication {
 								}
 							}
 							Result res = new Result(id, userid, initiator, success, paid);
-							ResultController resultController = new ResultController();
 							resultController.saveResult(res);
                         }
                     }
