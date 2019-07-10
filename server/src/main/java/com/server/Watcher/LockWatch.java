@@ -1,6 +1,5 @@
 package com.server.Watcher;
 
-import org.apache.kafka.common.protocol.types.Field;
 import org.apache.zookeeper.*;
 
 import java.io.IOException;
@@ -43,6 +42,7 @@ public class LockWatch implements Watcher {
         System.out.println("the sqe_id: " + sequential_id);
         while (true){
             List<String> childs = getChildren(lockPath);
+            System.out.println("we get childs! the size: " + childs.size());
             for(int i = 0; i < childs.size(); i++){
                 System.out.println("the childs["+i+"]: " + childs.get(i));
                 if(i == 0){
@@ -52,8 +52,11 @@ public class LockWatch implements Watcher {
                     if(this.zooKeeper.exists(childs.get(i), true) != null){
                         lockCountDownLatch = new CountDownLatch(1);
                         //超时放锁
-                        if(!lockCountDownLatch.await(timeout, timeUnit))
+                        if(!lockCountDownLatch.await(timeout, timeUnit)){
+                            System.out.println("sry timeout!");
+                            deleteNode(lockPath);
                             return false;
+                        }
                         break;
                     }
                     else if(childs.get(i).equals(sequential_id))
