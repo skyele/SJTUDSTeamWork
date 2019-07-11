@@ -1,12 +1,15 @@
 package com.server.Watch;
-
-
+import com.google.common.base.Strings;
+import com.sun.org.apache.bcel.internal.generic.LCONST;
 import org.apache.zookeeper.*;
+import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 public class LockWatch implements Watcher {
     private ZooKeeper zooKeeper;
@@ -37,51 +40,6 @@ public class LockWatch implements Watcher {
             System.out.println("the node deleted!");
             lockCountDownLatch.countDown();
         }
-    }
-
-    public boolean acquire(String lockPath, int timeout, TimeUnit timeUnit) throws Exception {
-        System.out.println("want to acquire " + lockPath);
-        String sequential_id = createNode(lockPath + "/lock", "lock", CreateMode.EPHEMERAL_SEQUENTIAL);
-        LOCKPATH = sequential_id;
-        System.out.println("the sqe_id: " + sequential_id);
-        while (true){
-            System.out.println("in while in acquire!");
-            List<String> childs = getChildren(lockPath);
-            System.out.println("we get childs! the size: " + childs.size());
-
-            for(int i = 0; i < childs.size();i++){
-                System.out.println("child["+i+"]: "+childs.get(i));
-            }
-
-            for(int i = 0; i < childs.size(); i++){
-                System.out.println("the childs["+i+"]: " + childs.get(i));
-                if(i == 0){
-                    if(sequential_id.contains(childs.get(0)))
-                        System.out.println("acquire! 0");
-                    return true;
-                }else{
-                    if(this.zooKeeper.exists(childs.get(i), true) != null){
-                        lockCountDownLatch = new CountDownLatch(1);
-                        //超时放锁
-                        if(!lockCountDownLatch.await(timeout, timeUnit)){
-                            System.out.println("sry timeout!");
-                            deleteNode(LOCKPATH);
-                            return false;
-                        }
-                        break;
-                    }
-                    else if(sequential_id.contains(childs.get(i))){
-                        System.out.println("acquire! "+i);
-                        return true;
-                    }
-                }
-            }
-            Thread.sleep(2000);
-        }
-    }
-
-    public void release() throws KeeperException, InterruptedException {
-        deleteNode(LOCKPATH);
     }
 
     public String createNode(String path,String data, CreateMode createMode) throws Exception{
@@ -120,6 +78,90 @@ public class LockWatch implements Watcher {
         List<String> childs = getChildren(path);
         for(int i = 0; i < childs.size(); i++){
             System.out.println("child["+i+"]: " + childs.get(i));
+        }
+    }
+    private void ensureRootPath(String rootPath){
+        try {
+            if (zooKeeper.exists(rootPath,true)==null){
+                zooKeeper.create(rootPath,"".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 获取锁
+     * @return
+     * @throws InterruptedException
+     */
+    public boolean acquire(String rootPath, int timeout, TimeUnit timeUnit){
+        ensureRootPath(rootPath);
+        try {
+            String sequential_id = zooKeeper.create(rootPath+"/lock", "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            LOCKPATH = sequential_id;
+            List<String> minPath = zooKeeper.getChildren(rootPath,false);
+            System.out.println(minPath);
+            Collections.sort(minPath);
+            System.out.println(minPath.get(0)+" and path "+sequential_id);
+            if (!Strings.nullToEmpty(sequential_id).trim().isEmpty()&&!Strings.nullToEmpty(minPath.get(0)).trim().isEmpty()&&sequential_id.equals(rootPath+"/"+minPath.get(0))) {
+                System.out.println(sequential_id + "  get Lock...");
+                return true;
+            }
+            String watchNode = null;
+            for (int i=minPath.size()-1;i>=0;i--){
+                if(minPath.get(i).compareTo(sequential_id.substring(sequential_id.lastIndexOf("/") + 1))<0){
+                    watchNode = minPath.get(i);
+                    break;
+                }
+            }
+
+            if (watchNode!=null){
+                final String watchNodeTmp = watchNode;
+                final Thread thread = Thread.currentThread();
+                Stat stat = zooKeeper.exists(rootPath + "/" + watchNodeTmp,new Watcher() {
+                    @Override
+                    public void process(WatchedEvent watchedEvent) {
+                        if(watchedEvent.getType() == Event.EventType.NodeDeleted){
+                            lockCountDownLatch.countDown();
+                        }
+                        try {
+                            zooKeeper.exists(rootPath + "/" + watchNodeTmp,true);
+                        } catch (KeeperException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                if(stat != null){
+                    System.out.println(sequential_id + " waiting for " + rootPath + "/" + watchNode);
+                }
+                lockCountDownLatch = new CountDownLatch(1);
+            }
+            //超时放锁
+            if(!lockCountDownLatch.await(timeout, timeUnit)){
+                System.out.println("sry timeout!");
+                release();
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(LOCKPATH + "not get lock1!!!");
+        return false;
+    }
+
+    /**
+     * 释放锁
+     */
+    public void release(){
+        try {
+            System.out.println(LOCKPATH +  "release Lock...");
+            zooKeeper.delete(LOCKPATH,-1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (KeeperException e) {
+            e.printStackTrace();
         }
     }
 }
