@@ -83,6 +83,20 @@ steps:
       - java -jar target/server-0.0.1-SNAPSHOT.jar
     detach: true
 
+  - name: server1
+    image: veiasai/java:8
+    commands:
+      - cd server
+      - java -jar target/server-0.0.1-SNAPSHOT.jar
+    detach: true
+
+  - name: server2
+    image: veiasai/java:8
+    commands:
+      - cd server
+      - java -jar target/server-0.0.1-SNAPSHOT.jar
+    detach: true
+
   # wait for server booting
   - name: barrier_4
     image: busybox
