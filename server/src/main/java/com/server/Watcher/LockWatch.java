@@ -1,6 +1,5 @@
 package com.server.Watcher;
 
-
 import com.google.common.base.Strings;
 import com.sun.org.apache.bcel.internal.generic.LCONST;
 import org.apache.zookeeper.*;
@@ -103,17 +102,18 @@ public class LockWatch implements Watcher {
      * @throws InterruptedException
      */
     public boolean acquire(String rootPath, int timeout, TimeUnit timeUnit){
+        String sequential_id = null;
         ensureRootPath(rootPath);
         try {
-            String sequential_id = zooKeeper.create(rootPath+"/lock", "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            sequential_id = zooKeeper.create(rootPath+"/mylock_", "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
             LOCKPATH = sequential_id;
             List<String> minPath = zooKeeper.getChildren(rootPath,false);
-            System.out.println(minPath);
+            System.out.println("the child size: " + minPath.size());
             Collections.sort(minPath);
             printList(minPath);
             System.out.println(minPath.get(0)+" and path "+sequential_id);
             if (!Strings.nullToEmpty(sequential_id).trim().isEmpty()&&!Strings.nullToEmpty(minPath.get(0)).trim().isEmpty()&&sequential_id.equals(rootPath+"/"+minPath.get(0))) {
-                System.out.println(sequential_id + "  get Lock...");
+                System.out.println(Thread.currentThread().getName() + "  get Lock...");
                 return true;
             }
             String watchNode = null;
@@ -131,7 +131,7 @@ public class LockWatch implements Watcher {
                     @Override
                     public void process(WatchedEvent watchedEvent) {
                         if(watchedEvent.getType() == Event.EventType.NodeDeleted){
-                            lockCountDownLatch.countDown();
+                            thread.interrupt();
                         }
                         try {
                             zooKeeper.exists(rootPath + "/" + watchNodeTmp,true);
@@ -141,19 +141,23 @@ public class LockWatch implements Watcher {
                             e.printStackTrace();
                         }
                     }
+
                 });
                 if(stat != null){
-                    System.out.println(sequential_id + " waiting for " + rootPath + "/" + watchNode);
+                    System.out.println("Thread " + Thread.currentThread().getId() + " waiting for " + rootPath + "/" + watchNode);
                 }
-                lockCountDownLatch = new CountDownLatch(1);
             }
-            lockCountDownLatch.await();
-            System.out.println(sequential_id + "wait successfully get lock!!!!!!!!!!!!!!!!!!\n");
-            return true;
+            try {
+                Thread.sleep(1000000000);
+            }catch (InterruptedException ex){
+                System.out.println(Thread.currentThread().getName() + " notify");
+                System.out.println(Thread.currentThread().getName() + "  get Lock...");
+                return true;
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(LOCKPATH + "not get lock1!!!");
         return false;
     }
 
