@@ -28,10 +28,12 @@ public class LockWatch implements Watcher {
         if ( Event.KeeperState.SyncConnected == watchedEvent.getState() ) {
             connectedSemaphore.countDown();
         }
-        if(watchedEvent.getType() == Event.EventType.NodeDeleted){
-            System.out.println("the node deleted!");
-            lockCountDownLatch.countDown();
-        }
+//        if(watchedEvent.getType() == Event.EventType.NodeDeleted){
+//            System.out.println("the node deleted!");
+//            lockCountDownLatch.countDown();
+//        }
+        System.out.println("the node deleted!");
+        lockCountDownLatch.countDown();
     }
 
     public boolean acquire(String lockPath, int timeout, TimeUnit timeUnit) throws Exception {
@@ -47,7 +49,6 @@ public class LockWatch implements Watcher {
                 System.out.println("the childs["+i+"]: " + childs.get(i));
                 if(i == 0){
                     if(sequential_id.contains(childs.get(0)))
-                        System.out.println("acquire! 0");
                         return true;
                 }else{
                     if(this.zooKeeper.exists(childs.get(i), true) != null){
@@ -60,10 +61,8 @@ public class LockWatch implements Watcher {
                         }
                         break;
                     }
-                    else if(sequential_id.contains(childs.get(i))){
-                        System.out.println("acquire! "+i);
+                    else if(sequential_id.contains(childs.get(i)))
                         return true;
-                    }
                 }
             }
             Thread.sleep(2000);

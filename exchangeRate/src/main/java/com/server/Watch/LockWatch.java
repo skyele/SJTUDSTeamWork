@@ -29,10 +29,12 @@ public class LockWatch implements Watcher {
         if ( Event.KeeperState.SyncConnected == watchedEvent.getState() ) {
             connectedSemaphore.countDown();
         }
-        if(watchedEvent.getType() == Event.EventType.NodeDeleted){
-            System.out.println("the node deleted!");
-            lockCountDownLatch.countDown();
-        }
+//        if(watchedEvent.getType() == Event.EventType.NodeDeleted){
+//            System.out.println("the node deleted!");
+//            lockCountDownLatch.countDown();
+//        }
+        System.out.println("the node deleted!");
+        lockCountDownLatch.countDown();
     }
 
     public boolean acquire(String lockPath, int timeout, TimeUnit timeUnit) throws Exception {
