@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/RateWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/RateWatch.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -54,7 +54,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="472">
-              <caret line="114" column="1" selection-start-line="114" selection-start-column="1" selection-end-line="114" selection-end-column="1" />
+              <caret line="124" column="1" selection-start-line="124" selection-start-column="1" selection-end-line="124" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -279,12 +279,12 @@
       <workItem from="1562512744704" duration="8654000" />
       <workItem from="1562593275993" duration="6250000" />
       <workItem from="1562636730597" duration="20256000" />
-      <workItem from="1562855908821" duration="1417000" />
+      <workItem from="1562855908821" duration="2020000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36577000" />
+    <option name="totallyTimeSpent" value="37180000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -415,7 +415,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="472">
-          <caret line="114" column="1" selection-start-line="114" selection-start-column="1" selection-end-line="114" selection-end-column="1" />
+          <caret line="124" column="1" selection-start-line="124" selection-start-column="1" selection-end-line="124" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

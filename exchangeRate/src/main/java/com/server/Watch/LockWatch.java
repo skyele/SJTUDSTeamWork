@@ -1,5 +1,6 @@
 package com.server.Watch;
 
+
 import org.apache.zookeeper.*;
 
 import java.io.IOException;
@@ -95,6 +96,8 @@ public class LockWatch implements Watcher {
     public void deleteNode(String path) throws InterruptedException, KeeperException{
         System.out.println("\ndelete Node: " + path+"!!\n");
         this.zooKeeper.delete(path, -1);
+        System.out.println("recheck path: " + "/"+path.split("/")[0]+"/"+path.split("/")[1]);
+        printChild("/"+path.split("/")[0]+"/"+path.split("/")[1]);
     }
 
     public void closeConnection() throws InterruptedException{
@@ -110,6 +113,13 @@ public class LockWatch implements Watcher {
             System.out.println("in finalize close Connection!");
             zooKeeper.close();
             zooKeeper = null;
+        }
+    }
+
+    private void printChild(String path) throws KeeperException, InterruptedException {
+        List<String> childs = getChildren(path);
+        for(int i = 0; i < childs.size(); i++){
+            System.out.println("child["+i+"]: " + childs.get(i));
         }
     }
 }
