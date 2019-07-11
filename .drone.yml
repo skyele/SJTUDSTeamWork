@@ -122,7 +122,7 @@ steps:
       - cd sender
       - user=2
       - item=10
-      - interval=1000 # ms
+      - interval=20 # ms
       - servaddr=nginx:8080
       - java -jar target/sender-0.0.1-SNAPSHOT.jar $user $item $interval $servaddr
     detach: true
