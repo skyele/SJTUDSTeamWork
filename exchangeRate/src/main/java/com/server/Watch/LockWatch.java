@@ -45,11 +45,17 @@ public class LockWatch implements Watcher {
             System.out.println("in while in acquire!");
             List<String> childs = getChildren(lockPath);
             System.out.println("we get childs! the size: " + childs.size());
+
+            for(int i = 0; i < childs.size();i++){
+                System.out.println("child["+i+"]: "+childs.get(i));
+            }
+
             for(int i = 0; i < childs.size(); i++){
                 System.out.println("the childs["+i+"]: " + childs.get(i));
                 if(i == 0){
                     if(sequential_id.contains(childs.get(0)))
-                        return true;
+                        System.out.println("acquire! 0");
+                    return true;
                 }else{
                     if(this.zooKeeper.exists(childs.get(i), true) != null){
                         lockCountDownLatch = new CountDownLatch(1);
@@ -61,8 +67,10 @@ public class LockWatch implements Watcher {
                         }
                         break;
                     }
-                    else if(sequential_id.contains(childs.get(i)))
+                    else if(sequential_id.contains(childs.get(i))){
+                        System.out.println("acquire! "+i);
                         return true;
+                    }
                 }
             }
             Thread.sleep(2000);

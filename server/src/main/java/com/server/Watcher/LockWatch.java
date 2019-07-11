@@ -45,6 +45,11 @@ public class LockWatch implements Watcher {
             System.out.println("in while in acquire!");
             List<String> childs = getChildren(lockPath);
             System.out.println("we get childs! the size: " + childs.size());
+
+            for(int i = 0; i < childs.size();i++){
+                System.out.println("child["+i+"]: "+childs.get(i));
+            }
+
             for(int i = 0; i < childs.size(); i++){
                 System.out.println("the childs["+i+"]: " + childs.get(i));
                 if(i == 0){
