@@ -1,15 +1,14 @@
-package com.sender;
+package com.sender.Generator;
 
 import java.util.Random;
 
-public class User {
+public class UserGenerate {
     private int idRange;
-    public User(int range){
+    public UserGenerate(int range){
         idRange = range;
     }
 
     public int getUser_id(){
-        System.out.println(idRange);
         Random r = new Random();
         return r.nextInt(idRange)+1;
     }

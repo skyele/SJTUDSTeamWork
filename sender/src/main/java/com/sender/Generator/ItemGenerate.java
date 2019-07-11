@@ -1,11 +1,11 @@
-package com.sender;
+package com.sender.Generator;
 import java.util.Random;
 
-public class Item {
+public class ItemGenerate {
     private int idRange;
     private int numberRange = 50;
     private Random r;
-    public Item(int idRange){
+    public ItemGenerate(int idRange){
         this.idRange = idRange;
         r = new Random();
     }

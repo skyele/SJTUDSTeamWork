@@ -1,10 +1,11 @@
 package com.server.mysql.repo;
 
 import com.server.mysql.pojo.Commodity;
-import com.server.mysql.pojo.Feed;
 import org.springframework.data.repository.CrudRepository;
 
-public interface CommodityRepository extends CrudRepository<Feed, Integer> {
-    Commodity findByID(Integer id);
-    void save(Commodity commodity);
+import java.util.Optional;
+
+public interface CommodityRepository extends CrudRepository<Commodity, Integer> {
+    Commodity findById(int i);
+    Commodity save(Commodity commodity);
 }
