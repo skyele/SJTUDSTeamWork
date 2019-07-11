@@ -42,7 +42,7 @@ public class RateWatch implements Watcher {
         }
         if(watchedEvent.getType() == Event.EventType.NodeCreated  || watchedEvent.getType() == Event.EventType.NodeDataChanged){
             //到zookeeper getdata拿数据
-            System.out.println("data has changed!!!\n");
+//            System.out.println("data has changed!!!");
             Double rate = null;
             try {
                 rate = Double.parseDouble(new String(zooKeeper.getData(watchedEvent.getPath(), false, null)));

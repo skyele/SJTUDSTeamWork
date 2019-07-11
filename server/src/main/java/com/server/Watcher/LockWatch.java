@@ -27,6 +27,7 @@ public class LockWatch implements Watcher {
     public void process(WatchedEvent watchedEvent) {
         System.out.println("the event is: " + watchedEvent.getType()+ " state: " + watchedEvent.getState());
 
+        System.out.println("\nthe path is " + watchedEvent.getPath()+"\n");
         if ( Event.KeeperState.SyncConnected == watchedEvent.getState() ) {
             connectedSemaphore.countDown();
         }
@@ -91,6 +92,7 @@ public class LockWatch implements Watcher {
     }
 
     public void deleteNode(String path) throws InterruptedException, KeeperException{
+        System.out.println("\ndelete Node: " + path+"!!\n");
         this.zooKeeper.delete(path, -1);
     }
 
