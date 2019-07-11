@@ -26,15 +26,14 @@ public class LockWatch implements Watcher {
 
     @Override
     public void process(WatchedEvent watchedEvent) {
+        System.out.println("the event is: " + watchedEvent.getType()+ " state: " + watchedEvent.getState());
         if ( Event.KeeperState.SyncConnected == watchedEvent.getState() ) {
             connectedSemaphore.countDown();
         }
-//        if(watchedEvent.getType() == Event.EventType.NodeDeleted){
-//            System.out.println("the node deleted!");
-//            lockCountDownLatch.countDown();
-//        }
-        System.out.println("the node deleted!");
-        lockCountDownLatch.countDown();
+        if(watchedEvent.getType() == Event.EventType.NodeDeleted){
+            System.out.println("the node deleted!");
+            lockCountDownLatch.countDown();
+        }
     }
 
     public boolean acquire(String lockPath, int timeout, TimeUnit timeUnit) throws Exception {
