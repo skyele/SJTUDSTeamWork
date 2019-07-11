@@ -81,6 +81,12 @@ public class LockWatch implements Watcher {
             System.out.println("child["+i+"]: " + childs.get(i));
         }
     }
+
+    private void printList(List<String> strings){
+        for(int i = 0; i < strings.size(); i++)
+            System.out.println("child["+i+"]: " + strings.get(i));
+    }
+
     private void ensureRootPath(String rootPath){
         try {
             if (zooKeeper.exists(rootPath,true)==null){
@@ -103,6 +109,7 @@ public class LockWatch implements Watcher {
             List<String> minPath = zooKeeper.getChildren(rootPath,false);
             System.out.println(minPath);
             Collections.sort(minPath);
+            printList(minPath);
             System.out.println(minPath.get(0)+" and path "+sequential_id);
             if (!Strings.nullToEmpty(sequential_id).trim().isEmpty()&&!Strings.nullToEmpty(minPath.get(0)).trim().isEmpty()&&sequential_id.equals(rootPath+"/"+minPath.get(0))) {
                 System.out.println(sequential_id + "  get Lock...");
