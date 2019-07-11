@@ -146,12 +146,9 @@ public class LockWatch implements Watcher {
                 }
                 lockCountDownLatch = new CountDownLatch(1);
             }
-            //超时放锁
-            if(!lockCountDownLatch.await(timeout, timeUnit)){
-                System.out.println("sry timeout!");
-                release();
-                return false;
-            }
+            lockCountDownLatch.await();
+            System.out.println(sequential_id + "wait successfully get lock!!!!!!!!!!!!!!!!!!\n");
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }

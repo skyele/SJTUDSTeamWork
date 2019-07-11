@@ -1,5 +1,6 @@
 package com.server.Watcher;
 
+
 import com.google.common.base.Strings;
 import com.sun.org.apache.bcel.internal.generic.LCONST;
 import org.apache.zookeeper.*;
@@ -146,12 +147,9 @@ public class LockWatch implements Watcher {
                 }
                 lockCountDownLatch = new CountDownLatch(1);
             }
-            //超时放锁
-            if(!lockCountDownLatch.await(timeout, timeUnit)){
-                System.out.println("sry timeout!");
-                release();
-                return false;
-            }
+            lockCountDownLatch.await();
+            System.out.println(sequential_id + "wait successfully get lock!!!!!!!!!!!!!!!!!!\n");
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
