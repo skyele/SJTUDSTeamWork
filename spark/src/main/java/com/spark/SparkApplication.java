@@ -18,7 +18,6 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -33,11 +32,6 @@ public class SparkApplication {
     public static Transaction transaction;
 
     public static void main(String[] args) {
-		/*SpringApplication springApplication = new SpringApplication(SparkApplication.class);
-		springApplication.addListeners(new ApplicationStartup());
-		springApplication.run(args);
-	}*/
-        /*SpringApplication.run(SparkApplication.class, args);*/
 
         // 建立ZooKeeper 连接
         zk = new Zk();
@@ -63,15 +57,6 @@ public class SparkApplication {
         props.put("consumer.fillfreqms", "1000");
 
         SparkConf _sparkConf = new SparkConf().setMaster("local[2]").setAppName("ds");
-
-        /*try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
-            String sql = "create table result(id int, userid int, initiator varchar(255), success varchar(255), paid double)";
-            conn.createStatement().executeUpdate(sql);
-            conn.close();
-        } catch (Exception e) {
-            System.out.println("create table wrong");
-        }*/
 
         JavaStreamingContext jsc = new JavaStreamingContext(_sparkConf, Durations.seconds(30));
 // Specify number of Receivers you need.
@@ -115,15 +100,6 @@ public class SparkApplication {
                             Serializable resid = session.save(res);
 
                             System.out.println("My id:" +session.get(Result.class, resid));
-                            //resultController.saveResult(res);
-
-                            /*Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
-                            conn.createStatement().executeUpdate("insert into result(id, userid, initiator, success, paid) values(" + id + "," + userid + ",'" + initiator + "','" + success + "'," + paid + ")");
-                            ResultSet rs = conn.createStatement().executeQuery("select id from result where id=" + id);
-                            while (rs.next()) {
-                                System.out.println("My id:" + rs.getInt("id"));
-                            }
-                            conn.close();*/
 
 
                             System.out.println("success is:" + success.toString());
