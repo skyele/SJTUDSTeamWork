@@ -28,7 +28,8 @@ import java.util.Properties;
 public class SparkApplication {
 
     public static Zk zk;
-
+    public static Session session;
+    public static Transaction transaction;
 
     public static void main(String[] args) {
 		/*SpringApplication springApplication = new SpringApplication(SparkApplication.class);
@@ -81,9 +82,6 @@ public class SparkApplication {
 //Get the Max offset from each RDD Partitions. Each RDD Partition belongs to One Kafka Partition
         JavaPairDStream<Integer, Iterable<Long>> partitonOffset = ProcessedOffsetManager
                 .getPartitionOffset(unionStreams, props);
-
-        Session session;
-        Transaction transaction;
 
         session = Hibernate4Utils.getCurrentSession();
         transaction = session.beginTransaction();
