@@ -2,6 +2,7 @@ package com.spark;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.spark.mysql.pojo.Hibernate4Utils;
 import com.spark.mysql.pojo.Result;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
@@ -14,13 +15,11 @@ import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -63,14 +62,14 @@ public class SparkApplication {
 
         SparkConf _sparkConf = new SparkConf().setMaster("local[2]").setAppName("ds");
 
-        try {
+        /*try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
             String sql = "create table result(id int, userid int, initiator varchar(255), success varchar(255), paid double)";
             conn.createStatement().executeUpdate(sql);
             conn.close();
         } catch (Exception e) {
             System.out.println("create table wrong");
-        }
+        }*/
 
         JavaStreamingContext jsc = new JavaStreamingContext(_sparkConf, Durations.seconds(30));
 // Specify number of Receivers you need.
@@ -83,10 +82,14 @@ public class SparkApplication {
         JavaPairDStream<Integer, Iterable<Long>> partitonOffset = ProcessedOffsetManager
                 .getPartitionOffset(unionStreams, props);
 
+        Session session;
+        Transaction transaction;
+
+        session = Hibernate4Utils.getCurrentSession();
+        transaction = session.beginTransaction();
+
 //Start Application Logic
         unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
-            @Autowired
-            private ResultController resultController;
 
             @Override
             public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
@@ -110,15 +113,20 @@ public class SparkApplication {
                                 }
                             }
                             Result res = new Result(id, userid, initiator, success, paid);
+                            session.save(res);
+                            transaction.commit();
+
+                            System.out.println("My id:" +session.get(Result.class, id));
                             //resultController.saveResult(res);
 
-                            Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
+                            /*Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
                             conn.createStatement().executeUpdate("insert into result(id, userid, initiator, success, paid) values(" + id + "," + userid + ",'" + initiator + "','" + success + "'," + paid + ")");
                             ResultSet rs = conn.createStatement().executeQuery("select id from result where id=" + id);
                             while (rs.next()) {
                                 System.out.println("My id:" + rs.getInt("id"));
                             }
-                            conn.close();
+                            conn.close();*/
+
 
                             System.out.println("success is:" + success.toString());
 
