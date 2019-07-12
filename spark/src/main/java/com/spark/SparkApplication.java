@@ -113,7 +113,6 @@ public class SparkApplication {
                             }
                             Result res = new Result(id, userid, initiator, success, paid);
                             Serializable resid = session.save(res);
-                            transaction.commit();
 
                             System.out.println("My id:" +session.get(Result.class, resid));
                             //resultController.saveResult(res);
@@ -155,6 +154,7 @@ public class SparkApplication {
         try {
             jsc.start();
             jsc.awaitTermination();
+            transaction.commit();
         } catch (Exception ex) {
             jsc.ssc().sc().cancelAllJobs();
             jsc.stop(true, false);
