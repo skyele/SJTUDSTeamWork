@@ -20,6 +20,7 @@ import org.hibernate.Transaction;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -111,10 +112,10 @@ public class SparkApplication {
                                 }
                             }
                             Result res = new Result(id, userid, initiator, success, paid);
-                            session.save(res);
+                            Serializable resid = session.save(res);
                             transaction.commit();
 
-                            System.out.println("My id:" +session.get(Result.class, id));
+                            System.out.println("My id:" +session.get(Result.class, resid));
                             //resultController.saveResult(res);
 
                             /*Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
@@ -159,16 +160,5 @@ public class SparkApplication {
             jsc.stop(true, false);
             System.exit(-1);
         }
-    }
-
-
-    @PostMapping(value = "/totalAmount")
-    public String getTotalAmount() {
-        try {
-            return zk.getData("/TotalTransactionAmount", false);
-        } catch (Exception e) {
-            return "server error!";
-        }
-
     }
 }
