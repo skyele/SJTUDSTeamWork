@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Result implements Serializable {
+public class Result{
     @Id
     private Integer id;
     private Integer userid;
