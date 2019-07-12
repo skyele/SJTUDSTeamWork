@@ -17,14 +17,12 @@ import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-@SpringBootApplication
 public class SparkApplication {
 
     public static Zk zk;
