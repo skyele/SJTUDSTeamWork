@@ -8,7 +8,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.util.Objects;
 
-public abstract class Hibernate4Utils {
+public class Hibernate4Utils {
 
     static {
         try {
