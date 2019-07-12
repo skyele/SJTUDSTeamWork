@@ -155,6 +155,7 @@ public class SparkApplication {
             jsc.start();
             jsc.awaitTermination();
             transaction.commit();
+            Hibernate4Utils.closeCurrentSession();
         } catch (Exception ex) {
             jsc.ssc().sc().cancelAllJobs();
             jsc.stop(true, false);
