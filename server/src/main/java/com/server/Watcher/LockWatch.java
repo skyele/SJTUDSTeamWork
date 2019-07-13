@@ -151,8 +151,7 @@ public class LockWatch implements Watcher {
                 Thread.sleep(1000000000);
             }catch (InterruptedException ex){
                 System.out.println(Thread.currentThread().getName() + " notify");
-                System.out.println(Thread.currentThread().getName() + "  get Lock...");
-                return true;
+                return acquire(rootPath, timeout, timeUnit);
             }
 
         } catch (Exception e) {

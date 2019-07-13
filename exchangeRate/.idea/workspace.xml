@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" afterDir="false" />
     </list>
@@ -41,8 +43,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="166" column="44" lean-forward="true" selection-start-line="166" selection-start-column="44" selection-end-line="166" selection-end-column="44" />
+            <state relative-caret-position="226">
+              <caret line="157" column="33" selection-start-line="157" selection-start-column="24" selection-end-line="157" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -53,8 +55,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="176" selection-end-column="1" />
+            <state relative-caret-position="38">
+              <caret line="2" selection-start-line="2" selection-end-line="175" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -133,6 +135,7 @@
       <find>zookeeper</find>
       <find>zkHandler</find>
       <find>setData</find>
+      <find>lock</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -157,9 +160,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="949" />
-    <option name="width" value="980" />
-    <option name="height" value="1031" />
+    <option name="x" value="948" />
+    <option name="width" value="981" />
+    <option name="height" value="1032" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -167,7 +170,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -232,6 +234,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -279,12 +282,13 @@
       <workItem from="1562512744704" duration="8654000" />
       <workItem from="1562593275993" duration="6250000" />
       <workItem from="1562636730597" duration="20256000" />
-      <workItem from="1562855908821" duration="6345000" />
+      <workItem from="1562855908821" duration="7258000" />
+      <workItem from="1563019405101" duration="395000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41505000" />
+    <option name="totallyTimeSpent" value="42813000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -404,8 +408,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/server/ExchangeRateApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="166" column="44" lean-forward="true" selection-start-line="166" selection-start-column="44" selection-end-line="166" selection-end-column="44" />
+        <state relative-caret-position="226">
+          <caret line="157" column="33" selection-start-line="157" selection-start-column="24" selection-end-line="157" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -414,8 +418,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="176" selection-end-column="1" />
+        <state relative-caret-position="38">
+          <caret line="2" selection-start-line="2" selection-end-line="175" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
