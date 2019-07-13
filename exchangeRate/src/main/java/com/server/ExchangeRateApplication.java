@@ -157,7 +157,11 @@ public class ExchangeRateApplication {
                     System.out.println("attempt to acquire lock at: " + lockPath);
                     if (lockWatch.acquire(lockPath,5, TimeUnit.SECONDS)) {
                         System.out.println("acquire lock successfully!");
-                        commodity.setInventory(commodity.getInventory() + (int) (Math.random()) * 100);
+                        while(commodity.getInventory() <= 0){
+                            commodity.setInventory(commodity.getInventory() + (int) (Math.random()) * 100);
+                        }
+                        commodityRepository.save(commodity);
+                        commodity = commodityRepository.findById(commodity.getId().intValue());
                         System.out.println("new inventory: " + commodity.getInventory());
                         lockSucc = true;
                     }
