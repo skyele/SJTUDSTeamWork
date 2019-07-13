@@ -108,6 +108,7 @@ public class LockWatch implements Watcher {
             sequential_id = zooKeeper.create(rootPath+"/mylock_", "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
             LOCKPATH = sequential_id;
             List<String> minPath = zooKeeper.getChildren(rootPath,false);
+            System.out.println("the sequential_id is " + sequential_id);
             System.out.println("the child size: " + minPath.size());
             Collections.sort(minPath);
             printList(minPath);
