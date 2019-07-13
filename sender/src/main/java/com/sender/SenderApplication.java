@@ -45,7 +45,7 @@ public class SenderApplication {
 			while(loop != 0){
 				Item item = new Item(itemGenerate.getItem_id(), itemGenerate.getNumber());
 				System.out.println("the item id in new! is : " + item.getId());
-				if(map.get(item.getId())==0){
+				if(!map.containsKey(item.getId())||map.get(item.getId())==0){
 					map.put(item.getId(), 1);
 					order.getItems().add(item);
 					loop--;
