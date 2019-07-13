@@ -97,7 +97,7 @@ public class LockWatch implements Watcher {
         }
     }
     /**
-     * 获取锁
+ `    * 获取锁
      * @return
      * @throws InterruptedException
      */
@@ -151,6 +151,8 @@ public class LockWatch implements Watcher {
                 Thread.sleep(1000000000);
             }catch (InterruptedException ex){
                 System.out.println(Thread.currentThread().getName() + " notify");
+                zooKeeper.delete(sequential_id, -1);
+                zooKeeper.close();
                 return acquire(rootPath, timeout, timeUnit);
             }
 
