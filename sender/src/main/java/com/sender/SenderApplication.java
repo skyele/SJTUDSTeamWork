@@ -41,10 +41,17 @@ public class SenderApplication {
 			order.setTime(new Date().getTime());
 			order.setUser_id(userGenerate.getUser_id());
 			int loop = new Random().nextInt(4)+1;
-			for(int j = 0; j < loop; j++){
+			Map<Integer, Integer> map = new LinkedHashMap<>();
+			while(loop != 0){
 				Item item = new Item(itemGenerate.getItem_id(), itemGenerate.getNumber());
-				order.getItems().add(item);
+				System.out.println("the item id in new! is : " + item.getId());
+				if(map.get(item.getId())==0){
+					map.put(item.getId(), 1);
+					order.getItems().add(item);
+					loop--;
+				}
 			}
+			printList(order.getItems());
 			requestByPostMethod(order);
 		}
 	}
@@ -69,6 +76,11 @@ public class SenderApplication {
 	private static void closeHttpClient(CloseableHttpClient client) throws IOException{
 		if (client != null){
 			client.close();
+		}
+	}
+	private static void printList(List<Item> items){
+		for(int i = 0; i < items.size();i++){
+			System.out.println("the item id: " + items.get(i).getId());
 		}
 	}
 }
