@@ -113,7 +113,7 @@ public class LockWatch implements Watcher {
             printList(minPath);
             System.out.println(minPath.get(0)+" and path "+sequential_id);
             if (!Strings.nullToEmpty(sequential_id).trim().isEmpty()&&!Strings.nullToEmpty(minPath.get(0)).trim().isEmpty()&&sequential_id.equals(rootPath+"/"+minPath.get(0))) {
-                System.out.println(Thread.currentThread().getName() + "  get Lock...");
+                System.out.println(sequential_id + "  get Lock...");
                 return true;
             }
             String watchNode = null;
@@ -126,6 +126,7 @@ public class LockWatch implements Watcher {
 
             if (watchNode!=null){
                 final String watchNodeTmp = watchNode;
+                System.out.println("the watchNode: " + watchNode + " and the waiting sequential_id is: " + sequential_id);
                 final Thread thread = Thread.currentThread();
                 Stat stat = zooKeeper.exists(rootPath + "/" + watchNodeTmp,new Watcher() {
                     @Override
@@ -150,7 +151,7 @@ public class LockWatch implements Watcher {
             try {
                 Thread.sleep(1000000000);
             }catch (InterruptedException ex){
-                System.out.println(Thread.currentThread().getName() + " notify");
+                System.out.println(sequential_id + " notify somebody release lock!!!!");
                 zooKeeper.delete(sequential_id, -1);
                 zooKeeper.close();
                 return acquire(rootPath, timeout, timeUnit);
@@ -159,6 +160,7 @@ public class LockWatch implements Watcher {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("No possible!!!!!");
         return false;
     }
 
