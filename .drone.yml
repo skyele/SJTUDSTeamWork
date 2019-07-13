@@ -67,7 +67,7 @@ steps:
     image: veiasai/java:8
     commands:
       - cd exchangeRate
-      - item=10
+      - item=4
       - java -jar target/exchangeRate-1.0-SNAPSHOT.jar $item
     detach: true 
 
@@ -107,7 +107,7 @@ steps:
     commands:
       - cd sender
       - user=2
-      - item=10
+      - item=4
       - interval=1000 # ms
       - servaddr=nginx:8080
       - java -jar target/sender-0.0.1-SNAPSHOT.jar $user $item $interval $servaddr
