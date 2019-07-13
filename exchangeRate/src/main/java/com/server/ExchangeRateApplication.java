@@ -95,7 +95,7 @@ public class ExchangeRateApplication {
     public static void initCommodity() throws Exception{
         String[] currencyList = {"USD","RMB","JPY","EUR"};
         Double[] priceList = {66.0,89.0,99.0,45.5};
-        Integer[] inventoryList = {123,789,666,333};
+        Integer[] inventoryList = {1000000,1000000,1000000,1000000};
 
         for(int i = 1; i <= MAXITEMID; i++){
             Commodity commodity = new Commodity(i, "Commodity"+i, priceList[i%4]*(0.5+Math.random()), currencyList[i%4], (int) (inventoryList[i%4]*(0.5+Math.random())));
@@ -158,7 +158,7 @@ public class ExchangeRateApplication {
                     if (lockWatch.acquire(lockPath,5, TimeUnit.SECONDS)) {
                         System.out.println("acquire lock successfully!");
                         while(commodity.getInventory() <= 0){
-                            commodity.setInventory(commodity.getInventory() + (int) (Math.random()) * 100);
+                            commodity.setInventory(commodity.getInventory() + (int) (Math.random()) * 1000000);
                         }
                         commodityRepository.save(commodity);
                         commodity = commodityRepository.findById(commodity.getId().intValue());
