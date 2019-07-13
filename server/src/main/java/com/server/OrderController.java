@@ -45,6 +45,7 @@ public class OrderController {
         int i;
         Collections.sort(items);
         for(i = 0; i < items.size(); i++){
+            System.out.println("the i is " + i + "all size is " + items.size());
             String lockPath = LOCKPATH + "/" + items.get(i).getId();
             System.out.println("Before the lockPath in controller: " + lockPath);
             LockWatch lockWatch = new LockWatch();
