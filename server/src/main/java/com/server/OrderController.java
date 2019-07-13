@@ -91,6 +91,7 @@ public class OrderController {
     }
 
     void cleanAllStates(int number, LinkedList<LockWatch> lockWatches) throws Exception {
+        System.out.println("in cleanAllStates and lockWatches size: " + lockWatches.size());
         for(int i = 0; i < lockWatches.size(); i++){
             lockWatches.get(i).release();
             lockWatches.get(i).closeConnection();
