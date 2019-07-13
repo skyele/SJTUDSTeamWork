@@ -113,7 +113,7 @@ public class LockWatch implements Watcher {
             printList(minPath);
             System.out.println(minPath.get(0)+" and path "+sequential_id);
             if (!Strings.nullToEmpty(sequential_id).trim().isEmpty()&&!Strings.nullToEmpty(minPath.get(0)).trim().isEmpty()&&sequential_id.equals(rootPath+"/"+minPath.get(0))) {
-                System.out.println(Thread.currentThread().getName() + "  get Lock...");
+                System.out.println(sequential_id + "  get Lock...");
                 return true;
             }
             String watchNode = null;

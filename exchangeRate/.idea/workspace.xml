@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/server/Watcher/LockWatch.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -53,8 +52,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-22">
-              <caret line="154" column="34" selection-end-line="177" selection-end-column="1" />
+            <state relative-caret-position="301">
+              <caret line="114" column="40" lean-forward="true" selection-start-line="114" selection-start-column="40" selection-end-line="114" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -281,12 +280,12 @@
       <workItem from="1562593275993" duration="6250000" />
       <workItem from="1562636730597" duration="20256000" />
       <workItem from="1562855908821" duration="7258000" />
-      <workItem from="1563019405101" duration="916000" />
+      <workItem from="1563019405101" duration="1759000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43334000" />
+    <option name="totallyTimeSpent" value="44177000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -416,8 +415,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/server/Watch/LockWatch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-22">
-          <caret line="154" column="34" selection-end-line="177" selection-end-column="1" />
+        <state relative-caret-position="301">
+          <caret line="114" column="40" lean-forward="true" selection-start-line="114" selection-start-column="40" selection-end-line="114" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
