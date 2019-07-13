@@ -57,14 +57,17 @@ public class OrderController {
                 commodities.push(tmp);
                 lockWatches.push(lockWatch);
                 if(tmp.getInventory() < items.get(i).getNumber())//库存不足
+                {
+                    System.out.println("the inventory is not zu!");
                     break;
+                }
             }else//可能死锁，放弃这次订单
                 break;
         }
         // release lock
         if (i != items.size()){
             System.out.println("release lock!");
-            cleanAllStates(i, lockWatches);
+            cleanAllStates(i+1, lockWatches);
             return "Invalid";
         }
         System.out.println("success all Lock!");
