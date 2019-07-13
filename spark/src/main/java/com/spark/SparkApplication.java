@@ -2,6 +2,7 @@ package com.spark;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.spark.mysql.pojo.Hibernate4Utils;
 import com.spark.mysql.pojo.Result;
 import consumer.kafka.MessageAndMetadata;
 import consumer.kafka.ProcessedOffsetManager;
@@ -14,29 +15,21 @@ import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-@SpringBootApplication
 public class SparkApplication {
 
     public static Zk zk;
-
+    public static Session session;
+    public static Transaction transaction;
 
     public static void main(String[] args) {
-		/*SpringApplication springApplication = new SpringApplication(SparkApplication.class);
-		springApplication.addListeners(new ApplicationStartup());
-		springApplication.run(args);
-	}*/
-        /*SpringApplication.run(SparkApplication.class, args);*/
 
         // 建立ZooKeeper 连接
         zk = new Zk();
@@ -63,15 +56,6 @@ public class SparkApplication {
 
         SparkConf _sparkConf = new SparkConf().setMaster("local[2]").setAppName("ds");
 
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
-            String sql = "create table result(id int, userid int, initiator varchar(255), success varchar(255), paid double)";
-            conn.createStatement().executeUpdate(sql);
-            conn.close();
-        } catch (Exception e) {
-            System.out.println("create table wrong");
-        }
-
         JavaStreamingContext jsc = new JavaStreamingContext(_sparkConf, Durations.seconds(30));
 // Specify number of Receivers you need.
         int numberOfReceivers = 3;
@@ -83,10 +67,11 @@ public class SparkApplication {
         JavaPairDStream<Integer, Iterable<Long>> partitonOffset = ProcessedOffsetManager
                 .getPartitionOffset(unionStreams, props);
 
+        session = Hibernate4Utils.getCurrentSession();
+        transaction = session.beginTransaction();
+
 //Start Application Logic
         unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
-            @Autowired
-            private ResultController resultController;
 
             @Override
             public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
@@ -110,15 +95,10 @@ public class SparkApplication {
                                 }
                             }
                             Result res = new Result(id, userid, initiator, success, paid);
-                            //resultController.saveResult(res);
+                            Serializable resid = session.save(res);
 
-                            Connection conn = DriverManager.getConnection("jdbc:mysql://mysql:3306/ds?characterEncoding=utf8&useSSL=true", "root", "123456");
-                            conn.createStatement().executeUpdate("insert into result(id, userid, initiator, success, paid) values(" + id + "," + userid + ",'" + initiator + "','" + success + "'," + paid + ")");
-                            ResultSet rs = conn.createStatement().executeQuery("select id from result where id=" + id);
-                            while (rs.next()) {
-                                System.out.println("My id:" + rs.getInt("id"));
-                            }
-                            conn.close();
+                            System.out.println("My id:" +session.get(Result.class, resid));
+
 
                             System.out.println("success is:" + success.toString());
 
@@ -148,21 +128,12 @@ public class SparkApplication {
         try {
             jsc.start();
             jsc.awaitTermination();
+            transaction.commit();
+            Hibernate4Utils.closeCurrentSession();
         } catch (Exception ex) {
             jsc.ssc().sc().cancelAllJobs();
             jsc.stop(true, false);
             System.exit(-1);
         }
-    }
-
-
-    @PostMapping(value = "/totalAmount")
-    public String getTotalAmount() {
-        try {
-            return zk.getData("/TotalTransactionAmount", false);
-        } catch (Exception e) {
-            return "server error!";
-        }
-
     }
 }

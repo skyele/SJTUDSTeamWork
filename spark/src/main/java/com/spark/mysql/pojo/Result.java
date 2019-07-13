@@ -2,10 +2,11 @@ package com.spark.mysql.pojo;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.io.Serializable;
+import javax.persistence.Table;
 
 @Entity
-public class Result implements Serializable {
+@Table(name = "Result")
+public class Result{
     @Id
     private Integer id;
     private Integer userid;
