@@ -108,13 +108,9 @@ public class LockWatch implements Watcher {
             sequential_id = zooKeeper.create(rootPath+"/mylock_", "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
             LOCKPATH = sequential_id;
             List<String> minPath = zooKeeper.getChildren(rootPath,false);
-            System.out.println("the sequential_id is " + sequential_id);
-            System.out.println("the child size: " + minPath.size());
             Collections.sort(minPath);
             printList(minPath);
-            System.out.println("[0]: " + minPath.get(0)+" and path "+sequential_id);
             if (!Strings.nullToEmpty(sequential_id).trim().isEmpty()&&!Strings.nullToEmpty(minPath.get(0)).trim().isEmpty()&&sequential_id.equals(rootPath+"/"+minPath.get(0))) {
-                System.out.println(sequential_id + "  get Lock...");
                 return true;
             }
             String watchNode = null;
@@ -127,7 +123,6 @@ public class LockWatch implements Watcher {
             boolean exist = false;
             if (watchNode!=null){
                 final String watchNodeTmp = watchNode;
-                System.out.println("the watchNode: " + watchNode + " and the waiting sequential_id is: " + sequential_id);
                 final Thread thread = Thread.currentThread();
                 Stat stat = zooKeeper.exists(rootPath + "/" + watchNodeTmp,new Watcher() {
                     @Override
@@ -146,23 +141,19 @@ public class LockWatch implements Watcher {
 
                 });
                 if(stat != null){
-                    System.out.println("Thread " + Thread.currentThread().getId() + " waiting for " + rootPath + "/" + watchNode);
                     exist = true;
                 }
             }
-            System.out.println("hello world");
             if(exist){
                 try {
                     Thread.sleep(1000000000);
                 }catch (InterruptedException ex){
-                    System.out.println(sequential_id + " notify somebody release lock!!!!");
                     zooKeeper.delete(sequential_id, -1);
                     zooKeeper.close();
                     return acquire(rootPath, timeout, timeUnit);
                 }
             }
             else{
-                System.out.println("the wait lock not exist! seq_id: " + sequential_id +"get lock!");
                 return true;
             }
 
@@ -170,7 +161,6 @@ public class LockWatch implements Watcher {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("No possible!!!!!");
         return false;
     }
 
@@ -179,7 +169,6 @@ public class LockWatch implements Watcher {
      */
     public void release(){
         try {
-            System.out.println(LOCKPATH +  "release Lock...");
             zooKeeper.delete(LOCKPATH,-1);
         } catch (InterruptedException e) {
             e.printStackTrace();

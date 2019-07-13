@@ -35,30 +35,21 @@ public class OrderController {
     @PostMapping(value = "/request")
     public String receiveOrder(@RequestParam(value = "order", required = false) Order orderString, @RequestBody String data) throws Exception {
         Order order = new Gson().fromJson(data, Order.class);
-        System.out.println("the orderstring "+order.toString());
         // acquire lock
-        System.out.println("the server get order userid: " + order.getUser_id()+ " initiator: "+order.getInitiator());
         List<Item> items = order.getItems();
         LinkedList<Commodity> commodities = new LinkedList<>();
         LinkedList<LockWatch> lockWatches = new LinkedList<>();
-        System.out.println("the items size: " + items.size());
         int i;
         Collections.sort(items);
         for(i = 0; i < items.size(); i++){
-            System.out.println("the i is " + i + " all size is " + items.size());
             String lockPath = LOCKPATH + "/" + items.get(i).getId();
-            System.out.println("Before the lockPath in controller: " + lockPath);
             LockWatch lockWatch = new LockWatch();
-            System.out.println("the lockPath in controller: " + lockPath);
             if(lockWatch.acquire(lockPath, 5000, TimeUnit.MILLISECONDS)){
-                System.out.println("the id is : " + items.get(i).getId().intValue());
                 Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
-                System.out.println("the tmp is " + tmp.getId());
                 commodities.push(tmp);
                 lockWatches.push(lockWatch);
                 if(tmp.getInventory() < items.get(i).getNumber())//库存不足
                 {
-                    System.out.println("the inventory is not zu!");
                     break;
                 }
             }else//可能死锁，放弃这次订单
@@ -66,11 +57,9 @@ public class OrderController {
         }
         // release lock
         if (i != items.size()){
-            System.out.println("release lock!");
             cleanAllStates(i+1, lockWatches);
             return "Invalid";
         }
-        System.out.println("success all Lock!");
 //         modify mysql
         for(i = 0; i < items.size(); i++){
             Commodity tmp = commodities.get(i);
@@ -91,7 +80,6 @@ public class OrderController {
     }
 
     void cleanAllStates(int number, LinkedList<LockWatch> lockWatches) throws Exception {
-        System.out.println("in cleanAllStates and lockWatches size: " + lockWatches.size());
         for(int i = 0; i < lockWatches.size(); i++){
             lockWatches.get(i).release();
             lockWatches.get(i).closeConnection();
