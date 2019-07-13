@@ -1,6 +1,7 @@
 package com.server.Watch;
 
 import com.google.common.base.Strings;
+import com.sun.org.apache.bcel.internal.generic.LCONST;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 
@@ -9,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 public class LockWatch implements Watcher {
     private ZooKeeper zooKeeper;
@@ -106,10 +108,11 @@ public class LockWatch implements Watcher {
             sequential_id = zooKeeper.create(rootPath+"/mylock_", "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
             LOCKPATH = sequential_id;
             List<String> minPath = zooKeeper.getChildren(rootPath,false);
+            System.out.println("the sequential_id is " + sequential_id);
             System.out.println("the child size: " + minPath.size());
             Collections.sort(minPath);
             printList(minPath);
-            System.out.println(minPath.get(0)+" and path "+sequential_id);
+            System.out.println("[0]: " + minPath.get(0)+" and path "+sequential_id);
             if (!Strings.nullToEmpty(sequential_id).trim().isEmpty()&&!Strings.nullToEmpty(minPath.get(0)).trim().isEmpty()&&sequential_id.equals(rootPath+"/"+minPath.get(0))) {
                 System.out.println(sequential_id + "  get Lock...");
                 return true;
