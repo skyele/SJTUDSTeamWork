@@ -124,7 +124,7 @@ public class LockWatch implements Watcher {
                     break;
                 }
             }
-
+            boolean exist = false;
             if (watchNode!=null){
                 final String watchNodeTmp = watchNode;
                 System.out.println("the watchNode: " + watchNode + " and the waiting sequential_id is: " + sequential_id);
@@ -147,16 +147,25 @@ public class LockWatch implements Watcher {
                 });
                 if(stat != null){
                     System.out.println("Thread " + Thread.currentThread().getId() + " waiting for " + rootPath + "/" + watchNode);
+                    exist = true;
                 }
             }
-            try {
-                Thread.sleep(1000000000);
-            }catch (InterruptedException ex){
-                System.out.println(sequential_id + " notify somebody release lock!!!!");
-                zooKeeper.delete(sequential_id, -1);
-                zooKeeper.close();
-                return acquire(rootPath, timeout, timeUnit);
+            System.out.println("hello world");
+            if(exist){
+                try {
+                    Thread.sleep(1000000000);
+                }catch (InterruptedException ex){
+                    System.out.println(sequential_id + " notify somebody release lock!!!!");
+                    zooKeeper.delete(sequential_id, -1);
+                    zooKeeper.close();
+                    return acquire(rootPath, timeout, timeUnit);
+                }
             }
+            else{
+                System.out.println("the wait lock not exist! seq_id: " + sequential_id +"get lock!");
+                return true;
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
