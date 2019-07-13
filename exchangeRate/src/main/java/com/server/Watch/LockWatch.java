@@ -1,7 +1,6 @@
 package com.server.Watch;
 
 import com.google.common.base.Strings;
-import com.sun.org.apache.bcel.internal.generic.LCONST;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 
@@ -10,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 
 public class LockWatch implements Watcher {
     private ZooKeeper zooKeeper;

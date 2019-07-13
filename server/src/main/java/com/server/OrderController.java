@@ -46,12 +46,13 @@ public class OrderController {
         Collections.sort(items);
         for(i = 0; i < items.size(); i++){
             String lockPath = LOCKPATH + "/" + items.get(i).getId();
+            System.out.println("Before the lockPath in controller: " + lockPath);
             LockWatch lockWatch = new LockWatch();
             System.out.println("the lockPath in controller: " + lockPath);
             if(lockWatch.acquire(lockPath, 5000, TimeUnit.MILLISECONDS)){
                 System.out.println("the id is : " + items.get(i).getId().intValue());
                 Commodity tmp = commodityRepository.findById(items.get(i).getId().intValue());
-                System.out.println("the tmp is " + tmp);
+                System.out.println("the tmp is " + tmp.getId());
                 commodities.push(tmp);
                 lockWatches.push(lockWatch);
                 if(tmp.getInventory() < items.get(i).getNumber())//库存不足
