@@ -4,9 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/main/java/com/server/repo/CommodityRepository.java" line="5" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../sender/src/main/java/com/sender/SenderApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sender/src/main/java/com/sender/SenderApplication.java" afterDir="false" />
-    </list>
+    <list default="true" id="bc1cfdf7-8000-4af3-b4c2-efc3c7d64e86" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -313,7 +311,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.111560225" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

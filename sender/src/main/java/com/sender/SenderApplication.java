@@ -82,6 +82,7 @@ public class SenderApplication {
 		StringEntity se = new StringEntity(new Gson().toJson(object));
 		httpPost.setEntity(se);
 		client.execute(httpPost);
+		((CloseableHttpClient) client).close();;
 	}
 
 	private static CloseableHttpClient getHttpClient(){
