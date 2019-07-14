@@ -32,27 +32,41 @@ public class SenderApplication {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		SpringApplication.run(SenderApplication.class, args);
 		urlPort = args[3];
-		ItemGenerate itemGenerate = new ItemGenerate(Integer.parseInt(args[1]));
-		UserGenerate userGenerate = new UserGenerate(Integer.parseInt(args[0]));
-		while(true){
-			Thread.sleep(Integer.parseInt(args[2]));
-			Order order = new Order();
-			order.setInitiator(new InitiatorGenerate().getCurrency());
-			order.setTime(new Date().getTime());
-			order.setUser_id(userGenerate.getUser_id());
-			int loop = new Random().nextInt(4)+1;
-			Map<Integer, Integer> map = new LinkedHashMap<>();
-			while(loop != 0){
-				Item item = new Item(itemGenerate.getItem_id(), itemGenerate.getNumber());
-				System.out.println("the item id in new! is : " + item.getId());
-				if(!map.containsKey(item.getId())||map.get(item.getId())==0){
-					map.put(item.getId(), 1);
-					order.getItems().add(item);
-					loop--;
+		for(int i = 0; i < 3; i++){
+			new Thread(){
+				public void run(){
+					while(true){
+						try {
+							Thread.sleep(Integer.parseInt(args[2]));
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						ItemGenerate itemGenerate = new ItemGenerate(Integer.parseInt(args[1]));
+						UserGenerate userGenerate = new UserGenerate(Integer.parseInt(args[0]));
+						Order order = new Order();
+						order.setInitiator(new InitiatorGenerate().getCurrency());
+						order.setTime(new Date().getTime());
+						order.setUser_id(userGenerate.getUser_id());
+						int loop = new Random().nextInt(4)+1;
+						Map<Integer, Integer> map = new LinkedHashMap<>();
+						while(loop != 0){
+							Item item = new Item(itemGenerate.getItem_id(), itemGenerate.getNumber());
+							System.out.println("the item id in new! is : " + item.getId());
+							if(!map.containsKey(item.getId())||map.get(item.getId())==0){
+								map.put(item.getId(), 1);
+								order.getItems().add(item);
+								loop--;
+							}
+						}
+						printList(order.getItems());
+						try {
+							requestByPostMethod(order);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
 				}
-			}
-			printList(order.getItems());
-			requestByPostMethod(order);
+			}.start();
 		}
 	}
 
