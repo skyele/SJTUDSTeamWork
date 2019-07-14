@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class ItemGenerate {
     private int idRange;
-    private int numberRange = 50;
+    private int numberRange = 5;
     private Random r;
     public ItemGenerate(int idRange){
         this.idRange = idRange;

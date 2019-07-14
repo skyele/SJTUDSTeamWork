@@ -32,10 +32,10 @@ public class SenderApplication {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		SpringApplication.run(SenderApplication.class, args);
 		urlPort = args[3];
+		ItemGenerate itemGenerate = new ItemGenerate(Integer.parseInt(args[1]));
+		UserGenerate userGenerate = new UserGenerate(Integer.parseInt(args[0]));
 		while(true){
 			Thread.sleep(Integer.parseInt(args[2]));
-			ItemGenerate itemGenerate = new ItemGenerate(Integer.parseInt(args[1]));
-			UserGenerate userGenerate = new UserGenerate(Integer.parseInt(args[0]));
 			Order order = new Order();
 			order.setInitiator(new InitiatorGenerate().getCurrency());
 			order.setTime(new Date().getTime());
