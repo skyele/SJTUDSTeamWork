@@ -95,10 +95,10 @@ public class SparkApplication {
                                 }
                             }
                             Result res = new Result(id, userid, initiator, success, paid);
-
                             Serializable resid = session.save(res);
 
                             System.out.println("My id:" +session.get(Result.class, resid));
+
 
                             System.out.println("success is:" + success.toString());
 
