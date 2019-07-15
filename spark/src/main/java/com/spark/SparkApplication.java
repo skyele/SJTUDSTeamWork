@@ -68,6 +68,7 @@ public class SparkApplication {
                 .getPartitionOffset(unionStreams, props);
 
         session = Hibernate4Utils.getCurrentSession();
+        transaction = session.beginTransaction();
 
 //Start Application Logic
         unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
@@ -95,11 +96,9 @@ public class SparkApplication {
                             }
                             Result res = new Result(id, userid, initiator, success, paid);
 
-                            transaction = session.beginTransaction();
                             Serializable resid = session.save(res);
 
                             System.out.println("My id:" +session.get(Result.class, resid));
-                            transaction.commit();
 
                             System.out.println("success is:" + success.toString());
 
@@ -129,6 +128,7 @@ public class SparkApplication {
         try {
             jsc.start();
             jsc.awaitTermination();
+            transaction.commit();
             Hibernate4Utils.closeCurrentSession();
         } catch (Exception ex) {
             jsc.ssc().sc().cancelAllJobs();
