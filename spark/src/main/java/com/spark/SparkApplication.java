@@ -67,6 +67,8 @@ public class SparkApplication {
         JavaPairDStream<Integer, Iterable<Long>> partitonOffset = ProcessedOffsetManager
                 .getPartitionOffset(unionStreams, props);
 
+        session = Hibernate4Utils.getCurrentSession();
+
 //Start Application Logic
         unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
 
@@ -93,7 +95,6 @@ public class SparkApplication {
                             }
                             Result res = new Result(id, userid, initiator, success, paid);
 
-                            session = Hibernate4Utils.getCurrentSession();
                             transaction = session.beginTransaction();
                             Serializable resid = session.save(res);
 
