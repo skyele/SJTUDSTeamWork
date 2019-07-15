@@ -1,0 +1,8 @@
+---
+- hosts: requests
+  tasks:
+    - name: upload jar
+      file: src=request.jar dest=/home/centos/ mode=0755
+
+    - name: start
+      shell: nohup java -jar /home/centos/request.jar 1000 2>&1 >/home/centos/request.out

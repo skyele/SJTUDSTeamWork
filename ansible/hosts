@@ -1,0 +1,14 @@
+[all]
+ds1 id=0
+ds2 id=1
+ds3 id=2
+ds4 id=3
+
+[cluster]
+ds2 id=1
+ds3 id=2
+ds4 id=3
+
+[requests]
+ds2 id=1
+ds3 id=2

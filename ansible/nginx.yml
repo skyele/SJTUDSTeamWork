@@ -1,0 +1,5 @@
+---
+- hosts: ds1
+  tasks:
+    - name: start
+      shell: sudo systemctl start nginx

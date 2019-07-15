@@ -1,0 +1,21 @@
+---
+- hosts: cluster
+  vars:
+    HOME: /home/centos/zookeeper-3.4.14
+  tasks:
+    - name: set cfg
+      copy: src=./zk/zoo.cfg dest={{HOME}}/conf/zoo.cfg mode='0644'
+      notify: restart
+      when: set is defined
+
+    - name: ops
+      shell: sh {{HOME}}/bin/zkServer.sh {{ops}} 
+      when: ops is defined
+      register: out  
+
+    - name:
+      debug: var=out verbosity=0  
+      
+  handlers: 
+    - name: start
+      shell: sh {{HOME}}/bin/zkServer.sh start

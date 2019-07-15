@@ -1,0 +1,13 @@
+---
+- hosts: cluster
+  vars:
+    DIR: /home/centos/kafka_2.11-2.3.0
+  tasks:
+    - name: mkdir
+      file: dest={{DIR}}/logs mode=0755 state=directory
+
+    - name: install configuration file for kafka
+      template: src=kafka/server.properties.j2 dest={{DIR}}/config/server.properties
+
+    - name: start
+      shell: sh {{DIR}}/bin/kafka-server-start.sh -daemon {{DIR}}/config/server.properties

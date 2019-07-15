@@ -1,0 +1,8 @@
+---
+- hosts: cluster
+  tasks:
+    - name: upload jar
+      copy: src=../server.jar dest=/home/centos/ mode=0755
+
+    - name: start
+      shell: nohup java -jar /home/centos/server.jar 2>&1 >/home/centos/server.out &
