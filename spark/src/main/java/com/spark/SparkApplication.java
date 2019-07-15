@@ -96,10 +96,9 @@ public class SparkApplication {
                             session = Hibernate4Utils.getCurrentSession();
                             transaction = session.beginTransaction();
                             Serializable resid = session.save(res);
-                            transaction.commit();
 
                             System.out.println("My id:" +session.get(Result.class, resid));
-
+                            transaction.commit();
 
                             System.out.println("success is:" + success.toString());
 
