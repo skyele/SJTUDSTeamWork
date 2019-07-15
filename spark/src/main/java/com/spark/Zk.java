@@ -15,7 +15,7 @@ public class Zk implements Watcher {
     /**
           * 超时时间
           */
-    private static final int SESSION_TIME_OUT = 6000;
+    private static final int SESSION_TIME_OUT = 100;
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
     public Zk() {
