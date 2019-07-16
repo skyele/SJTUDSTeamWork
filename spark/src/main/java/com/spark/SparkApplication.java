@@ -26,8 +26,6 @@ import java.util.Properties;
 public class SparkApplication {
 
     public static Zk zk;
-    public static Session session;
-    public static Transaction transaction;
 
     public static void main(String[] args) {
 
@@ -67,14 +65,14 @@ public class SparkApplication {
         JavaPairDStream<Integer, Iterable<Long>> partitonOffset = ProcessedOffsetManager
                 .getPartitionOffset(unionStreams, props);
 
-        session = Hibernate4Utils.getCurrentSession();
-        transaction = session.beginTransaction();
-
 //Start Application Logic
         unionStreams.foreachRDD(new VoidFunction<JavaRDD<MessageAndMetadata<byte[]>>>() {
 
             @Override
             public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
+                Session session = Hibernate4Utils.getCurrentSession();
+                Transaction transaction = session.beginTransaction();
+
                 rdd.foreachPartition(new VoidFunction<Iterator<MessageAndMetadata<byte[]>>>() {
 
                     @Override
@@ -117,6 +115,9 @@ public class SparkApplication {
                         }
                     }
                 });
+
+                transaction.commit();
+                Hibernate4Utils.closeCurrentSession();
             }
         });
 
@@ -128,8 +129,6 @@ public class SparkApplication {
         try {
             jsc.start();
             jsc.awaitTermination();
-            transaction.commit();
-            Hibernate4Utils.closeCurrentSession();
         } catch (Exception ex) {
             jsc.ssc().sc().cancelAllJobs();
             jsc.stop(true, false);
