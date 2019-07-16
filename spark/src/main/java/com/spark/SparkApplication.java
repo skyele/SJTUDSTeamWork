@@ -70,14 +70,14 @@ public class SparkApplication {
 
             @Override
             public void call(JavaRDD<MessageAndMetadata<byte[]>> rdd) throws Exception {
-                Session session = Hibernate4Utils.getCurrentSession();
-                Transaction transaction = session.beginTransaction();
-
                 rdd.foreachPartition(new VoidFunction<Iterator<MessageAndMetadata<byte[]>>>() {
 
                     @Override
                     public void call(Iterator<MessageAndMetadata<byte[]>> mmItr) throws Exception {
                         while (mmItr.hasNext()) {
+                            Session session = Hibernate4Utils.getCurrentSession();
+                            Transaction transaction = session.beginTransaction();
+
                             MessageAndMetadata<byte[]> mm = mmItr.next();
                             System.out.println(" My topic:" + mm.getTopic() + " My content:" + new String(mm.getPayload()));
                             JSONObject json = JSON.parseObject(new String(mm.getPayload()));
@@ -111,13 +111,11 @@ public class SparkApplication {
                                 System.out.println("new totalTransactionAmount is" + totalTransactionAmountString);
                             }
 
-
+                            transaction.commit();
+                            Hibernate4Utils.closeCurrentSession();
                         }
                     }
                 });
-
-                transaction.commit();
-                Hibernate4Utils.closeCurrentSession();
             }
         });
 
