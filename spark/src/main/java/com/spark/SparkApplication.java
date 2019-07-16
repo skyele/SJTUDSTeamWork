@@ -109,7 +109,13 @@ public class SparkApplication {
                                 String totalTransactionAmountString = zk.getData("/TotalTransactionAmount", false);
                                 double totalTransactionAmount = Double.valueOf(totalTransactionAmountString);
                                 totalTransactionAmount += paid;
-                                zk.setData("/TotalTransactionAmount", String.valueOf(totalTransactionAmount));
+                                try {
+                                    zk.setData("/TotalTransactionAmount", String.valueOf(totalTransactionAmount));
+                                }
+                                catch(Exception e){
+                                    zk.connectZookeeper("zookeeper:2181");
+                                    zk.setData("/TotalTransactionAmount", String.valueOf(totalTransactionAmount));
+                                }
                                 totalTransactionAmountString = zk.getData("/TotalTransactionAmount", false);
                                 System.out.println("new totalTransactionAmount is" + totalTransactionAmountString);
                             }
