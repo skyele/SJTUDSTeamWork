@@ -75,8 +75,7 @@ public class SparkApplication {
                     @Override
                     public void call(Iterator<MessageAndMetadata<byte[]>> mmItr) throws Exception {
                         while (mmItr.hasNext()) {
-                            Session session = Hibernate4Utils.getCurrentSession();
-                            Transaction transaction = session.beginTransaction();
+
 
                             MessageAndMetadata<byte[]> mm = mmItr.next();
                             System.out.println(" My topic:" + mm.getTopic() + " My content:" + new String(mm.getPayload()));
@@ -93,10 +92,14 @@ public class SparkApplication {
                                 }
                             }
                             Result res = new Result(id, userid, initiator, success, paid);
+
+                            Session session = Hibernate4Utils.getCurrentSession();
+                            Transaction transaction = session.beginTransaction();
                             Serializable resid = session.save(res);
 
                             System.out.println("My id:" +session.get(Result.class, resid));
-
+                            transaction.commit();
+                            Hibernate4Utils.closeCurrentSession();
 
                             System.out.println("success is:" + success.toString());
 
@@ -111,8 +114,7 @@ public class SparkApplication {
                                 System.out.println("new totalTransactionAmount is" + totalTransactionAmountString);
                             }
 
-                            transaction.commit();
-                            Hibernate4Utils.closeCurrentSession();
+
                         }
                     }
                 });
