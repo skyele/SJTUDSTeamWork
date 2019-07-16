@@ -132,16 +132,11 @@ public class SparkApplication {
 //Persists the Max Offset of given Kafka Partition to ZK
         ProcessedOffsetManager.persists(partitonOffset, props);
 
-        while (true) {
-            try {
-                jsc.start();
-                jsc.awaitTermination();
-            } catch (Exception ex) {
-                continue;
-            /*jsc.ssc().sc().cancelAllJobs();
-            jsc.stop(true, false);
-            System.exit(-1);*/
-            }
+        try {
+            jsc.start();
+            jsc.awaitTermination();
+        } catch (Exception ex) {
+            System.out.print("something wrong");
         }
     }
 }
